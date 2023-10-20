@@ -1,2 +1,2 @@
 # Monnify-Nodejs-lib
-A Javascript wrapper for the Monnify API
+A Nodejs wrapper for the Monnify API
