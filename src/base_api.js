@@ -66,7 +66,7 @@ export class BaseRequestAPI{
         this.headers.Authorization = `Bearer ${authorization}`;
 
         try{
-            const response = await axios.get(url, data, {'headers':this.headers});
+            const response = await axios.post(url, data, {'headers':this.headers});
             return [response.status, response.data];
         }catch(e){
             return [e.response.status,e.response.data]
@@ -80,7 +80,7 @@ export class BaseRequestAPI{
         this.headers.Authorization = `Bearer ${authorization}`;
         
         try{
-            const response = await axios.get(url, data, {'headers':this.headers});
+            const response = await axios.put(url, data, {'headers':this.headers});
             return [response.status, response.data];
         }catch(e){
             return [e.response.status,e.response.data]
@@ -93,7 +93,7 @@ export class BaseRequestAPI{
         this.headers.Authorization = `Bearer ${authorization}`;
 
         try{
-            const response = await axios.get(url, {'headers':this.headers});
+            const response = await axios.delete(url, {'headers':this.headers});
             return [response.status, response.data];
         }catch(e){
             return [e.response.status,e.response.data]
