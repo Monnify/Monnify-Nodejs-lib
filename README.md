@@ -15,7 +15,7 @@ This is Nodejs wrapper for the Monnify API
 ---
 
 #### Technologies
-This library was built and tested with node(version 16.14), but should also work for other version. 
+This library was built and tested with node(version 16.14), but should also work for other versions. 
 
 - axios
 - crypto
