@@ -10,7 +10,6 @@ let token;
 beforeEach(async () =>{
     instance = new Transaction('sandbox')
     token = await instance.getToken()
-    payload.contractCode = instance.contract
     payload.currencyCode = "NGN"
     payload.paymentMethods = []
     payload.paymentReference = crypto.randomBytes(20).toString('hex')
@@ -30,7 +29,12 @@ describe('Assert Access Token Request', ()=>{
 describe('Check Init Transaction Method', ()=>{
     it('confirm that transaction initialisation works', async()=>{
         
-        const [rCode,resp] = await instance.initTransaction(token[1].responseBody.accessToken,payload)
+        const [rCode,resp] = await instance.initTransaction(
+            token[1].responseBody.accessToken,
+            payload.amount,
+            payload.customerName,
+            payload.customerEmail,
+            payload.paymentDescription)
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })

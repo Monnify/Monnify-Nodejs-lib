@@ -27,7 +27,12 @@ describe('Assert Access Token Request', ()=>{
 describe('Check Init Transfer Method', ()=>{
     it('confirm that single transfer works', async()=>{
         
-        const [rCode,resp] = await instance.initiateSingleTransfer(token[1].responseBody.accessToken,payload)
+        const [rCode,resp] = await instance.initiateSingleTransfer(
+            token[1].responseBody.accessToken,
+            payload.amount,
+            payload.naration,
+            payload.destinationBankCode,
+            payload.destinationAccountNumber)
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })
