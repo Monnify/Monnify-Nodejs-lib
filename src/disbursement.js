@@ -7,32 +7,79 @@ export class Disbursement extends BaseRequestAPI{
         super(env);
     }
 
-    async initiateSingleTransfer(authToken, data, async=false){
+    async initiateSingleTransfer(
+                                authToken,
+                                amount,
+                                narration,
+                                destinationBankCode,
+                                destinationAccountNumber,
+                                currency="NGN",
+                                reference="",
+                                async=false){
+
+        const data = {}
         const path = '/api/v2/disbursements/single';
-        data.sourceAccountNumber = this.sourceAccountNumber;
+        reference = reference.length !== 0 ? reference : crypto.randomBytes(20).toString('hex')
+        data.amount = amount
+        data.narration = narration
+        data.destinationAccountNumber = destinationAccountNumber
+        data.destinationBankCode = destinationBankCode
+        data.currency = currency
+        data.sourceAccountNumber = this.sourceAccountNumber
         if (async===true){
             data.async = true
         }
         return await this.post(path,authToken,data);
     }
 
-    async initiateBulkTransfer(authToken, data){
+    async initiateBulkTransfer(
+                                authToken,
+                                title,
+                                narration,
+                                transactionList,
+                                batchReference='',
+                                onValidationFailure='CONTINUE',
+                                notificationInterval=25){
+        
+        const data = {}
+        batchReference = batchReference.length !==0 ? batchReference : crypto.randomBytes(20).toString('hex')
+        data.title = title
+        data.narration = narration
+        data.batchReference = batchReference
+        data.notificationInterval = notificationInterval
+        data.onValidationFailure = onValidationFailure
+        data.transactionList = transactionList
+
         const path = '/api/v2/disbursements/batch';
         data.sourceAccountNumber = this.sourceAccountNumber;
         return await this.post(path,authToken,data);
     }
 
-    async authorizeSingleTransfer(authToken, data){
+    async authorizeSingleTransfer(authToken,reference,authorizationCode){
+
+        const data = {}
+        data.reference = reference
+        data.authorizationCode = authorizationCode
+
         const path = '/api/v2/disbursements/single/validate-otp';
         return await this.post(path,authToken,data);
     }
     
-    async authorizeBulkTransfer(authToken, data){
+    async authorizeBulkTransfer(authToken,reference,authorizationCode){
+
+        const data = {}
+        data.reference = reference
+        data.authorizationCode = authorizationCode
+
         const path = '/api/v2/disbursements/batch/validate-otp';
         return await this.post(path,authToken,data);
     }
 
-    async resendTransferOTP(authToken, data){
+    async resendTransferOTP(authToken, reference){
+
+        const data = {}
+        data.reference = reference
+        
         const path = '/api/v2/disbursements/single/resend-otp';
         return await this.post(path,authToken,data);
     }
