@@ -1,7 +1,6 @@
 import assert from "assert/strict";
 import { Disbursement } from "../src/disbursement.js";
-import crypto from 'crypto';
-
+import crypto from 'crypto'
 
 let instance;
 let payload = {"destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};

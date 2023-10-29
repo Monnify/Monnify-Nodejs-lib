@@ -1,11 +1,12 @@
 import assert from "assert/strict";
 import { Transaction } from "../src/collection.js";
-import crypto from 'crypto';
+import crypto from 'crypto'
 
 
 let instance;
 let payload = {"customerName":"Tester","customerEmail":"tester@tester.com","amount":2000};
 let token;
+
 
 beforeEach(async () =>{
     instance = new Transaction('sandbox')

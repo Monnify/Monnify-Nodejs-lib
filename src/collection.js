@@ -1,4 +1,5 @@
 import { BaseRequestAPI } from "./base_api.js";
+import crypto from 'crypto'
 
 
 
@@ -13,31 +14,39 @@ export class ReservedAccount extends BaseRequestAPI{
                                 customerName,
                                 customerEmail,
                                 accountName,
-                                currencyCode="NGN",
+                                {currencyCode="NGN",
                                 bvn="",
                                 accountReference="",
                                 getAllAvailableBanks=true,
                                 preferredBanks=[],
                                 incomeSplitConfig={},
-                                restrictPaymentSource={},
-                                allowedPaymentSource={}){
+                                restrictPaymentSource=false,
+                                allowedPaymentSource={}}={}){
                                 
         
         const data = {}
         const path = '/api/v2/bank-transfer/reserved-accounts';
-        accountReference = accountReference.length !== 0 ? accountReference : crypto.randomBytes(20).toString('hex')
         data.customerName = customerName
         data.customerEmail = customerEmail
         data.accountName = accountName
-        data.currencyCode = currencyCode
         data.contractCode = this.contract
+
+        if(arguments.length <=4){
+            data.getAllAvailableBanks = true
+            data.accountReference = crypto.randomBytes(20).toString('hex')
+            data.currencyCode = 'NGN'
+            return await this.post(path,authToken,data);
+        }
+
+        data.currencyCode = currencyCode
+        accountReference = accountReference.length !== 0 ? accountReference : crypto.randomBytes(20).toString('hex')
         if(bvn.length === 0){
             data.bvn = bvn
         }
         if(Object.keys(incomeSplitConfig).length !==0){
             data.incomeSplitConfig = incomeSplitConfig
         }
-        if(Object.keys(restrictPaymentSource).length !==0){
+        if(restrictPaymentSource){
             data.restrictPaymentSource = restrictPaymentSource
         }
         if(Object.keys(allowedPaymentSource).length !==0){

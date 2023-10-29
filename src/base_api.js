@@ -2,48 +2,90 @@
 
 import axios from 'axios';
 import crypto from 'crypto'
+import promises from 'fs'
 
+
+
+const TOKENEXPIRATIONTHRESHOLD = 500 || process.env.TOKENEXPIRATIONTHRESHOLD
+const TOKENFILE = 'Cache' || process.env.TOKENFILE
 
 
 export class BaseRequestAPI{
+
     constructor(environment){
         this.headers = {
             "Content-Type":"application/json",
             "Authorization":""
         }
         if (environment === 'sandbox'){
+            this.environment = 'sandbox'
             this.baseUrl = "https://sandbox.monnify.com";
             this.contract = process.env.CONTRACT;
             this.apiKey = process.env.APIKEY;
             this.secretKey = process.env.SECRET;
             this.sourceAccountNumber = process.env.WALLETACCOUNTNUMBER;
+            this.isTokenSet = false
+            this.expiryTime = 0
+            this.cacheFile = `sandbox_${TOKENFILE}.js`
         }
         else if (environment === 'live'){
+            this.environment = 'live'
             this.baseUrl = "https://live.monnify.com";
             this.contract = process.env.CONTRACT;
             this.apiKey = process.env.APIKEY;
             this.secretKey = process.env.SECRET;
             this.sourceAccountNumber = process.env.WALLETACCOUNTNUMBER;
+            this.isTokenSet = false
+            this.expiryTime = 0
+            this.cacheFile = `live_${TOKENFILE}.js`
         }
         else{
             throw new Error("Unknown environment passed: ",environment,". Specify between sandbox and live");
         }
     }
 
-    async getToken(){
+    async getToken(cached=true){
 
+        if(this.isTokenSet && (this.expiryTime > Math.floor(Date.now()/1000))){
+            console.log('FETCHING TOKEN FROM CACHE----------')
+            const token = await this.getCachedToken()
+            return [200, token]
+        }
         const url = this.baseUrl + '/api/v1/auth/login';
         const data = {};
         this.headers.Authorization = `Basic ${Buffer.from(this.apiKey + ":" + this.secretKey).toString('base64')}`;
 
         try{
             const response = await axios.post(url, data, {'headers':this.headers});
-            return [response.status, response.data];
+            console.log('CACHE MISSED------------','FETCHING FROM API')
+            if(cached && (response.data.responseBody.expiresIn >= TOKENEXPIRATIONTHRESHOLD)){
+                console.log('STORING TOKEN IN CACHE-------------')
+                await this.setToken(response.data.responseBody.accessToken,
+                                    response.data.responseBody.expiresIn+Math.floor(Date.now()/1000)
+                                    )
+            }
+            return [response.status, response.data.responseBody.accessToken];
         }catch(e){
+            console.log(e)
             return [e.response.status,e.response.data]
         }
     }
 
+    async setToken(tokenObject,timeStamp){
+        try{
+            const handler = promises.writeFileSync(this.cacheFile,tokenObject);
+            this.isTokenSet = true
+            this.expiryTime = timeStamp
+
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    async getCachedToken(){
+        return promises.readFileSync(this.cacheFile,{ encoding: 'utf8' });
+
+    }
 
     async get(url_path,authorization){
 
@@ -111,3 +153,7 @@ export class BaseRequestAPI{
           }
     }
 }
+
+
+
+

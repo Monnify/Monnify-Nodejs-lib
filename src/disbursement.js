@@ -1,4 +1,5 @@
 import { BaseRequestAPI } from "./base_api.js";
+import crypto from 'crypto'
 
 
 
@@ -25,6 +26,7 @@ export class Disbursement extends BaseRequestAPI{
         data.destinationAccountNumber = destinationAccountNumber
         data.destinationBankCode = destinationBankCode
         data.currency = currency
+        data.reference = reference
         data.sourceAccountNumber = this.sourceAccountNumber
         if (async===true){
             data.async = true
