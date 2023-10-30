@@ -9,7 +9,7 @@ export class ReservedAccount extends BaseRequestAPI{
         super(env);
     }
 
-    async createReservedAccountV2(
+    async createReservedAccount(
                                 authToken,
                                 customerName,
                                 customerEmail,
@@ -99,20 +99,29 @@ export class Transaction extends BaseRequestAPI{
                         customerName,
                         customerEmail,
                         paymentDescription,
+                        {
                         currencyCode="NGN",
                         redirectUrl="",
                         paymentMethods=[],
                         paymentReference="",
                         metaData={},
-                        incomeSplitConfig={}){
+                        incomeSplitConfig={}}={}){
 
         const data = {}
         const path = '/api/v1/merchant/transactions/init-transaction';
-        paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
         data.amount = amount
         data.customerName = customerName
         data.customerEmail = customerEmail
         data.paymentDescription = paymentDescription
+
+        if(arguments.length <=5){
+            data.paymentMethods = []
+            data.paymentReference = crypto.randomBytes(20).toString('hex')
+            data.currencyCode = 'NGN'
+            return await this.post(path,authToken,data);
+        }
+
+        paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
         data.currencyCode = currencyCode
         data.paymentMethods = paymentMethods
         data.contractCode = this.contract

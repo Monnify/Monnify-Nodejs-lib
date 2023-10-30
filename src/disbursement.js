@@ -14,20 +14,28 @@ export class Disbursement extends BaseRequestAPI{
                                 narration,
                                 destinationBankCode,
                                 destinationAccountNumber,
+                                {
                                 currency="NGN",
                                 reference="",
-                                async=false){
+                                async=false}={}){
 
         const data = {}
         const path = '/api/v2/disbursements/single';
-        reference = reference.length !== 0 ? reference : crypto.randomBytes(20).toString('hex')
         data.amount = amount
         data.narration = narration
         data.destinationAccountNumber = destinationAccountNumber
         data.destinationBankCode = destinationBankCode
         data.currency = currency
-        data.reference = reference
         data.sourceAccountNumber = this.sourceAccountNumber
+
+        if(arguments.length <=5){
+            data.reference = crypto.randomBytes(20).toString('hex')
+            data.currency = 'NGN'
+            return await this.post(path,authToken,data);
+        }
+
+        reference = reference.length !== 0 ? reference : crypto.randomBytes(20).toString('hex')
+        data.reference = reference
         if (async===true){
             data.async = true
         }
@@ -39,20 +47,29 @@ export class Disbursement extends BaseRequestAPI{
                                 title,
                                 narration,
                                 transactionList,
+                                {
                                 batchReference='',
                                 onValidationFailure='CONTINUE',
-                                notificationInterval=25){
+                                notificationInterval=25}={}){
         
         const data = {}
-        batchReference = batchReference.length !==0 ? batchReference : crypto.randomBytes(20).toString('hex')
         data.title = title
         data.narration = narration
-        data.batchReference = batchReference
-        data.notificationInterval = notificationInterval
-        data.onValidationFailure = onValidationFailure
         data.transactionList = transactionList
-
         const path = '/api/v2/disbursements/batch';
+
+        if(arguments.length <=4){
+            data.batchReference = crypto.randomBytes(20).toString('hex')
+            data.currency = 'NGN'
+            data.onValidationFailure = 'CONTINUE'
+            notificationInterval=25
+            return await this.post(path,authToken,data);
+        }
+
+        data.onValidationFailure = onValidationFailure
+        data.notificationInterval = notificationInterval
+        batchReference = batchReference.length !==0 ? batchReference : crypto.randomBytes(20).toString('hex')
+        data.batchReference = batchReference
         data.sourceAccountNumber = this.sourceAccountNumber;
         return await this.post(path,authToken,data);
     }
@@ -88,7 +105,7 @@ export class Disbursement extends BaseRequestAPI{
 
     async getSingleTransferStatus(authToken, reference){
         const encodedReference = encodeURI(reference);
-        const path = `/api/v2/disbursements/single/summary?reference=${reference}`;
+        const path = `/api/v2/disbursements/single/summary?reference=${encodedReference}`;
         return await this.get(path,authToken,data);
     }
 
@@ -98,18 +115,21 @@ export class Disbursement extends BaseRequestAPI{
         return await this.get(path,authToken);
     }
 
-    async getAllSingleTransfers(authToken,pageNo=0,pageSize=10){
+    async getAllSingleTransfers(authToken,{pageNo=0,pageSize=10}={}){
+        if(arguments.length<=1){
+            const path = '/api/v2/disbursements/single/transactions?pageSize=10&pageNo=0';
+            return await this.get(path,authToken);
+        }
         const path = `/api/v2/disbursements/single/transactions?pageSize=${pageSize}&pageNo=${pageNo}`;
         return await this.get(path,authToken);
     }
 
-    async getAllSingleTransfers(authToken,pageNo=0,pageSize=10){
-        const path = `/api/v2/disbursements/single/transactions?pageSize=${pageSize}&pageNo=${pageNo}`;
-        return await this.get(path,authToken);
-    }
-
-    async getAllBulkTransfers(authToken,pageNo=0,pageSize=10){
-        const path = `/api/v2/disbursements/bulk/transactions?pageNo=${page}&pageSize=${pageSize}`;
+    async getAllBulkTransfers(authToken,{pageNo=0,pageSize=10}={}){
+        if(arguments.length<=1){
+            const path = '/api/v2/disbursements/bulk/transactions?pageNo=0&pageSize=10';
+            return await this.get(path,authToken);
+        }
+        const path = `/api/v2/disbursements/bulk/transactions?pageNo=${pageNo}&pageSize=${pageSize}`;
         return await this.get(path,authToken);
     }
 }

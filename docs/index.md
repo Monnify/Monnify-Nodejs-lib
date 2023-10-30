@@ -12,6 +12,8 @@ This is Nodejs wrapper for the Monnify API
       - [API Reference Guide](#api-reference-guide)
         - [Class BaseRequestAPI](#class-baserequestapi)
         - [Class ReservedAccount](#class-reservedaccount)
+        - [Class Transaction](#class-transaction)
+        - [Class Disbursement](#class-disbursement)
 
 ---
 
@@ -193,7 +195,7 @@ console.log(response)
 
 ```
 
-**async ReservedAccount.createReservedAccountV2**( authToken: String,customerName:String,customerEmail:String,accountName:String,{accountReference='': String,getAllAvailableBanks=true: Boolean,preferredBanks=[]: Array,bvn='': String,currencyCode='NGN': String,incomeSplitConfig={}: Object,restrictPaymentSource=false: Boolean,allowPaymentSource={}: Object}):  
+**async ReservedAccount.createReservedAccount**( authToken: String,customerName:String,customerEmail:String,accountName:String,{accountReference='': String,getAllAvailableBanks=true: Boolean,preferredBanks=[]: Array,bvn='': String,currencyCode='NGN': String,incomeSplitConfig={}: Object,restrictPaymentSource=false: Boolean,allowPaymentSource={}: Object}):  
 
 Creates Reserved account
 
@@ -207,14 +209,217 @@ Creates Reserved account
         optional.currencyCode - The currency unit, default is NGN
         optional.
         optional.incomeSplitConfig - A configuration on how payments are to be split among subaccounts
-        optional.retrictPaymentSource - Decides if payment should be restricted to some reserved accounts
+        optional.restrictPaymentSource - Decides if payment should be restricted to some reserved accounts
         optional.allowPaymentSource - This captures bvns or account numbers or account names that are permitted to fund a reserved account. This is mandatory if restrictPaymentSource is set to true
 
 
 **Returns:** An array of statusCode and API response in order
 
 
+**async ReservedAccount.addLinkedAccounts**(authToken: String,accountReference: String, preferredBanks: Array)
+Adds extra banks to existing reserved account
 
+**Parameters:**
+            authToken - The access token
+            accountReference - The accountReference of the existing reserved account
+            preferredBanks - An array of desired bank codes
+
+
+**Returns:** An array of statusCode and API response in order
+
+
+**async ReservedAccount.getReservedAccountDetails**(authToken: String,accountReference: String)
+
+Fetches details of a reserved account given its account reference
+
+**Parameters:**
+            authToken - The access token
+            accountReference - The accountReference of the existing reserved account
+
+**Returns:** An array of statusCode and API response in order
+
+
+**async ReservedAccount.getReservedAccountTransactions**(authToken: String,accountReference: String)
+
+Fetches transactions made by a reserved account
+
+**Parameters:**
+            authToken - The access token
+            accountReference - The accountReference of the existing reserved account
+
+**Returns:** An array of statusCode and API response in order  
+
+
+
+##### Class Transaction
+An importable class for interacting with the Monnify transaction account API
+
+**Parameters:**
+        environment - This is the Monnify environment being used; this could either be sandbox or live.  
+
+**Returns:** An instance of the Transaction class
+
+
+**async Transaction.InitTransactions**(authToken: String,amount: float,customerName: String,customerEmail: String,paymentDescription: String,{paymentReference='': String,currencyCode='NGN': String,metaData={}: Object})
+
+**Parameters:**
+            authToken - The access token
+            amount - The amount to be paid
+            customerName - The customer's name
+            customerEmail - The customer's email
+            paymentDescription - The payment description
+            optional.paymentReference - The merchant's unique reference, this will be automatically generated if not provided
+            optional.currencyCode - The currency to be paid, default is NGN
+            optional.metaData - The metaData allows passing extra request parameter.
+
+**Returns:** An array of statusCode and API response in order  
+
+**async Transaction.getTransactionStatusV2**(authToken: String, transactionReference)
+Gets the status of a transaction via the Monnify transactionReference
+
+
+**Parameters:**
+            authToken - The access token
+            transactionReference - The Monnify transaction reference
+
+**Returns:** An array of statusCode and API response in order
+
+
+**async Transaction.getTransactionStatusV1**(authToken: String, paymentReference)
+Gets the status of a transaction via the Monnify transactionReference
+
+
+**Parameters:**
+            authToken - The access token
+            paymentReference - The merchant generated payment reference
+
+**Returns:** An array of statusCode and API response in order  
+
+
+
+##### Class Disbursement
+An importable class for interacting with the Monnify disbursement API
+
+**Parameters:**
+        environment - This is the Monnify environment being used; this could either be sandbox or live.  
+
+**Returns:** An instance of the Disbursement class
+
+
+**async Disbursement.initiateSingleTransfer**(authToken: String,amount: Float,narration: String,destinationBankCode: String,destinationAccountNumber: String,{currency='NGN': String,reference: String,async=false: Boolean})
+
+Initiates single transfers
+
+**Parameters:**
+            authToken - The access token
+            amount - The amount to be paid
+            destinationBankCode - The bank code of the destination bank
+            destinationAccountNumber - The receiver's account number
+            narration - The payout narration
+            optional.reference - The merchant's unique reference, this will be automatically generated if not provided
+            optional.currency - The currency to be disbursed, default is NGN
+            optional.async - Set to true if you want disbursement to processed asynchronously
+
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.initiateBulkTransfer**(authToken: String,title: String,narration: String,transactionList: Array,{batchReference='': String,onValidationFailure='CONTINUE': String,notificationInterval=25: Integer})
+
+Initiates bulk transfers
+
+**Parameters:**
+            authToken - The access token
+            title - The title of the batch disbursement
+            narration - The payout narration
+            transactionList - A list of transactions to be processed
+            optional.batchReference - The merchant's unique reference, this will be automatically generated if not provided
+            optional.onValidationFailure - Decision to be taken if any of the disbursement batches fail. Either BREAK or CONTINUE.
+            optional.notificationInterval - This determines how often Monnify should notify the merchant of its progress when processing a batch transfer
+
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.authorizeSingleTransfer**(authToken: String,reference: String,authorizationCode: String)
+
+Authorizes a single transfer
+
+**Parameters:**
+            authToken - The access token
+            reference - The reference used for the disbursement
+            authorizationCode - The OTP sent to merchant's email
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.authorizeBulkTransfer**(authToken: String,reference: String,authorizationCode: String)
+
+Authorizes a bulk transfer
+
+**Parameters:**
+            authToken - The access token
+            reference - The batchreference used for the disbursement
+            authorizationCode - The OTP sent to merchant's email
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.resendTransferOTP**(authToken: String,reference: String)
+
+Resends OTP for transfer
+
+**Parameters:**
+            authToken - The access token
+            reference - The reference used for the disbursement
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.getSingleTransferStatus**(authToken: String,reference: String)
+
+Get status for single transfer
+
+**Parameters:**
+            authToken - The access token
+            reference - The reference used for the disbursement
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.getBulkTransferStatus**(authToken: String,reference: String)
+
+Get status for single transfer
+
+**Parameters:**
+            authToken - The access token
+            reference - The reference used for the disbursement
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.getAllSingleTransfers**(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+
+Fetches all single transfers done
+
+**Parameters:**
+            authToken - The access token
+            optional.pageNo - A number specifying what page of transfers to be retrieved
+            optional.pageSize - The number of transfer records to returned
+
+**Returns:** An array of statusCode and API response in order  
+
+
+**async Disbursement.getAllBulkTransfers**(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+
+Fetches all single transfers done
+
+**Parameters:**
+            authToken - The access token
+            optional.pageNo - A number specifying what page of transfers to be retrieved
+            optional.pageSize - The number of transfer records to returned
+
+**Returns:** An array of statusCode and API response in order  
 
 
 
