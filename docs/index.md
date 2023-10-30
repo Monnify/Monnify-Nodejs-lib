@@ -53,101 +53,146 @@ console.log(responseCode,response)
 ---
 
 #### API Reference Guide
+#
 
 ##### Class BaseRequestAPI
 
-This is an Internal base class and should be used when you intend to extend the capability of the base class
+This is an Internal base class and should be used when you intend to extend the capability of the base class        
 
+  
 **Parameters:**
+
         environment - This is the Monnify environment being used; this could either be sandbox or live.  
 
-**Returns:** An instance of the BaseRequestAPI
   
+**Returns:** An instance of the BaseRequestAPI    
+#  
 
-**async BaseRequestAPI.getToken**(cache=true : Boolean):
-Fetches the Monnify access token
+ 
+```js
+async BaseRequestAPI.getToken(cache=true : Boolean):
+```
 
-**Parameters:**
-        cache - A boolean that determines wether the access token is cached or not. If cached, the access token is regenerated once its expiration  is less than the set TOKENEXPIRATION environment variable
+  
+Fetches the Monnify access token  
 
+  
+**Parameters:**  
+
+        cache - A boolean that determines wether the access token is cached or not. 
+        If cached, the access token is regenerated once its expiration  is less than the set TOKENEXPIRATION environment variable  
+
+          
 **Returns:** An array containing the statusCode and access token in order.
+#   
 
 
-**async BaseRequestAPI.getCachedToken**():
-Fetches the Monnify access token from cache.
-By default, this method reads access token from a file with environment variable name TOKENFILE. override this method if you want to use a different retrieval source.
+```js
+async BaseRequestAPI.getCachedToken():
+```
 
+Fetches the Monnify access token from cache.By default, this method reads access token from a file with environment variable name TOKENFILE. 
+override this method if you want to use a different retrieval source.    
 
+       
 **Returns:** A string of access token
+#    
 
 
-**async BaseRequestAPI.getCachedToken**():
-Fetches the Monnify access token from cache.
-By default, this method reads access token from a file with environment variable name TOKENFILE. override this method if you want to use a different retrieval source.
+```js
+async BaseRequestAPI.setToken(tokenObject: String, timeStamp: Unixtimestamp):
+```
 
+Writes the Monnify access token to cache. By default, this method write access token to a file with environment variable name TOKENFILE. 
+Override this method if you want to write to a different data source.  
 
-**Returns:** A string of access token
-
-**async BaseRequestAPI.setToken**(tokenObject: String, timeStamp: Unixtimestamp):  
-Writes the Monnify access token to cache.
-By default, this method write access token to a file with environment variable name TOKENFILE. override this method if you want to write to a different data source.
 
 **Parameters:**
+
         tokenObject - The generated access token
         timeStamp - A unix time stamp of how long
 
+  
 **Returns:** None
+#  
 
+  
+```js
+async BaseRequestAPI.get(url_path: String, authorization: String):
+```
 
-**async BaseRequestAPI.get**(url_path: String, authorization: String):  
-Makes a get request to Monnify
+Makes a get request to Monnify  
+
 
 **Parameters:**
+
         url_path - The Monnify path url called
         authorization - The Monnify access token
-    
-**Returns:** An array of statusCode and API response in order
 
-**async BaseRequestAPI.post**(url_path: String, authorization: String,data: Object):  
-Makes a post request to Monnify
+          
+**Returns:** An array of statusCode and API response in order
+#
+
+```js  
+async BaseRequestAPI.post(url_path: String, authorization: String,data: Object):
+```
+ 
+Makes a post request to Monnify  
+
 
 **Parameters:**
+
         url_path - The Monnify path url called
         authorization - The Monnify access token
         data: An object of the request payload sent
 
+  
 **Returns:** An array of statusCode and API response in order
+#  
 
-
-**async BaseRequestAPI.put**(url_path: String, authorization: String,data: Object):  
+```js
+async BaseRequestAPI.put**(url_path: String, authorization: String,data: Object):
+```
+ 
 Makes a put request to Monnify
 
 **Parameters:**
+
         url_path - The Monnify path url called
         authorization - The Monnify access token
         data: An object of the request payload sent
 
-**Returns:** An array of statusCode and API response in order
+**Returns:** An array of statusCode and API response in order  
+#
 
-**async BaseRequestAPI.delete**(url_path: String, authorization: String):  
+```js
+async BaseRequestAPI.delete**(url_path: String, authorization: String):
+```
+
 Makes a delete request to Monnify
 
 **Parameters:**
+
         url_path - The Monnify path url called
         authorization - The Monnify access token
 
 **Returns:** An array of statusCode and API response in order
+#
 
-**async BaseRequestAPI.computeTransactionHash**(payload: Object, signature: String):  
+```js
+async BaseRequestAPI.computeTransactionHash(payload: Object, signature: String):
+```
+
 Compute webhook transaction hash
 
 **Parameters:**
+
         payload - The webhook payload from Monnify
         signature - The transaction hash from Monnify
 
 **Returns:** A boolean value that confirms if signature mathches calculated hash  
-
-
+<br />
+<br />
 
 
 
@@ -155,13 +200,15 @@ Compute webhook transaction hash
 An importable class for interacting with the Monnify reserved account API
 
 **Parameters:**
+
         environment - This is the Monnify environment being used; this could either be sandbox or live.  
 
-**Returns:** An instance of the ReservedAccount class
+**Returns:** An instance of the ReservedAccount class  
+
 
 **Usage:**
 ```js
-import ReservedAccount from 'monnify-node'
+import ReservedAccount from 'monnify-nodejs'
 
 const instance = new ReservedAccount('sandbox')
 
@@ -194,12 +241,19 @@ console.log(response)
 }
 
 ```
+#  
 
-**async ReservedAccount.createReservedAccount**( authToken: String,customerName:String,customerEmail:String,accountName:String,{accountReference='': String,getAllAvailableBanks=true: Boolean,preferredBanks=[]: Array,bvn='': String,currencyCode='NGN': String,incomeSplitConfig={}: Object,restrictPaymentSource=false: Boolean,allowPaymentSource={}: Object}):  
+```js
+async ReservedAccount.createReservedAccount(authToken: String,customerName:String,customerEmail:String,accountName:String,
+                                            {accountReference='': String,getAllAvailableBanks=true: Boolean,preferredBanks=[]: Array,
+                                            bvn='': String,currencyCode='NGN': String,incomeSplitConfig={}: Object,
+                                            restrictPaymentSource=false: Boolean,allowPaymentSource={}: Object}):  
+```
 
 Creates Reserved account
 
 **Parameters:**
+
         authToken - The access token
         customerName - The customer's name
         customerEmail - The customer's email
@@ -210,59 +264,79 @@ Creates Reserved account
         optional.
         optional.incomeSplitConfig - A configuration on how payments are to be split among subaccounts
         optional.restrictPaymentSource - Decides if payment should be restricted to some reserved accounts
-        optional.allowPaymentSource - This captures bvns or account numbers or account names that are permitted to fund a reserved account. This is mandatory if restrictPaymentSource is set to true
+        optional.allowPaymentSource - This captures bvns or account numbers or account names that are permitted to fund a reserved account. 
+        This is mandatory if restrictPaymentSource is set to true
 
+  
+**Returns:** An array of statusCode and API response in order  
+#
 
-**Returns:** An array of statusCode and API response in order
+```js
+async ReservedAccount.addLinkedAccounts(authToken: String,accountReference: String, preferredBanks: Array)
+```
 
-
-**async ReservedAccount.addLinkedAccounts**(authToken: String,accountReference: String, preferredBanks: Array)
 Adds extra banks to existing reserved account
 
 **Parameters:**
+
             authToken - The access token
             accountReference - The accountReference of the existing reserved account
             preferredBanks - An array of desired bank codes
 
 
 **Returns:** An array of statusCode and API response in order
+#  
 
+```js
+async ReservedAccount.getReservedAccountDetails(authToken: String,accountReference: String)
+```
 
-**async ReservedAccount.getReservedAccountDetails**(authToken: String,accountReference: String)
-
+  
 Fetches details of a reserved account given its account reference
 
 **Parameters:**
+
             authToken - The access token
             accountReference - The accountReference of the existing reserved account
 
+  
 **Returns:** An array of statusCode and API response in order
+#  
 
+```js
+async ReservedAccount.getReservedAccountTransactions(authToken: String,accountReference: String)
+```
 
-**async ReservedAccount.getReservedAccountTransactions**(authToken: String,accountReference: String)
 
 Fetches transactions made by a reserved account
 
 **Parameters:**
+
             authToken - The access token
             accountReference - The accountReference of the existing reserved account
 
 **Returns:** An array of statusCode and API response in order  
-
+<br />
+<br />
 
 
 ##### Class Transaction
 An importable class for interacting with the Monnify transaction account API
 
 **Parameters:**
+
         environment - This is the Monnify environment being used; this could either be sandbox or live.  
 
 **Returns:** An instance of the Transaction class
+#  
 
-
-**async Transaction.InitTransactions**(authToken: String,amount: float,customerName: String,customerEmail: String,paymentDescription: String,{paymentReference='': String,currencyCode='NGN': String,metaData={}: Object})
+```js
+async Transaction.InitTransactions(authToken: String,amount: float,customerName: String,customerEmail: String,paymentDescription: String,
+                                    {paymentReference='': String,currencyCode='NGN': String,metaData={}: Object})
+```
 
 **Parameters:**
+
             authToken - The access token
             amount - The amount to be paid
             customerName - The customer's name
@@ -272,45 +346,58 @@ An importable class for interacting with the Monnify transaction account API
             optional.currencyCode - The currency to be paid, default is NGN
             optional.metaData - The metaData allows passing extra request parameter.
 
-**Returns:** An array of statusCode and API response in order  
+**Returns:** An array of statusCode and API response in order    
+#  
 
-**async Transaction.getTransactionStatusV2**(authToken: String, transactionReference)
+```js
+async Transaction.getTransactionStatusV2(authToken: String, transactionReference)
+```
+
 Gets the status of a transaction via the Monnify transactionReference
 
 
 **Parameters:**
+
             authToken - The access token
             transactionReference - The Monnify transaction reference
 
 **Returns:** An array of statusCode and API response in order
+#  
 
+```js
+async Transaction.getTransactionStatusV1(authToken: String, paymentReference)
+```
 
-**async Transaction.getTransactionStatusV1**(authToken: String, paymentReference)
 Gets the status of a transaction via the Monnify transactionReference
 
 
 **Parameters:**
+
             authToken - The access token
             paymentReference - The merchant generated payment reference
 
 **Returns:** An array of statusCode and API response in order  
-
-
+<br />
+<br />
 
 ##### Class Disbursement
 An importable class for interacting with the Monnify disbursement API
 
 **Parameters:**
+
         environment - This is the Monnify environment being used; this could either be sandbox or live.  
 
 **Returns:** An instance of the Disbursement class
+#  
 
-
-**async Disbursement.initiateSingleTransfer**(authToken: String,amount: Float,narration: String,destinationBankCode: String,destinationAccountNumber: String,{currency='NGN': String,reference: String,async=false: Boolean})
+```js
+async Disbursement.initiateSingleTransfer(authToken: String,amount: Float,narration: String,destinationBankCode: String,destinationAccountNumber: String,{currency='NGN': String,reference: String,async=false: Boolean})
+```
 
 Initiates single transfers
 
 **Parameters:**
+
             authToken - The access token
             amount - The amount to be paid
             destinationBankCode - The bank code of the destination bank
@@ -322,13 +409,17 @@ Initiates single transfers
 
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.initiateBulkTransfer**(authToken: String,title: String,narration: String,transactionList: Array,{batchReference='': String,onValidationFailure='CONTINUE': String,notificationInterval=25: Integer})
+```js
+async Disbursement.initiateBulkTransfer(authToken: String,title: String,narration: String,transactionList: Array,
+                                        {batchReference='': String,onValidationFailure='CONTINUE': String,notificationInterval=25: Integer})
+```
 
 Initiates bulk transfers
 
 **Parameters:**
+
             authToken - The access token
             title - The title of the batch disbursement
             narration - The payout narration
@@ -338,45 +429,57 @@ Initiates bulk transfers
             optional.notificationInterval - This determines how often Monnify should notify the merchant of its progress when processing a batch transfer
 
 
-**Returns:** An array of statusCode and API response in order  
+**Returns:** An array of statusCode and API response in order    
+#  
 
-
-**async Disbursement.authorizeSingleTransfer**(authToken: String,reference: String,authorizationCode: String)
+```js
+async Disbursement.authorizeSingleTransfer(authToken: String,reference: String,authorizationCode: String)
+```
 
 Authorizes a single transfer
 
 **Parameters:**
+
             authToken - The access token
             reference - The reference used for the disbursement
             authorizationCode - The OTP sent to merchant's email
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
+```js
+async Disbursement.authorizeBulkTransfer(authToken: String,reference: String,authorizationCode: String)
+```
 
-**async Disbursement.authorizeBulkTransfer**(authToken: String,reference: String,authorizationCode: String)
 
 Authorizes a bulk transfer
 
 **Parameters:**
+
             authToken - The access token
             reference - The batchreference used for the disbursement
             authorizationCode - The OTP sent to merchant's email
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.resendTransferOTP**(authToken: String,reference: String)
+```js
+async Disbursement.resendTransferOTP(authToken: String,reference: String)
+```
 
 Resends OTP for transfer
 
 **Parameters:**
+
             authToken - The access token
             reference - The reference used for the disbursement
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.getSingleTransferStatus**(authToken: String,reference: String)
+```js
+async Disbursement.getSingleTransferStatus(authToken: String,reference: String)
+```
 
 Get status for single transfer
 
@@ -385,36 +488,45 @@ Get status for single transfer
             reference - The reference used for the disbursement
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.getBulkTransferStatus**(authToken: String,reference: String)
+```js
+async Disbursement.getBulkTransferStatus(authToken: String,reference: String)
+```
 
 Get status for single transfer
 
 **Parameters:**
+
             authToken - The access token
             reference - The reference used for the disbursement
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.getAllSingleTransfers**(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+```js
+async Disbursement.getAllSingleTransfers(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+```
 
 Fetches all single transfers done
 
 **Parameters:**
+
             authToken - The access token
             optional.pageNo - A number specifying what page of transfers to be retrieved
             optional.pageSize - The number of transfer records to returned
 
 **Returns:** An array of statusCode and API response in order  
+#  
 
-
-**async Disbursement.getAllBulkTransfers**(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+```js
+async Disbursement.getAllBulkTransfers(authToken: String,{pageNo=0: Integer,pageSize=10: Integer})
+```
 
 Fetches all single transfers done
 
 **Parameters:**
+
             authToken - The access token
             optional.pageNo - A number specifying what page of transfers to be retrieved
             optional.pageSize - The number of transfer records to returned
