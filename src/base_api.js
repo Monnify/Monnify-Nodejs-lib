@@ -6,13 +6,22 @@ import promises from 'fs'
 
 
 
-const TOKENEXPIRATIONTHRESHOLD = 500 || process.env.TOKENEXPIRATIONTHRESHOLD
+const TOKENEXPIRATIONTHRESHOLD = 50 || process.env.TOKENEXPIRATIONTHRESHOLD
 const TOKENFILE = 'Cache' || process.env.TOKENFILE
+
+let singletonInstance
 
 
 export class BaseRequestAPI{
 
     constructor(environment){
+        if(singletonInstance){
+            if(singletonInstance.environment!==environment){
+                throw new Error('You cannot instantiate multiple environment at one runtime')
+            }else{
+                return singletonInstance
+            }
+        }
         this.headers = {
             "Content-Type":"application/json",
             "Authorization":""
@@ -27,6 +36,7 @@ export class BaseRequestAPI{
             this.isTokenSet = false
             this.expiryTime = 0
             this.cacheFile = `sandbox_${TOKENFILE}.js`
+            singletonInstance = this
         }
         else if (environment === 'live'){
             this.environment = 'live'
@@ -38,6 +48,7 @@ export class BaseRequestAPI{
             this.isTokenSet = false
             this.expiryTime = 0
             this.cacheFile = `live_${TOKENFILE}.js`
+            singletonInstance = this
         }
         else{
             throw new Error("Unknown environment passed: ",environment,". Specify between sandbox and live");

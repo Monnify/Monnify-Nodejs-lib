@@ -31,7 +31,7 @@ describe('Check Init Transaction Method', ()=>{
     it('confirm that transaction initialisation works', async()=>{
         
         const [rCode,resp] = await instance.initTransaction(
-            token[1].responseBody.accessToken,
+            token[1],
             payload.amount,
             payload.customerName,
             payload.customerEmail,
