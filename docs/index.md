@@ -151,7 +151,7 @@ Makes a post request to Monnify
 #  
 
 ```js
-async BaseRequestAPI.put**(url_path: String, authorization: String,data: Object):
+async BaseRequestAPI.put(url_path: String, authorization: String,data: Object):
 ```
  
 Makes a put request to Monnify
@@ -166,7 +166,7 @@ Makes a put request to Monnify
 #
 
 ```js
-async BaseRequestAPI.delete**(url_path: String, authorization: String):
+async BaseRequestAPI.delete(url_path: String, authorization: String):
 ```
 
 Makes a delete request to Monnify
