@@ -60,6 +60,21 @@ console.log(responseCode,response)
 This is an Internal base class and should be used when you intend to extend the capability of the base class        
 
   
+**Environment Variables**
+
+TOKENEXPIRATIONTHRESHOLD: The minimum value for the token expiration below which it shouldn’t be cached(default is 500 seconds)
+
+TOKENFILE: The file name for storing the token(default is 'Cache')
+
+CONTRACT: Your Monnify contract code
+
+APIKEY: Your Monnify API key
+
+SECRET: Your Monnify secret key
+
+WALLETACCOUNTNUMBER: Your Monnify wallet account number
+
+    
 **Parameters:**
 
         environment - This is the Monnify environment being used; this could either be sandbox or live.  
