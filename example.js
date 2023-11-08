@@ -1,12 +1,15 @@
-import { BaseRequestAPI } from "./src/base_api.js";
 import { ReservedAccount } from "./src/collection.js";
+import { Transaction } from "./src/collection.js";
 
 
 
 
-const instance = new ReservedAccount('sandbox')
 const inst = new ReservedAccount('sandbox')
-const inst1 = new ReservedAccount('sandbox')
+const instance = new Transaction('sandbox')
+//const inst1 = new ReservedAccount('sandbox')
+
+let payload = {"customerName":"Tester","customerEmail":"tester@tester.com",
+"amount":2000,"paymentDescription":"Hello World","accountName":"benji"};
 
 //console.log(instance.isTokenSet)
 //console.log(await instance.getToken(true))
@@ -26,14 +29,27 @@ for(let i=0;i<11;i=i+1){
 
 const [codes,token] = await instance.getToken()
 
-const [code1,tk1] = await inst.getToken()
-const [code2,tk2] = await inst.getToken()
+const [rCode,resp] = await instance.initTransaction(
+  token,
+  payload.amount,
+  payload.customerName,
+  payload.customerEmail,
+  payload.paymentDescription)
 
-console.log('------------------\n',token)
 
-console.log('ppppppppppppppppp\n',tk1)
+  const [rCodes,resps] = await inst.createReservedAccount(
+    token,
+    payload.customerName,
+    payload.customerEmail,
+    payload.accountName,
+    {preferredBanks:["035"],getAllAvailableBanks:false})
 
-console.log('aaaaaaaaaaaaaaaa\n',tk2)
+
+//console.log(token)
+
+//console.log(resp)
+
+console.log(resps)
 
 
 //const [code,response] = await instance.createReservedAccountV2(token,'test','test@tester.com','test')

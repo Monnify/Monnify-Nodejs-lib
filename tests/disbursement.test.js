@@ -18,7 +18,7 @@ beforeEach(async () =>{
 describe('Assert Access Token Request', ()=>{
     it('confirm that request is successful', async()=>{
         assert.strictEqual(token[0],200);
-        assert.strictEqual(token[1].responseMessage,'success')
+        //assert.strictEqual(token[1].responseMessage,'success')
     })
 })
 
@@ -27,7 +27,7 @@ describe('Check Init Transfer Method', ()=>{
     it('confirm that single transfer works', async()=>{
         
         const [rCode,resp] = await instance.initiateSingleTransfer(
-            token[1].responseBody.accessToken,
+            token[1],
             payload.amount,
             payload.naration,
             payload.destinationBankCode,

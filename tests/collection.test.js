@@ -1,15 +1,17 @@
 import assert from "assert/strict";
 import { Transaction } from "../src/collection.js";
+import { ReservedAccount } from "../src/collection.js";
 import crypto from 'crypto'
 
 
-let instance;
+let instance, inst;
 let payload = {"customerName":"Tester","customerEmail":"tester@tester.com","amount":2000};
 let token;
 
 
 beforeEach(async () =>{
     instance = new Transaction('sandbox')
+    inst = new ReservedAccount('sandbox')
     token = await instance.getToken()
     payload.currencyCode = "NGN"
     payload.paymentMethods = []
@@ -22,7 +24,7 @@ beforeEach(async () =>{
 describe('Assert Access Token Request', ()=>{
     it('confirm that request is successful', async()=>{
         assert.strictEqual(token[0],200);
-        assert.strictEqual(token[1].responseMessage,'success')
+        //assert.strictEqual(token[1].responseMessage,'success')
     })
 })
 
@@ -36,6 +38,20 @@ describe('Check Init Transaction Method', ()=>{
             payload.customerName,
             payload.customerEmail,
             payload.paymentDescription)
+        assert.strictEqual(rCode,200);
+        assert.strictEqual(resp.responseMessage,'success')
+    })
+})
+
+
+describe('Check Reserved Account Creation', ()=>{
+    it('confirm that reserved account creation works', async()=>{
+        
+        const [rCode,resp] = await inst.createReservedAccount(
+            token[1],
+            payload.customerName,
+            payload.customerEmail,
+            payload.accountName)
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })

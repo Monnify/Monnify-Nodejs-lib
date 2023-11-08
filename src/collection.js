@@ -23,7 +23,6 @@ export class ReservedAccount extends BaseRequestAPI{
                                 restrictPaymentSource=false,
                                 allowedPaymentSource={}}={}){
                                 
-        
         const data = {}
         const path = '/api/v2/bank-transfer/reserved-accounts';
         data.customerName = customerName
@@ -38,9 +37,11 @@ export class ReservedAccount extends BaseRequestAPI{
             return await this.post(path,authToken,data);
         }
 
-        data.currencyCode = currencyCode
+        
         accountReference = accountReference.length !== 0 ? accountReference : crypto.randomBytes(20).toString('hex')
-        if(bvn.length === 0){
+        data.currencyCode = currencyCode
+        data.accountReference = accountReference
+        if(bvn.length !== 0){
             data.bvn = bvn
         }
         if(Object.keys(incomeSplitConfig).length !==0){
@@ -58,6 +59,7 @@ export class ReservedAccount extends BaseRequestAPI{
             data.getAllAvailableBanks = false
             data.preferredBanks = preferredBanks
         }
+        console.log(data)
         return await this.post(path,authToken,data);
     }
 
@@ -113,11 +115,13 @@ export class Transaction extends BaseRequestAPI{
         data.customerName = customerName
         data.customerEmail = customerEmail
         data.paymentDescription = paymentDescription
+        data.contractCode = this.contract
 
         if(arguments.length <=5){
             data.paymentMethods = []
             data.paymentReference = crypto.randomBytes(20).toString('hex')
             data.currencyCode = 'NGN'
+            console.log(data)
             return await this.post(path,authToken,data);
         }
 
@@ -128,7 +132,7 @@ export class Transaction extends BaseRequestAPI{
         data.paymentReference = paymentReference
         data.metaData = metaData
 
-        if(redirectUrl.length === 0){
+        if(redirectUrl.length !== 0){
             data.redirectUrl = redirectUrl
         }
         if(Object.keys(incomeSplitConfig).length !==0){

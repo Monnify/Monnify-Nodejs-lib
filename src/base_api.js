@@ -6,8 +6,8 @@ import promises from 'fs'
 
 
 
-const TOKENEXPIRATIONTHRESHOLD = 50 || process.env.TOKENEXPIRATIONTHRESHOLD
-const TOKENFILE = 'Cache' || process.env.TOKENFILE
+const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500
+const TOKENFILE = process.env.TOKENFILE || 'Cache'
 
 let singletonInstance
 
@@ -18,8 +18,6 @@ export class BaseRequestAPI{
         if(singletonInstance){
             if(singletonInstance.environment!==environment){
                 throw new Error('You cannot instantiate multiple environment at one runtime')
-            }else{
-                return singletonInstance
             }
         }
         this.headers = {
