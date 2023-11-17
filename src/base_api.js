@@ -56,7 +56,6 @@ export class BaseRequestAPI{
     async getToken(cached=true){
 
         if(this.isTokenSet && (this.expiryTime > Math.floor(Date.now()/1000))){
-            console.log('FETCHING TOKEN FROM CACHE----------')
             const token = await this.getCachedToken()
             return [200, token]
         }
@@ -66,9 +65,7 @@ export class BaseRequestAPI{
 
         try{
             const response = await axios.post(url, data, {'headers':this.headers});
-            console.log('CACHE MISSED------------','FETCHING FROM API')
             if(cached && (response.data.responseBody.expiresIn >= TOKENEXPIRATIONTHRESHOLD)){
-                console.log('STORING TOKEN IN CACHE-------------')
                 await this.setToken(response.data.responseBody.accessToken,
                                     response.data.responseBody.expiresIn+Math.floor(Date.now()/1000)
                                     )
