@@ -1,5 +1,7 @@
-# Monnify-Nodejs-lib
-This is Nodejs wrapper for the Monnify API
+# Monnify-Nodejs-lib (Beta Version)
+This is Nodejs wrapper for the Monnify API.
+
+## Note: This is a beta version and is currently under review
 
 ---
 
