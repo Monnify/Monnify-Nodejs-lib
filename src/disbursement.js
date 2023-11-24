@@ -62,7 +62,7 @@ export class Disbursement extends BaseRequestAPI{
             data.batchReference = crypto.randomBytes(20).toString('hex')
             data.currency = 'NGN'
             data.onValidationFailure = 'CONTINUE'
-            notificationInterval=25
+            data.notificationInterval=25
             return await this.post(path,authToken,data);
         }
 

@@ -59,7 +59,6 @@ export class ReservedAccount extends BaseRequestAPI{
             data.getAllAvailableBanks = false
             data.preferredBanks = preferredBanks
         }
-        console.log(data)
         return await this.post(path,authToken,data);
     }
 
@@ -79,9 +78,15 @@ export class ReservedAccount extends BaseRequestAPI{
         return await this.get(path,authToken);
     }
 
-    async reservedAccountTransactions(authToken,accountReference, page=0,size=10){
+    async reservedAccountTransactions(authToken,accountReference, {page=0,size=10}){
         const encodedReference = encodeURI(accountReference);
-        const path = `/api/v2/bank-transfer/reserved-accounts?accountReference=${encodedReference}&page=${page}&size=${size}`;
+        if(arguments.length <= 2){
+            const path = `/api/v1/bank-transfer/reserved-accounts/transactions
+            ?accountReference=${encodedReference}&page=0&size=10`;
+            return await this.get(path,authToken);
+        }
+        const path = `/api/v1/bank-transfer/reserved-accounts/transactions
+        ?accountReference=${encodedReference}&page=${page}&size=${size}`;
         return await this.get(path,authToken);
     }
 }
@@ -121,7 +126,6 @@ export class Transaction extends BaseRequestAPI{
             data.paymentMethods = []
             data.paymentReference = crypto.randomBytes(20).toString('hex')
             data.currencyCode = 'NGN'
-            console.log(data)
             return await this.post(path,authToken,data);
         }
 
