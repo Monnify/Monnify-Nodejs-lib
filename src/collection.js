@@ -132,7 +132,7 @@ export class Transaction extends BaseRequestAPI{
         paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
         data.currencyCode = currencyCode
         data.paymentMethods = paymentMethods
-        data.contractCode = this.contract
+        data.contractCode = this.contract //why was this assigned twice?
         data.paymentReference = paymentReference
         data.metaData = metaData
 
@@ -157,4 +157,39 @@ export class Transaction extends BaseRequestAPI{
         return await this.get(path,authToken);
     }
 
+    async payWithBankTransfer(authToken, paymentReference) {
+
+        const data = {}
+        const path = '/api/v1/merchant/bank-transfer/init-payment'
+
+        data.paymentReference = paymentReference;
+
+        return await this.post(path, authToken, data);
+    }
+    async chargeCard(authToken,
+        transactionReference,
+        collectionChannel,
+        {
+            cardNumber,
+            expiryMonth,
+            expiryYear,
+            pin,
+            cvv
+        } = {}) {
+        const data = {}
+        const path = "/api/v1/merchant/cards/charge-card-token";
+        data.transactionReference = transactionReference
+        data.collectionChannel = collectionChannel
+
+        const card = {
+            number: cardNumber,
+            expiryMonth: expiryMonth,
+            expiryYear: expiryYear,
+            pin: pin,
+            cvv: cvv
+        };
+
+        data.card = card
+        return await this.post(path, authToken, data);
+    }
 }

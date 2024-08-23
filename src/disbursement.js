@@ -132,4 +132,17 @@ export class Disbursement extends BaseRequestAPI{
         const path = `/api/v2/disbursements/bulk/transactions?pageNo=${pageNo}&pageSize=${pageSize}`;
         return await this.get(path,authToken);
     }
+    async getAllBulkTransferTransactions() {
+
+    }
+
+    async getBullkTransferStatus() {
+
+    }
+    async searchDisbursementTransactions() {
+
+    }
+    async getWalletBalance() {
+
+    }
 }
