@@ -193,7 +193,7 @@ export class Transaction extends BaseRequestAPI{
         return await this.post(path, authToken, data);
     }
 
-    async authroizeOtp(authToken,
+    async authorizeOtp(authToken,
         transactionReference,
         collectionChannel,
         tokenId,
