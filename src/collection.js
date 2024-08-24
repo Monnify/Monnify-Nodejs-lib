@@ -177,7 +177,7 @@ export class Transaction extends BaseRequestAPI{
             cvv
         } = {}) {
         const data = {}
-        const path = "/api/v1/merchant/cards/charge-card-token";
+        const path = "/api/v1/merchant/cards/charge";
         data.transactionReference = transactionReference
         data.collectionChannel = collectionChannel
 
@@ -191,5 +191,22 @@ export class Transaction extends BaseRequestAPI{
 
         data.card = card
         return await this.post(path, authToken, data);
+    }
+
+    async authroizeOtp(authToken,
+        transactionReference,
+        collectionChannel,
+        tokenId,
+        token
+    ) {
+        const data = {}
+        const path = "/api/v1/merchant/cards/otp/authorize";
+        data.transactionReference = transactionReference;
+        data.collectionChannel = collectionChannel;
+        data.tokenId = tokenId;
+        data.token = token;
+
+        return await this.post(path, authToken, data)
+
     }
 }
