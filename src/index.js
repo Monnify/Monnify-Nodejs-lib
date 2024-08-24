@@ -1,5 +1,7 @@
 import { Disbursement } from './disbursement.js';
 import express from 'express';
+//import swaggerJsdoc from 'swagger-jsdoc';
+//import swaggerUi from 'swagger-ui-express';
 import { Transaction } from './collection.js';
 
 const app = express();
@@ -56,8 +58,8 @@ app.use(express.json());
         console.error("Error during operations:", err);
     }
 })();
-
 */
+
 (async () => {
     try {
         // Set up environment (sandbox or live)
@@ -65,7 +67,7 @@ app.use(express.json());
 
         // Example Usage - Get a Token
         const [status, token] = await transaction.getToken();
-        console.log('BT Token:', token);
+        //console.log('BT Token:', token);
 
         // Example Usage - Pay with bank transfer
         const response = await transaction.payWithBankTransfer(
@@ -79,33 +81,36 @@ app.use(express.json());
 })();
 
 
-(async () => {
-    try {
-        // Set up environment (sandbox or live)
-        const transaction = new Transaction('sandbox');
 
-        // Example Usage - Get a Token
-        const [status, token] = await transaction.getToken();
+// Swagger definition setup
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Monnify API',
+            version: '1.0.0',
+            description: 'API for Monnify operations',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+                description: 'Local server',
+            },
+        ],
+    },
+    apis: ['./*.js'],
+};
 
-        console.log('OTP Token:', token)
+// Initialize swagger-jsdoc
+const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 
-        // Example Usage - Pay with bank transfer
-        const response = await transaction.authorizeOtp(
-            token,
-            "MNFY|00|20240824143224|000076",
-            "API_NOTIFICATION",
-            "100.00-b66bef0aa8e660863c4e1177a08fefba",
-            "152547"
-        );
-        console.log('Authorize OTP Response:', response);
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
-    } catch (err) {
-        console.error("Error during operations:", err);
-    }
-})();
-
-
-
+// Example route
+app.get('/api', (req, res) => {
+    res.send('Hello World!');
+});
 
 // Start server
 app.listen(3000, () => {
