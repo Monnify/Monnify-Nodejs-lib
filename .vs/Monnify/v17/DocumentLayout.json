@@ -45,7 +45,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 213,
+          "DockedWidth": 390,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "src\\collection.js",
               "ToolTip": "C:\\PROJECTS\\Monnify\\src\\collection.js",
               "RelativeToolTip": "src\\collection.js",
-              "ViewState": "AQIAALUAAAAAAAAAAAAAANMAAAABAAAA",
+              "ViewState": "AQIAAK0AAAAAAAAAAAAiwLcAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-08-20T13:17:50.19Z",
               "EditorCaption": ""
@@ -83,14 +83,13 @@
               "RelativeToolTip": "src\\base_api.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-08-20T13:17:05.253Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-20T13:17:05.253Z"
             }
           ]
         },
         {
-          "DockedWidth": 187,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 10,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,15 +97,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "package-lock.json",
-              "DocumentMoniker": "C:\\PROJECTS\\Monnify\\package-lock.json",
-              "RelativeDocumentMoniker": "package-lock.json",
-              "ToolTip": "C:\\PROJECTS\\Monnify\\package-lock.json",
-              "RelativeToolTip": "package-lock.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAE4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-24T16:02:48.41Z"
+              "DocumentIndex": 1,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify\\src\\index.js",
+              "RelativeDocumentMoniker": "src\\index.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify\\src\\index.js",
+              "RelativeToolTip": "src\\index.js",
+              "ViewState": "AQIAAGMAAAAAAAAAAAAAAG0AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-08-24T13:20:27.031Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -134,16 +134,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "index.js",
-              "DocumentMoniker": "C:\\PROJECTS\\Monnify\\src\\index.js",
-              "RelativeDocumentMoniker": "src\\index.js",
-              "ToolTip": "C:\\PROJECTS\\Monnify\\src\\index.js",
-              "RelativeToolTip": "src\\index.js",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAQAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-08-24T13:20:27.031Z",
-              "EditorCaption": ""
+              "DocumentIndex": 3,
+              "Title": "package-lock.json",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify\\package-lock.json",
+              "RelativeDocumentMoniker": "package-lock.json",
+              "ToolTip": "C:\\PROJECTS\\Monnify\\package-lock.json",
+              "RelativeToolTip": "package-lock.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAE4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-24T16:02:48.41Z"
             },
             {
               "$type": "Document",

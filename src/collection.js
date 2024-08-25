@@ -157,12 +157,22 @@ export class Transaction extends BaseRequestAPI{
         return await this.get(path,authToken);
     }
 
-    async payWithBankTransfer(authToken, paymentReference) {
+    async payWithBankTransfer(authToken,
+        transactionReference,
+        {
+            bankCode = ""
+        }
+        ) {
 
         const data = {}
         const path = '/api/v1/merchant/bank-transfer/init-payment'
 
-        data.paymentReference = paymentReference;
+        data.transactionReference = transactionReference;
+        
+        if (arguments.length <= 2) {
+            return await this.post(path, authToken, data);
+        }
+        data.bankCode = bankCode;
 
         return await this.post(path, authToken, data);
     }
