@@ -45,7 +45,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 390,
+          "DockedWidth": 195,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "src\\collection.js",
               "ToolTip": "C:\\PROJECTS\\Monnify\\src\\collection.js",
               "RelativeToolTip": "src\\collection.js",
-              "ViewState": "AQIAAK0AAAAAAAAAAAAiwLcAAAAYAAAA",
+              "ViewState": "AQIAAMoAAAAAAAAAAAAYwNYAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-08-20T13:17:50.19Z",
               "EditorCaption": ""
@@ -88,7 +88,7 @@
           ]
         },
         {
-          "DockedWidth": 10,
+          "DockedWidth": 205,
           "SelectedChildIndex": 1,
           "Children": [
             {
@@ -103,7 +103,7 @@
               "RelativeDocumentMoniker": "src\\index.js",
               "ToolTip": "C:\\PROJECTS\\Monnify\\src\\index.js",
               "RelativeToolTip": "src\\index.js",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAAAG0AAAANAAAA",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAEwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-08-24T13:20:27.031Z",
               "EditorCaption": ""
