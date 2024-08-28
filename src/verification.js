@@ -7,12 +7,13 @@ export class Verification extends BaseRequestAPI {
     }
 
     async validateBankAccount(authToken, accountNumber, bankCode) {
-        const path = `/api/v1/disbursements/account/validate?accountNumber=${{ accountNumber }}&bankCode=${{ bankCode }}`;
+        const path = `/api/v1/disbursements/account/validate?accountNumber=${accountNumber}&bankCode=${bankCode}`;
 
         return await this.get(path, authToken);
     }
 
-    async verifyBvnInformation(bvn,
+    async verifyBvnInformation(authToken,
+        bvn,
         dateOfBirth,
         mobileNo,
     {
@@ -27,14 +28,15 @@ export class Verification extends BaseRequestAPI {
         data.dateOfBirth = dateOfBirth;
         data.mobileNo = mobileNo;
 
-        if (arguments.length<=3) {
+        if (arguments.length<=4) {
             return await this.post(path, authToken, data);
         }
         data.name = name;
         return await this.post(path, authToken, data);
     }
 
-    async matchBvnAndAccountName(bankCode,
+    async matchBvnAndAccountName(authToken,
+        bankCode,
         accountNumber,
         bvn) {
 

@@ -11,7 +11,12 @@ export class SubAccount extends BaseRequestAPI {
         bankCode,
         accountNumber,
         email,
-        defaultSplitPercentage) {
+        defaultSplitPercentage,
+        subAccountCode,
+    {
+        accountName,
+        bankName
+    }) {
 
         const path = '/api/v1/sub-accounts';
         const data = {};
@@ -21,6 +26,14 @@ export class SubAccount extends BaseRequestAPI {
         data.accountNumber = accountNumber;
         data.email = email;
         data.defaultSplitPercentage = defaultSplitPercentage;
+        data.subAccountCode = subAccountCode;
+
+        if (arguments.length<=6) {
+            return await this.post(path, authToken, data);
+        }
+
+        data.accountName = accountName;
+        data.bankName = bankName;
 
         return await this.post(path, authToken, data);
     }
@@ -39,7 +52,8 @@ export class SubAccount extends BaseRequestAPI {
 
     }
 
-    async updateSubAccount(subAccountCode,
+    async updateSubAccount(authToken,
+        subAccountCode,
         currencyCode,
         bankCode,
         accountNumber,
@@ -63,10 +77,10 @@ export class SubAccount extends BaseRequestAPI {
             return await this.put(path, authToken);
         }
 
-        data.bankName = bankName;
-        data.bankCode = bankCode;
+        data.accountName = accountName;
+        data.bankName = bankName;        
 
-        return await this.put(path, authToken);
+        return await this.put(path, authToken, data);
 
     }
 }
