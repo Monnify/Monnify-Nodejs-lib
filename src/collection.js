@@ -256,7 +256,8 @@ export class Transaction extends BaseRequestAPI {
 
     }
 
-    async ThreeDsSecureAuthTransaction(transactionReference,
+    async ThreeDsSecureAuthTransaction(authToken,
+        transactionReference,
         apiKey,
         collectionChannel,
         {
@@ -283,7 +284,8 @@ export class Transaction extends BaseRequestAPI {
         return await this.post(path, authToken, data);
     }
 
-    async cardTokenization(cardToken,
+    async cardTokenization(authToken,
+        cardToken,
         amount,
         customerName,
         customerEmail,

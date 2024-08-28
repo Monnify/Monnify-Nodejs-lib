@@ -24,7 +24,7 @@ export class TransactionRefund extends BaseRequestAPI {
         data.refundReference = refundReference;
         data.refundReason = refundReason;
 
-        if (arguments.length <= 3) {
+        if (arguments.length <= 4) {
             return await this.post(path, authToken, data);
         }
         data.refundAmount = refundAmount;
@@ -51,7 +51,7 @@ export class TransactionRefund extends BaseRequestAPI {
             const path = '/api/v1/refunds?page=0&size=10';
             return await this.get(path, authToken);
         }
-        const path = `/api/v1/refunds?${page}&size=${size}`
+        const path = `/api/v1/refunds?page=${page}&size=${size}`
         return await this.get(path, authToken);
     }
 
