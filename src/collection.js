@@ -2,13 +2,49 @@ import { BaseRequestAPI } from "./base_api.js";
 import crypto from 'crypto'
 
 
-
+/**
+ * @swagger
+ * tags:
+ *   name: ReservedAccounts
+ *   description: Operations related to reserved accounts
+ */
 
 export class ReservedAccount extends BaseRequestAPI{
     constructor(env){
         super(env);
     }
 
+    /**
+     * @swagger
+     * /reserved-accounts:
+     *   post:
+     *     summary: Create a new reserved account
+     *     tags: [ReservedAccounts]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               customerName:
+     *                 type: string
+     *               customerEmail:
+     *                 type: string
+     *               accountName:
+     *                 type: string
+     *               currencyCode:
+     *                 type: string
+     *               bvn:
+     *                 type: string
+     *               accountReference:
+     *                 type: string
+     *               getAllAvailableBanks:
+     *                 type: boolean
+     *     responses:
+     *       201:
+     *         description: Reserved account created successfully
+     */
     async createReservedAccount(
                                 authToken,
                                 customerName,
@@ -62,6 +98,34 @@ export class ReservedAccount extends BaseRequestAPI{
         return await this.post(path,authToken,data);
     }
 
+    /**
+     * @swagger
+     * /reserved-accounts/add-linked-accounts/{accountReference}:
+     *   put:
+     *     summary: Add linked accounts to a reserved account
+     *     tags: [ReservedAccounts]
+     *     parameters:
+     *       - in: path
+     *         name: accountReference
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: The account reference
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               preferredBanks:
+     *                 type: array
+     *                 items:
+     *                   type: string
+     *     responses:
+     *       200:
+     *         description: Linked accounts added successfully
+     */
 
     async addLinkedAccounts(authToken,accountReference,preferredBanks){
         const data = {}
@@ -116,13 +180,51 @@ export class ReservedAccount extends BaseRequestAPI{
 
 
 
-
+/**
+ * @swagger
+ * tags:
+ *   name: Transactions
+ *   description: Operations related to transactions
+ */
 
 export class Transaction extends BaseRequestAPI{
     constructor(env){
         super(env);
     }
 
+    /**
+     * @swagger
+     * /transactions/init:
+     *   post:
+     *     summary: Initialize a new transaction
+     *     tags: [Transactions]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               amount:
+     *                 type: number
+     *               customerName:
+     *                 type: string
+     *               customerEmail:
+     *                 type: string
+     *               paymentDescription:
+     *                 type: string
+     *               currencyCode:
+     *                 type: string
+     *               redirectUrl:
+     *                 type: string
+     *               paymentMethods:
+     *                 type: array
+     *                 items:
+     *                   type: string
+     *     responses:
+     *       201:
+     *         description: Transaction initialized successfully
+     */
     async initTransaction(
                         authToken,
                         amount,
@@ -226,6 +328,51 @@ export class Transaction extends BaseRequestAPI{
         const path = "/api/v1/merchant/cards/charge";
         data.transactionReference = transactionReference
         data.collectionChannel = collectionChannel
+    async payWithBankTransfer(authToken,
+        transactionReference,
+        {
+            bankCode
+        }
+    ) {
+
+        const data = {}
+        const path = '/api/v1/merchant/bank-transfer/init-payment'
+
+        data.transactionReference = transactionReference;
+
+        if (arguments.length <= 2) {
+            return await this.post(path, authToken, data);
+        }
+        data.bankCode = bankCode;
+
+        return await this.post(path, authToken, data);
+    }
+    async chargeCard(authToken,
+        transactionReference,
+        collectionChannel,
+        {
+            cardNumber,
+            expiryMonth,
+            expiryYear,
+            pin,
+            cvv
+        } = {}) {
+        const data = {}
+        const path = "/api/v1/merchant/cards/charge";
+        data.transactionReference = transactionReference
+        data.collectionChannel = collectionChannel
+
+        const card = {
+            number: cardNumber,
+            expiryMonth: expiryMonth,
+            expiryYear: expiryYear,
+            pin: pin,
+            cvv: cvv
+        };
+
+        data.card = card
+        return await this.post(path, authToken, data);
+    }
 
         const card = {
             number: number,
@@ -305,5 +452,22 @@ export class Transaction extends BaseRequestAPI{
         data.metaData = metaData;
 
         return await this.post(path, authToken, data);
+    }
+
+    async authorizeOtp(authToken,
+        transactionReference,
+        collectionChannel,
+        tokenId,
+        token
+    ) {
+        const data = {}
+        const path = "/api/v1/merchant/cards/otp/authorize";
+        data.transactionReference = transactionReference;
+        data.collectionChannel = collectionChannel;
+        data.tokenId = tokenId;
+        data.token = token;
+
+        return await this.post(path, authToken, data)
+
     }
 }
