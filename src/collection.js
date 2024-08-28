@@ -89,6 +89,29 @@ export class ReservedAccount extends BaseRequestAPI{
         ?accountReference=${encodedReference}&page=${page}&size=${size}`;
         return await this.get(path,authToken);
     }
+
+    //not yet tested
+    async deallocateReservedAccount(authToken, accountReference) {
+        const encodedReference = encodeURI(accountReference);
+        const path = '/api/v1/bank-transfer/reserved-accounts/reference/' + encodedReference;
+        return await this.delete(path, authToken);
+    }
+
+    async updateReservedAccountKycInfo(authToken,
+        accountReference,
+        bvn,
+        nin) {
+        const data = {}
+        const encodedReference = encodeURI(accountReference);
+        const path = '/api/v1/bank-transfer/reserved-accounts/' + { encodedReference } + '/kyc-info';
+        if (bvn) {
+            data.bvn = bvn;
+        }
+        if (nin) {
+            data.nin = nin;
+        }
+        return await this.put(path, authToken, data)
+    }
 }
 
 
@@ -156,7 +179,19 @@ export class Transaction extends BaseRequestAPI{
         const path = '/api/v2/merchant/transactions/query?paymentReference=' + encodedReference;
         return await this.get(path,authToken);
     }
+    //not yet tested
+    async payWithUssd(authToken,
+        transactionReference,
+        bankUssdCode) {
+        const data = {};
+        const path = '/api/v1/merchant/ussd/initialize';
 
+        data.transactionReference = transactionReference;
+        data.bankUssdCode = bankUssdCode;
+
+        return await this.post(path, authToken, data);
+        }
+    //tested
     async payWithBankTransfer(authToken,
         transactionReference,
         {
@@ -176,11 +211,12 @@ export class Transaction extends BaseRequestAPI{
 
         return await this.post(path, authToken, data);
     }
+    //tested
     async chargeCard(authToken,
         transactionReference,
         collectionChannel,
         {
-            cardNumber,
+            number,
             expiryMonth,
             expiryYear,
             pin,
@@ -192,7 +228,7 @@ export class Transaction extends BaseRequestAPI{
         data.collectionChannel = collectionChannel
 
         const card = {
-            number: cardNumber,
+            number: number,
             expiryMonth: expiryMonth,
             expiryYear: expiryYear,
             pin: pin,
@@ -202,7 +238,7 @@ export class Transaction extends BaseRequestAPI{
         data.card = card
         return await this.post(path, authToken, data);
     }
-
+    //not yet tested
     async authorizeOtp(authToken,
         transactionReference,
         collectionChannel,
@@ -218,5 +254,56 @@ export class Transaction extends BaseRequestAPI{
 
         return await this.post(path, authToken, data)
 
+    }
+
+    async ThreeDsSecureAuthTransaction(transactionReference,
+        apiKey,
+        collectionChannel,
+        {
+            number,
+            expiryMonth,
+            expiryYear,
+            pin,
+            cvv
+        } = {}) {
+
+        const data = {};
+        const path = '/api/v1/sdk/cards/secure-3d/authorize';
+        data.transactionReference = transactionReference;
+        data.collectionChannel = collectionChannel;
+        const card = {
+            number: number,
+            expiryMonth: expiryMonth,
+            expiryYear: expiryYear,
+            pin: pin,
+            cvv: cvv
+        };
+
+        data.card = card
+        return await this.post(path, authToken, data);
+    }
+
+    async cardTokenization(cardToken,
+        amount,
+        customerName,
+        customerEmail,
+        paymentReference,
+        paymentDescription,
+        currencyCode) {
+
+        const data = {};
+        const path = '/api/v1/merchant/cards/charge-card-token';
+        data.cardToken = cardToken;
+        data.amount = amount;
+        data.customerName = customerName;
+        data.customerEmail = customerEmail;
+        data.paymentReference = paymentReference;
+        data.paymentDescription = paymentDescription;
+        data.currencyCode = currencyCode;
+        data.contractCode = this.contract;
+        data.apiKey = this.apiKey;
+        data.metaData = metaData;
+
+        return await this.post(path, authToken, data);
     }
 }
