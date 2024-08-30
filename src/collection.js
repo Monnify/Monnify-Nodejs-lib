@@ -4,25 +4,25 @@ import crypto from 'crypto'
 
 
 
-export class ReservedAccount extends BaseRequestAPI{
-    constructor(env){
+export class ReservedAccount extends BaseRequestAPI {
+    constructor(env) {
         super(env);
     }
 
     async createReservedAccount(
-                                authToken,
-                                customerName,
-                                customerEmail,
-                                accountName,
-                                {currencyCode="NGN",
-                                bvn="",
-                                accountReference="",
-                                getAllAvailableBanks=true,
-                                preferredBanks=[],
-                                incomeSplitConfig={},
-                                restrictPaymentSource=false,
-                                allowedPaymentSource={}}={}){
-                                
+        authToken,
+        customerName,
+        customerEmail,
+        accountName,
+        { currencyCode = "NGN",
+            bvn = "",
+            accountReference = "",
+            getAllAvailableBanks = true,
+            preferredBanks = [],
+            incomeSplitConfig = {},
+            restrictPaymentSource = false,
+            allowedPaymentSource = {} } = {}) {
+
         const data = {}
         const path = '/api/v2/bank-transfer/reserved-accounts';
         data.customerName = customerName
@@ -30,67 +30,67 @@ export class ReservedAccount extends BaseRequestAPI{
         data.accountName = accountName
         data.contractCode = this.contract
 
-        if(arguments.length <=4){
+        if (arguments.length <= 4) {
             data.getAllAvailableBanks = true
             data.accountReference = crypto.randomBytes(20).toString('hex')
             data.currencyCode = 'NGN'
-            return await this.post(path,authToken,data);
+            return await this.post(path, authToken, data);
         }
 
-        
+
         accountReference = accountReference.length !== 0 ? accountReference : crypto.randomBytes(20).toString('hex')
         data.currencyCode = currencyCode
         data.accountReference = accountReference
-        if(bvn.length !== 0){
+        if (bvn.length !== 0) {
             data.bvn = bvn
         }
-        if(Object.keys(incomeSplitConfig).length !==0){
+        if (Object.keys(incomeSplitConfig).length !== 0) {
             data.incomeSplitConfig = incomeSplitConfig
         }
-        if(restrictPaymentSource){
+        if (restrictPaymentSource) {
             data.restrictPaymentSource = restrictPaymentSource
         }
-        if(Object.keys(allowedPaymentSource).length !==0){
+        if (Object.keys(allowedPaymentSource).length !== 0) {
             data.allowedPaymentSource = allowedPaymentSource
         }
-        if(getAllAvailableBanks===true){
+        if (getAllAvailableBanks === true) {
             data.getAllAvailableBanks = true
-        }else{
+        } else {
             data.getAllAvailableBanks = false
             data.preferredBanks = preferredBanks
         }
-        return await this.post(path,authToken,data);
+        return await this.post(path, authToken, data);
     }
 
 
-    async addLinkedAccounts(authToken,accountReference,preferredBanks){
+    async addLinkedAccounts(authToken, accountReference, preferredBanks) {
         const data = {}
         data.getAllAvailableBanks = false
         data.preferredBanks = preferredBanks
         const encodedReference = encodeURI(accountReference);
         const path = '/api/v1/bank-transfer/reserved-accounts/add-linked-accounts/' + encodedReference;
-        return await this.put(path,authToken,data);
+        return await this.put(path, authToken, data);
     }
 
-    async reservedAccountDetails(authToken,accountReference){
+    async reservedAccountDetails(authToken, accountReference) {
         const encodedReference = encodeURI(accountReference);
         const path = '/api/v2/bank-transfer/reserved-accounts/' + encodedReference;
-        return await this.get(path,authToken);
+        return await this.get(path, authToken);
     }
 
-    async reservedAccountTransactions(authToken,accountReference, {page=0,size=10}){
+    async reservedAccountTransactions(authToken, accountReference, { page = 0, size = 10 }) {
         const encodedReference = encodeURI(accountReference);
-        if(arguments.length <= 2){
+        if (arguments.length <= 2) {
             const path = `/api/v1/bank-transfer/reserved-accounts/transactions
             ?accountReference=${encodedReference}&page=0&size=10`;
-            return await this.get(path,authToken);
+            return await this.get(path, authToken);
         }
         const path = `/api/v1/bank-transfer/reserved-accounts/transactions
         ?accountReference=${encodedReference}&page=${page}&size=${size}`;
-        return await this.get(path,authToken);
+        return await this.get(path, authToken);
     }
 
-    //not yet tested
+    //tested
     async deallocateReservedAccount(authToken, accountReference) {
         const encodedReference = encodeURI(accountReference);
         const path = '/api/v1/bank-transfer/reserved-accounts/reference/' + encodedReference;
@@ -103,7 +103,7 @@ export class ReservedAccount extends BaseRequestAPI{
         nin) {
         const data = {}
         const encodedReference = encodeURI(accountReference);
-        const path = '/api/v1/bank-transfer/reserved-accounts/' + { encodedReference } + '/kyc-info';
+        const path = '/api/v1/bank-transfer/reserved-accounts/' + encodedReference + '/kyc-info';
         if (bvn) {
             data.bvn = bvn;
         }
@@ -118,24 +118,24 @@ export class ReservedAccount extends BaseRequestAPI{
 
 
 
-export class Transaction extends BaseRequestAPI{
-    constructor(env){
+export class Transaction extends BaseRequestAPI {
+    constructor(env) {
         super(env);
     }
 
     async initTransaction(
-                        authToken,
-                        amount,
-                        customerName,
-                        customerEmail,
-                        paymentDescription,
-                        {
-                        currencyCode="NGN",
-                        redirectUrl="",
-                        paymentMethods=[],
-                        paymentReference="",
-                        metaData={},
-                        incomeSplitConfig={}}={}){
+        authToken,
+        amount,
+        customerName,
+        customerEmail,
+        paymentDescription,
+        {
+            currencyCode = "NGN",
+            redirectUrl = "",
+            paymentMethods = [],
+            paymentReference = "",
+            metaData = {},
+            incomeSplitConfig = {} } = {}) {
 
         const data = {}
         const path = '/api/v1/merchant/transactions/init-transaction';
@@ -145,11 +145,11 @@ export class Transaction extends BaseRequestAPI{
         data.paymentDescription = paymentDescription
         data.contractCode = this.contract
 
-        if(arguments.length <=5){
+        if (arguments.length <= 5) {
             data.paymentMethods = []
             data.paymentReference = crypto.randomBytes(20).toString('hex')
             data.currencyCode = 'NGN'
-            return await this.post(path,authToken,data);
+            return await this.post(path, authToken, data);
         }
 
         paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
@@ -159,27 +159,27 @@ export class Transaction extends BaseRequestAPI{
         data.paymentReference = paymentReference
         data.metaData = metaData
 
-        if(redirectUrl.length !== 0){
+        if (redirectUrl.length !== 0) {
             data.redirectUrl = redirectUrl
         }
-        if(Object.keys(incomeSplitConfig).length !==0){
+        if (Object.keys(incomeSplitConfig).length !== 0) {
             data.incomeSplitConfig = incomeSplitConfig
         }
-        return await this.post(path,authToken,data);
+        return await this.post(path, authToken, data);
     }
 
-    async getTransactionStatusv2(authToken,transactionReference){
+    async getTransactionStatusv2(authToken, transactionReference) {
         const encodedReference = encodeURI(transactionReference);
         const path = '/api/v2/transactions/' + encodedReference;
-        return await this.get(path,authToken);
+        return await this.get(path, authToken);
     }
 
-    async getTransactionStatusv1(authToken,paymentReference){
+    async getTransactionStatusv1(authToken, paymentReference) {
         const encodedReference = encodeURI(paymentReference);
         const path = '/api/v2/merchant/transactions/query?paymentReference=' + encodedReference;
-        return await this.get(path,authToken);
+        return await this.get(path, authToken);
     }
-    //not yet tested
+    //tested 'USSD provider not configured.'
     async payWithUssd(authToken,
         transactionReference,
         bankUssdCode) {
@@ -190,7 +190,7 @@ export class Transaction extends BaseRequestAPI{
         data.bankUssdCode = bankUssdCode;
 
         return await this.post(path, authToken, data);
-        }
+    }
     //tested
     async payWithBankTransfer(authToken,
         transactionReference,
@@ -238,7 +238,7 @@ export class Transaction extends BaseRequestAPI{
         data.card = card
         return await this.post(path, authToken, data);
     }
-    //not yet tested
+    //tested No Card Payment found for this transaction.
     async authorizeOtp(authToken,
         transactionReference,
         collectionChannel,
@@ -256,9 +256,9 @@ export class Transaction extends BaseRequestAPI{
 
     }
 
+    //tested No Card Payment found for this transaction.
     async ThreeDsSecureAuthTransaction(authToken,
         transactionReference,
-        apiKey,
         collectionChannel,
         {
             number,
@@ -271,6 +271,7 @@ export class Transaction extends BaseRequestAPI{
         const data = {};
         const path = '/api/v1/sdk/cards/secure-3d/authorize';
         data.transactionReference = transactionReference;
+        data.apiKey = this.apiKey;
         data.collectionChannel = collectionChannel;
         const card = {
             number: number,
@@ -283,7 +284,7 @@ export class Transaction extends BaseRequestAPI{
         data.card = card
         return await this.post(path, authToken, data);
     }
-
+    //tested 'Invalid card token'
     async cardTokenization(authToken,
         cardToken,
         amount,
@@ -291,7 +292,8 @@ export class Transaction extends BaseRequestAPI{
         customerEmail,
         paymentReference,
         paymentDescription,
-        currencyCode) {
+        currencyCode,
+        metadata = {}) {
 
         const data = {};
         const path = '/api/v1/merchant/cards/charge-card-token';
@@ -304,7 +306,8 @@ export class Transaction extends BaseRequestAPI{
         data.currencyCode = currencyCode;
         data.contractCode = this.contract;
         data.apiKey = this.apiKey;
-        data.metaData = metaData;
+        data.metaData = metadata;
+        
 
         return await this.post(path, authToken, data);
     }

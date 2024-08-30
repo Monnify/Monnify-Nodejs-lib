@@ -1,8 +1,6 @@
 import { BaseRequestAPI } from "./base_api.js";
 import crypto from 'crypto'
 
-
-
 export class Disbursement extends BaseRequestAPI{
     constructor(env){
         super(env);
@@ -131,18 +129,5 @@ export class Disbursement extends BaseRequestAPI{
         }
         const path = `/api/v2/disbursements/bulk/transactions?pageNo=${pageNo}&pageSize=${pageSize}`;
         return await this.get(path,authToken);
-    }
-    async getAllBulkTransferTransactions() {
-
-    }
-
-    async getBullkTransferStatus() {
-
-    }
-    async searchDisbursementTransactions() {
-
-    }
-    async getWalletBalance() {
-
     }
 }

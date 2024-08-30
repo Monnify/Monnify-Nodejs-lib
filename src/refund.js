@@ -13,7 +13,7 @@ export class TransactionRefund extends BaseRequestAPI {
         refundReason,
         {
             refundAmount,
-            customerNote="",
+            customerNote="hello",
             destinationAccountNumber,
             destinationAccountBankCode,
         }
@@ -24,34 +24,34 @@ export class TransactionRefund extends BaseRequestAPI {
         data.refundReference = refundReference;
         data.refundReason = refundReason;
 
-        if (arguments.length <= 4) {
-            return await this.post(path, authToken, data);
-        }
-        data.refundAmount = refundAmount;
-        data.customerNote = customerNote;
-
-        if (destinationAccountNumber || destinationAccountBankCode) {
-            if (!destinationAccountNumber || !destinationAccountBankCode) {
-                throw new Error("Both destinationAccountNumber and destinationAccountBankCode must be provided together.");
+        if (arguments.length > 4) {
+            data.refundAmount = refundAmount;
+            data.customerNote = customerNote;
+            if (destinationAccountNumber || destinationAccountBankCode) {
+                if (!destinationAccountNumber || !destinationAccountBankCode) {
+                    throw new Error("Both destinationAccountNumber and destinationAccountBankCode must be provided together.");
+                }
+                data.destinationAccountNumber = destinationAccountNumber;
+                data.destinationAccountBankCode = destinationAccountBankCode;
+                if (customerNote.length > 16) {
+                    customerNote = customerNote.substring(0, 16);
+                }
             }
-            data.destinationAccountNumber = destinationAccountNumber;
-            data.destinationAccountBankCode = destinationAccountBankCode;
-        }
-
-        if (customerNote.length > 16) {
-            customerNote = customerNote.substring(0, 16);
         }
 
         return await this.post(path, authToken, data);
 
     }
     //untested and seems there are additional parameters
-    async getAllRefunds(authToken, { page = 0, size = 10 }) {
-        if (arguments.length < 2) {
-            const path = '/api/v1/refunds?page=0&size=10';
-            return await this.get(path, authToken);
-        }
-        const path = `/api/v1/refunds?page=${page}&size=${size}`
+    async getAllRefunds(authToken, page = 0, size = 10 ) {
+        const data = {};
+        data.page = page;
+        data.size = size;
+
+        const path = `/api/v1/refunds?page=${data.page}&size=${data.size}`
+            
+        console.log(data);
+        
         return await this.get(path, authToken);
     }
 

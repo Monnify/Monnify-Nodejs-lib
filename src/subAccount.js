@@ -6,36 +6,24 @@ export class SubAccount extends BaseRequestAPI {
         super(env);
     }
 
-    async createSubAccounts(authToken,
+    async createSubAccount(authToken,
         currencyCode,
         bankCode,
         accountNumber,
         email,
-        defaultSplitPercentage,
-        subAccountCode,
-    {
-        accountName,
-        bankName
-    }) {
+        defaultSplitPercentage
+    ) {
 
-        const path = '/api/v1/sub-accounts';
         const data = {};
-
+        const path = '/api/v1/sub-accounts';
+        
         data.currencyCode = currencyCode;
         data.bankCode = bankCode;
         data.accountNumber = accountNumber;
         data.email = email;
-        data.defaultSplitPercentage = defaultSplitPercentage;
-        data.subAccountCode = subAccountCode;
+        data.defaultSplitPercentage = parseFloat(defaultSplitPercentage);
 
-        if (arguments.length<=6) {
-            return await this.post(path, authToken, data);
-        }
-
-        data.accountName = accountName;
-        data.bankName = bankName;
-
-        return await this.post(path, authToken, data);
+        return await this.post(path, authToken, [data]);
     }
 
     async deleteSubAccount(authToken,
@@ -58,11 +46,8 @@ export class SubAccount extends BaseRequestAPI {
         bankCode,
         accountNumber,
         email,
-        defaultSplitPercentage,
-        {
-            accountName,
-            bankName
-        }) {
+        defaultSplitPercentage
+    ) {
 
         const data = {};
         const path = '/api/v1/sub-accounts'
@@ -71,14 +56,7 @@ export class SubAccount extends BaseRequestAPI {
         data.bankCode = bankCode;
         data.accountNumber = accountNumber;
         data.email = email;
-        data.defaultSplitPercentage = defaultSplitPercentage;
-
-        if (arguments.length <= 6) {
-            return await this.put(path, authToken);
-        }
-
-        data.accountName = accountName;
-        data.bankName = bankName;        
+        data.defaultSplitPercentage = defaultSplitPercentage;     
 
         return await this.put(path, authToken, data);
 
