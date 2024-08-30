@@ -49,8 +49,7 @@ export class TransactionRefund extends BaseRequestAPI {
         data.size = size;
 
         const path = `/api/v1/refunds?page=${data.page}&size=${data.size}`
-            
-        console.log(data);
+
         
         return await this.get(path, authToken);
     }
