@@ -90,7 +90,7 @@ export class ReservedAccount extends BaseRequestAPI {
         return await this.get(path, authToken);
     }
 
-    //not yet tested
+    //tested
     async deallocateReservedAccount(authToken, accountReference) {
         const encodedReference = encodeURI(accountReference);
         const path = '/api/v1/bank-transfer/reserved-accounts/reference/' + encodedReference;
@@ -103,7 +103,7 @@ export class ReservedAccount extends BaseRequestAPI {
         nin) {
         const data = {}
         const encodedReference = encodeURI(accountReference);
-        const path = '/api/v1/bank-transfer/reserved-accounts/' + { encodedReference } + '/kyc-info';
+        const path = '/api/v1/bank-transfer/reserved-accounts/' + encodedReference + '/kyc-info';
         if (bvn) {
             data.bvn = bvn;
         }
@@ -179,7 +179,7 @@ export class Transaction extends BaseRequestAPI {
         const path = '/api/v2/merchant/transactions/query?paymentReference=' + encodedReference;
         return await this.get(path, authToken);
     }
-    //not yet tested
+    //tested 'USSD provider not configured.'
     async payWithUssd(authToken,
         transactionReference,
         bankUssdCode) {
@@ -238,7 +238,7 @@ export class Transaction extends BaseRequestAPI {
         data.card = card
         return await this.post(path, authToken, data);
     }
-    //not yet tested
+    //tested No Card Payment found for this transaction.
     async authorizeOtp(authToken,
         transactionReference,
         collectionChannel,
@@ -256,9 +256,9 @@ export class Transaction extends BaseRequestAPI {
 
     }
 
+    //tested No Card Payment found for this transaction.
     async ThreeDsSecureAuthTransaction(authToken,
         transactionReference,
-        apiKey,
         collectionChannel,
         {
             number,
@@ -271,6 +271,7 @@ export class Transaction extends BaseRequestAPI {
         const data = {};
         const path = '/api/v1/sdk/cards/secure-3d/authorize';
         data.transactionReference = transactionReference;
+        data.apiKey = this.apiKey;
         data.collectionChannel = collectionChannel;
         const card = {
             number: number,
@@ -283,7 +284,7 @@ export class Transaction extends BaseRequestAPI {
         data.card = card
         return await this.post(path, authToken, data);
     }
-
+    //tested 'Invalid card token'
     async cardTokenization(authToken,
         cardToken,
         amount,
@@ -291,7 +292,8 @@ export class Transaction extends BaseRequestAPI {
         customerEmail,
         paymentReference,
         paymentDescription,
-        currencyCode) {
+        currencyCode,
+        metadata = {}) {
 
         const data = {};
         const path = '/api/v1/merchant/cards/charge-card-token';
@@ -304,7 +306,8 @@ export class Transaction extends BaseRequestAPI {
         data.currencyCode = currencyCode;
         data.contractCode = this.contract;
         data.apiKey = this.apiKey;
-        data.metaData = metaData;
+        data.metaData = metadata;
+        
 
         return await this.post(path, authToken, data);
     }

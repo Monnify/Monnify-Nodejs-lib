@@ -1,44 +1,10 @@
 import { BaseRequestAPI } from "./base_api.js";
 import crypto from 'crypto'
 
-
-/**
- * @swagger
- * tags:
- *   name: Disbursements
- *   description: Operations related to disbursements
- */
 export class Disbursement extends BaseRequestAPI{
     constructor(env){
         super(env);
-        console.log(env)
     }
-
-    /**
- * @swagger
- * /disbursements/single:
- *   post:
- *     summary: Initiate a single disbursement transfer
- *     tags: [Disbursements]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               amount:
- *                 type: number
- *               narration:
- *                 type: string
- *               destinationBankCode:
- *                 type: string
- *               destinationAccountNumber:
- *                 type: string
- *     responses:
- *       200:
- *         description: Transfer successfully initiated
- */
 
     async initiateSingleTransfer(
                                 authToken,
@@ -163,18 +129,5 @@ export class Disbursement extends BaseRequestAPI{
         }
         const path = `/api/v2/disbursements/bulk/transactions?pageNo=${pageNo}&pageSize=${pageSize}`;
         return await this.get(path,authToken);
-    }
-    async getAllBulkTransferTransactions() {
-
-    }
-
-    async getBullkTransferStatus() {
-
-    }
-    async searchDisbursementTransactions() {
-
-    }
-    async getWalletBalance() {
-
     }
 }
