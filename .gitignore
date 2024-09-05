@@ -1,2 +1,4 @@
 main.js
 
+/.env
+/src/.env
