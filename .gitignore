@@ -2,3 +2,5 @@ main.js
 
 /.env
 /src/.env
+/testrun.js
+/src/indexer.js
