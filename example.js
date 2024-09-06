@@ -30,7 +30,7 @@ for(let i=0;i<11;i=i+1){
 
 const [codes,token] = await instance.getToken()
 
-/*
+
 const [rCode,resp] = await instance.initTransaction(
   token,
   payload.amount,
@@ -38,14 +38,14 @@ const [rCode,resp] = await instance.initTransaction(
   payload.customerEmail,
   payload.paymentDescription,{paymentMethods:["CARD"],metaData:{phoneNumber:"08088523241"}})
 
-
+  /*
   const [rCodes,resps] = await inst.createReservedAccount(
     token,
     payload.customerName,
     payload.customerEmail,
     payload.accountName,
     {preferredBanks:["035"],getAllAvailableBanks:false})
-*/
+    */
 const [code,resp] = await inst.reservedAccountTransactions(token,'e2dcf09daa9ceb877ffdb97c2f3c915fcf3b83f9')
 
 //console.log(token)

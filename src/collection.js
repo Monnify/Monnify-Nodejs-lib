@@ -80,17 +80,13 @@ export class ReservedAccount extends BaseRequestAPI {
 
     async reservedAccountTransactions(authToken, accountReference, { page = 0, size = 10 }) {
         const encodedReference = encodeURI(accountReference);
-        if (arguments.length <= 2) {
-            const path = `/api/v1/bank-transfer/reserved-accounts/transactions
-            ?accountReference=${encodedReference}&page=0&size=10`;
-            return await this.get(path, authToken);
-        }
+
         const path = `/api/v1/bank-transfer/reserved-accounts/transactions
         ?accountReference=${encodedReference}&page=${page}&size=${size}`;
+
         return await this.get(path, authToken);
     }
 
-    //tested
     async deallocateReservedAccount(authToken, accountReference) {
         const encodedReference = encodeURI(accountReference);
         const path = '/api/v1/bank-transfer/reserved-accounts/reference/' + encodedReference;
@@ -155,7 +151,7 @@ export class Transaction extends BaseRequestAPI {
         paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
         data.currencyCode = currencyCode
         data.paymentMethods = paymentMethods
-        data.contractCode = this.contract //why was this assigned twice?
+        data.contractCode = this.contract 
         data.paymentReference = paymentReference
         data.metaData = metaData
 
@@ -179,7 +175,7 @@ export class Transaction extends BaseRequestAPI {
         const path = '/api/v2/merchant/transactions/query?paymentReference=' + encodedReference;
         return await this.get(path, authToken);
     }
-    //tested 'USSD provider not configured.'
+
     async payWithUssd(authToken,
         transactionReference,
         bankUssdCode) {
@@ -191,7 +187,7 @@ export class Transaction extends BaseRequestAPI {
 
         return await this.post(path, authToken, data);
     }
-    //tested
+
     async payWithBankTransfer(authToken,
         transactionReference,
         {
@@ -211,7 +207,7 @@ export class Transaction extends BaseRequestAPI {
 
         return await this.post(path, authToken, data);
     }
-    //tested
+
     async chargeCard(authToken,
         transactionReference,
         collectionChannel,
@@ -238,7 +234,7 @@ export class Transaction extends BaseRequestAPI {
         data.card = card
         return await this.post(path, authToken, data);
     }
-    //tested No Card Payment found for this transaction.
+
     async authorizeOtp(authToken,
         transactionReference,
         collectionChannel,
@@ -256,7 +252,7 @@ export class Transaction extends BaseRequestAPI {
 
     }
 
-    //tested No Card Payment found for this transaction.
+
     async ThreeDsSecureAuthTransaction(authToken,
         transactionReference,
         collectionChannel,
@@ -284,7 +280,7 @@ export class Transaction extends BaseRequestAPI {
         data.card = card
         return await this.post(path, authToken, data);
     }
-    //tested 'Invalid card token'
+
     async cardTokenization(authToken,
         cardToken,
         amount,

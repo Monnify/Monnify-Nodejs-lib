@@ -1,5 +1,4 @@
 import { BaseRequestAPI } from "./base_api.js";
-import crypto from 'crypto'
 
 export class Verification extends BaseRequestAPI {
     constructor(env) {
@@ -15,10 +14,8 @@ export class Verification extends BaseRequestAPI {
     async verifyBvnInformation(authToken,
         bvn,
         dateOfBirth,
-        mobileNo,
-    {
-        name
-    }) {
+        mobileNo
+    ) {
 
         const data = {};
         const path = '/api/v1/vas/bvn-details-match';
@@ -31,7 +28,6 @@ export class Verification extends BaseRequestAPI {
         if (arguments.length<=4) {
             return await this.post(path, authToken, data);
         }
-        data.name = name;
         return await this.post(path, authToken, data);
     }
 

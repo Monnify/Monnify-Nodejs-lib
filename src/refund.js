@@ -1,5 +1,4 @@
 import { BaseRequestAPI } from "./base_api.js";
-import crypto from 'crypto'
 
 export class TransactionRefund extends BaseRequestAPI {
     constructor(env) {
@@ -11,9 +10,9 @@ export class TransactionRefund extends BaseRequestAPI {
         transactionReference,
         refundReference,      
         refundReason,
+        refundAmount,
         {
-            refundAmount,
-            customerNote="hello",
+            customerNote="",
             destinationAccountNumber,
             destinationAccountBankCode,
         }
@@ -23,33 +22,32 @@ export class TransactionRefund extends BaseRequestAPI {
         data.transactionReference = transactionReference;
         data.refundReference = refundReference;
         data.refundReason = refundReason;
+        data.refundAmount = refundAmount;
+        
 
+        
         if (arguments.length > 4) {
-            data.refundAmount = refundAmount;
-            data.customerNote = customerNote;
-            if (destinationAccountNumber || destinationAccountBankCode) {
-                if (!destinationAccountNumber || !destinationAccountBankCode) {
-                    throw new Error("Both destinationAccountNumber and destinationAccountBankCode must be provided together.");
-                }
-                data.destinationAccountNumber = destinationAccountNumber;
-                data.destinationAccountBankCode = destinationAccountBankCode;
+            
+            if (customerNote.length !== 0) {
+                
                 if (customerNote.length > 16) {
-                    customerNote = customerNote.substring(0, 16);
+                    throw new Error("Customer note must be at most 16 characters.");
                 }
+                data.customerNote = customerNote
             }
+            if (destinationAccountNumber && destinationAccountBankCode) {
+                data.destinationAccountNumber = destinationAccountNumber;
+                data.destinationAccountBankCode = destinationAccountBankCode;                     
+            }
+            
         }
 
         return await this.post(path, authToken, data);
 
     }
-    //untested and seems there are additional parameters
-    async getAllRefunds(authToken, page = 0, size = 10 ) {
-        const data = {};
-        data.page = page;
-        data.size = size;
+    async getAllRefunds(authToken, { page = 0, size = 10 } ) {
 
-        const path = `/api/v1/refunds?page=${data.page}&size=${data.size}`
-
+        const path = `/api/v1/refunds?page=${page}&size=${size}`
         
         return await this.get(path, authToken);
     }

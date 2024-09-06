@@ -5,15 +5,12 @@ import promises from 'fs';
 import dotenv from 'dotenv';
 
 
-const path = '/c/PROJECTS/Monnify';
-
 const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500
 const TOKENFILE = process.env.TOKENFILE || 'Cache'
 
 let singletonInstance
 dotenv.config({ path: './.env' })
 
-console.log(path, process.env.NODE_ENV, process.env.PORT)
 
 export class BaseRequestAPI{
 
