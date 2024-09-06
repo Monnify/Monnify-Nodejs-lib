@@ -1,15 +1,15 @@
-//const axios = require('axios');
 
 import axios from 'axios';
-import crypto from 'crypto'
-import promises from 'fs'
-
+import crypto from 'crypto';
+import promises from 'fs';
+import dotenv from 'dotenv';
 
 
 const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500
 const TOKENFILE = process.env.TOKENFILE || 'Cache'
 
 let singletonInstance
+dotenv.config({ path: './.env' })
 
 
 export class BaseRequestAPI{
