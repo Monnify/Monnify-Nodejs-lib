@@ -1,0 +1,79 @@
+import assert from "assert/strict";
+import { SubAccount } from "../src/subaccount.js";
+import crypto from 'crypto';
+
+let subAccount;
+let token;
+let subAccountPayload;
+let subAccountCode = 'MFY_SUB_325381128054';
+
+beforeEach(async () => {
+    subAccount = new SubAccount('sandbox');
+    token = await subAccount.getToken(); 
+
+
+    subAccountPayload = {
+        currencyCode: "NGN",
+        bankCode: "035",
+        accountNumber: "3000246602",
+        email: "tester@tester.com",
+        defaultSplitPercentage: 50.0
+    };
+});
+
+describe('SubAccount API Tests', () => {
+
+    describe('Create SubAccount', () => {
+        it('should create a sub-account successfully', async () => {
+            const [rCode, resp] = await subAccount.createSubAccount(
+                token[1],
+                subAccountPayload.currencyCode,
+                subAccountPayload.bankCode,
+                subAccountPayload.accountNumber,
+                subAccountPayload.email,
+                subAccountPayload.defaultSplitPercentage
+            );
+            assert.strictEqual(rCode, 200);
+            assert.strictEqual(resp.responseMessage, 'success');
+        });
+    });
+
+  /*  describe('Delete SubAccount', () => {
+        it('should delete a sub-account successfully', async () => {
+            const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
+            assert.strictEqual(rCode, 200);
+            assert.strictEqual(resp.responseMessage, 'success');
+        });
+    });*/
+
+    describe('Get SubAccounts', () => {
+        it('should retrieve sub-accounts successfully', async () => {
+            const [rCode, resp] = await subAccount.getSubAccounts(token[1]);
+            assert.strictEqual(rCode, 200);
+            assert.strictEqual(resp.responseMessage, 'success');
+            //assert(Array.isArray(resp));
+        });
+    });
+
+    describe('Update SubAccount', () => {
+        it('should update a sub-account successfully', async () => {
+            const updatedPayload = {
+                ...subAccountPayload,
+                defaultSplitPercentage: 60.0
+            };
+
+            const [rCode, resp] = await subAccount.updateSubAccount(
+                token[1],
+                subAccountCode,
+                updatedPayload.currencyCode,
+                updatedPayload.bankCode,
+                updatedPayload.accountNumber,
+                updatedPayload.email,
+                updatedPayload.defaultSplitPercentage
+            );
+            assert.strictEqual(rCode, 200);
+            assert.strictEqual(resp.responseMessage, 'success');
+        });
+    });
+
+});
