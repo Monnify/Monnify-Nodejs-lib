@@ -6,11 +6,11 @@ let instance, token;
 
 
 const payload = {
-    accountNumber: "1234567890",
-    bankCode: "011",
-    bvn: "12345678901",
-    dateOfBirth: "1990-01-01",
-    mobileNo: "08012345678"
+    accountNumber: "3000246601",
+    bankCode: "035",
+    bvn: "22222222226",
+    dateOfBirth: "27-Apr-1993",
+    mobileNo: "08016857829"
 };
 
 
@@ -29,8 +29,8 @@ describe('Verification Class Tests', () => {
                 payload.bankCode
             );
 
-            assert.strictEqual(statusCode, 200); // Ensure the status code is 200
-            assert.strictEqual(response.responseMessage, 'success'); // Check if the response message is 'success'
+            assert.strictEqual(statusCode, 200);
+            assert.strictEqual(response.responseMessage, 'success');
         });
     });
 
@@ -44,8 +44,8 @@ describe('Verification Class Tests', () => {
                 payload.mobileNo
             );
 
-            assert.strictEqual(statusCode, 200); // Ensure the status code is 200
-            assert.strictEqual(response.responseMessage, 'success'); // Check if the response message is 'success'
+            assert.strictEqual(statusCode, 200);
+            assert.strictEqual(response.responseMessage, 'success');
         });
     });
 
@@ -59,8 +59,8 @@ describe('Verification Class Tests', () => {
                 payload.bvn
             );
 
-            assert.strictEqual(statusCode, 200); // Ensure the status code is 200
-            assert.strictEqual(response.responseMessage, 'success'); // Check if the response message is 'success'
+            assert.strictEqual(statusCode, 200);
+            assert.strictEqual(response.responseMessage, 'success');
         });
     });
 
