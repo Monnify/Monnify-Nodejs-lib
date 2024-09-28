@@ -5,7 +5,7 @@ import crypto from 'crypto'
 
 
 let instance, inst;
-let payload = {"customerName":"Tester","customerEmail":"tester@tester.com","amount":2000};
+let payload = {"customerName":"Tester","customerEmail":"tester@tester.com","accountName":"tester","amount":2000};
 let token;
 
 
@@ -53,7 +53,8 @@ describe('Check Reserved Account Creation', ()=>{
             payload.customerEmail,
             payload.accountName)
         assert.strictEqual(rCode,200);
-        assert.strictEqual(resp.responseMessage,'success')
+        assert.strictEqual(resp.responseMessage, 'success')
+        
     })
 })
 

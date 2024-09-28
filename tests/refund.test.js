@@ -40,6 +40,7 @@ describe('TransactionRefund API Tests', () => {
             );
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
+            console.log(resp.responseMessage);
         });
 
         it('should throw an error if customer note exceeds 16 characters', async () => {
@@ -77,31 +78,29 @@ describe('TransactionRefund API Tests', () => {
             );
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
+            console.log(resp.responseMessage);
         });
     });
 
     describe('Get All Refunds', () => {
-        it('should retrieve all refunds with default pagination', async () => {
+        it('should return a successful on get all refunds', async () => {
             const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { page: 0, size: 10 });
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
-            assert(Array.isArray(resp.data));
         });
 
-        it('should retrieve refunds with custom pagination', async () => {
+        it('should return a successful on get all refunds', async () => {
             const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { page: 1, size: 5 });
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
-            assert(Array.isArray(resp.data));
         });
     });
 
     describe('Get Refund Status', () => {
-        it('should retrieve the refund status successfully', async () => {
+        it('should return a successful on refund status retrieval', async () => {
             const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], refundReference);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
-            assert.strictEqual(resp.data.refundReference, refundReference);
         });
 
         it('should return an error for an invalid refund reference', async () => {

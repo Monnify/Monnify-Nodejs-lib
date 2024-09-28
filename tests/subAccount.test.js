@@ -5,7 +5,7 @@ import crypto from 'crypto';
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode = 'MFY_SUB_325381128054';
+let subAccountCode = 'MFY_SUB_059647088628';
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');
@@ -38,20 +38,11 @@ describe('SubAccount API Tests', () => {
         });
     });
 
-  /*  describe('Delete SubAccount', () => {
-        it('should delete a sub-account successfully', async () => {
-            const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
-            assert.strictEqual(rCode, 200);
-            assert.strictEqual(resp.responseMessage, 'success');
-        });
-    });*/
-
     describe('Get SubAccounts', () => {
         it('should retrieve sub-accounts successfully', async () => {
             const [rCode, resp] = await subAccount.getSubAccounts(token[1]);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
-            //assert(Array.isArray(resp));
         });
     });
 
@@ -73,6 +64,15 @@ describe('SubAccount API Tests', () => {
             );
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
+        });
+    });
+
+    describe('Delete SubAccount', () => {
+        it('should delete a sub-account successfully', async () => {
+            const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
+            assert.strictEqual(rCode, 200);
+            assert.strictEqual(resp.responseMessage, 'success');
+            console.log(resp.responseMessage);
         });
     });
 

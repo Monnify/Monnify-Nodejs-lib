@@ -31,4 +31,13 @@ jobs:
       run: npm install
 
     - name: Run tests
+  
+      env:
+        NODE_ENV: sandbox
+        APIKEY: MK_TEST_SJA0T1Q5A0
+        MONNIFY_SECRET_KEY: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
+        CONTRACT: 3627340743
+        WALLETACCOUNTNUMBER: 8622792723
+        BASE_URL: https://sandbox.monnify.com
+
       run: npm test
