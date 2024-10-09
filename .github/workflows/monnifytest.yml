@@ -38,11 +38,11 @@ jobs:
 
     - name: Run tests
   
-    env:
-      NODE_ENV: sandbox
-      BASEURL: https://sandbox.monnify.com
-      CONTRACT: 3627340743
-      APIKEY: MK_TEST_SJA0T1Q5A0
-      SECRET: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
+      env:
+        NODE_ENV: sandbox
+        BASEURL: https://sandbox.monnify.com
+        CONTRACT: 3627340743
+        APIKEY: MK_TEST_SJA0T1Q5A0
+        SECRET: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
 
       run: npm test
