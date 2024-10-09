@@ -45,4 +45,4 @@ jobs:
       APIKEY: MK_TEST_SJA0T1Q5A0
       SECRET: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
 
-    run: npm test
+      run: npm test
