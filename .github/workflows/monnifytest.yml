@@ -33,18 +33,21 @@ jobs:
     - name: Install dependencies (clean)
       run: npm ci
 
-    - name: Create .env file
-      run: |
-        echo "NODE_ENV=sandbox" >> .env
-        echo "APIKEY=MK_TEST_SJA0T1Q5A0" >> .env
-        echo "SECRET=YKLEHB5DK3U1SAEKGWWVK182QVCSZETB" >> .env
-        echo "CONTRACT=3627340743" >> .env
-        echo "WALLETACCOUNTNUMBER=8622792723" >> .env
-        echo "BASE_URL=https://sandbox.monnify.com" >> .env
-
     - name: Verify installed packages
       run: npm list
 
     - name: Run tests
+  
+    env:
+        NODE_ENV: sandbox
+        BASEURL: https://sandbox.monnify.com
+        DATABASE_HOST: localhost
+        PORT: 5000
+        CONTRACT: 3627340743
+        APIKEY: MK_TEST_SJA0T1Q5A0
+        SECRET: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
+        WALLETACCOUNTNUMBER: 8622792723
+        TOKENEXPIRATIONTHRESHOLD: 500
+        TOKENFILE: Cache
 
-      run: npm test
+    run: npm test
