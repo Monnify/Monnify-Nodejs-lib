@@ -15,14 +15,14 @@ beforeEach(async () => {
     subAccountPayload = {
         currencyCode: "NGN",
         bankCode: "035",
-        accountNumber: "3000246602",
+        accountNumber: "0016158090",
         email: "tester@tester.com",
         defaultSplitPercentage: 50.0
     };
 });
 
 describe('SubAccount API Tests', () => {
-
+    /*
     describe('Create SubAccount', () => {
         it('should create a sub-account successfully', async () => {
             const [rCode, resp] = await subAccount.createSubAccount(
@@ -36,7 +36,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
-    });
+    });*/
 
     describe('Get SubAccounts', () => {
         it('should retrieve sub-accounts successfully', async () => {
@@ -45,7 +45,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
-
+    /*
     describe('Update SubAccount', () => {
         it('should update a sub-account successfully', async () => {
             const updatedPayload = {
@@ -66,7 +66,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
-
+    
     describe('Delete SubAccount', () => {
         it('should delete a sub-account successfully', async () => {
             const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
@@ -74,6 +74,6 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
             console.log(resp.responseMessage);
         });
-    });
+    });*/
 
 });

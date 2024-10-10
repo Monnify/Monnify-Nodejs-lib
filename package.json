@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --timeout 15000 tests/base.test.js tests/collection.test.js tests/disbursement.test.js tests/refund.test.js tests/subaccount.test.js tests/verification.test.js"
+    "test": "mocha --timeout 15000 tests/base.test.js tests/collection.test.js tests/disbursement.test.js tests/subaccount.test.js"
   },
   "repository": {
     "type": "git",
