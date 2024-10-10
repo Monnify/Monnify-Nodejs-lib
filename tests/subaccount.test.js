@@ -9,14 +9,15 @@ let subAccountCode = 'MFY_SUB_059647088628';
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');
-    token = await subAccount.getToken(); 
+    token = await subAccount.getToken();
 
 
     subAccountPayload = {
         currencyCode: "NGN",
         bankCode: "035",
 
-        accountNumber: "0016158090",
+        accountNumber: "0016158090"
+    };
 });
 
 describe('SubAccount API Tests', () => {
@@ -58,7 +59,6 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
-tochukwu-working-branch
     
     describe('Delete SubAccount', () => {
         it('should delete a sub-account successfully', async () => {
