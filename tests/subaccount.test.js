@@ -45,6 +45,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
+
     /*
     describe('Update SubAccount', () => {
         it('should update a sub-account successfully', async () => {
@@ -74,6 +75,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
             console.log(resp.responseMessage);
         });
-    });*/
+    });
+    */
 
 });
