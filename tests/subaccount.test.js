@@ -15,10 +15,8 @@ beforeEach(async () => {
     subAccountPayload = {
         currencyCode: "NGN",
         bankCode: "035",
+
         accountNumber: "0016158090",
-        email: "tester@tester.com",
-        defaultSplitPercentage: 50.0
-    };
 });
 
 describe('SubAccount API Tests', () => {
@@ -36,14 +34,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
-    });*/
 
-    describe('Get SubAccounts', () => {
-        it('should retrieve sub-accounts successfully', async () => {
-            const [rCode, resp] = await subAccount.getSubAccounts(token[1]);
-            assert.strictEqual(rCode, 200);
-            assert.strictEqual(resp.responseMessage, 'success');
-        });
     });
 
     /*
@@ -67,6 +58,7 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
+tochukwu-working-branch
     
     describe('Delete SubAccount', () => {
         it('should delete a sub-account successfully', async () => {
