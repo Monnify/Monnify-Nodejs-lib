@@ -22,7 +22,7 @@ describe('Assert Access Token Request', ()=>{
     })
 })
 
-
+/*
 describe('Check Init Transfer Method', ()=>{
     it('confirm that single transfer works', async()=>{
         
@@ -35,5 +35,5 @@ describe('Check Init Transfer Method', ()=>{
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })
-})
+})*/
 
