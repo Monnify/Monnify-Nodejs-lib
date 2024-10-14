@@ -5,11 +5,11 @@ import crypto from 'crypto';
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode = 'MFY_SUB_817950809712';
+let subAccountCode = 'MFY_SUB_260580419584';
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
-let accountNumber = '8717495899'
-let updatedAccountNumber = '6782923573'
+let accountNumber = '6782923573'
+let updatedAccountNumber = '8569214283'
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');
@@ -43,7 +43,6 @@ describe('SubAccount API Tests', () => {
                 subAccountPayload.email,
                 defaultSplitPercentage
             );
-            console.log(resp)
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
@@ -66,7 +65,6 @@ describe('SubAccount API Tests', () => {
                 updatedPayload.email,
                 updatedDefaultSplitPercentage
             );
-            console.log(resp)
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
