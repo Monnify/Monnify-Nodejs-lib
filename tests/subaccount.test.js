@@ -1,11 +1,10 @@
 import assert from "assert/strict";
 import { SubAccount } from "../src/subaccount.js";
-import crypto from 'crypto';
 
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode = 'MFY_SUB_185346850039';
+let subAccountCode //= 'MFY_SUB_185346850039';
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
 let accountNumber = '8569214283'
