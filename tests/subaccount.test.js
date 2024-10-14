@@ -5,11 +5,11 @@ import crypto from 'crypto';
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode = 'MFY_SUB_779463462482';
+let subAccountCode = 'MFY_SUB_939599908644';
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
-let accountNumber = '6782923573'
-let updatedAccountNumber = '8569214283'
+let accountNumber = '8569214283'
+let updatedAccountNumber = '6782923573'
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');
