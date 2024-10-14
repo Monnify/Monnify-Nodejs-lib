@@ -5,7 +5,7 @@ import crypto from 'crypto';
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode = 'MFY_SUB_263216223864';
+let subAccountCode = 'MFY_SUB_817950809712';
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
 let accountNumber = '8717495899'
