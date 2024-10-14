@@ -32,6 +32,7 @@ describe('Check Init Transfer Method', ()=>{
             payload.naration,
             payload.destinationBankCode,
             payload.destinationAccountNumber)
+            console.log(resp)
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })
