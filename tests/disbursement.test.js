@@ -3,7 +3,7 @@ import { Disbursement } from "../src/disbursement.js";
 import crypto from 'crypto'
 
 let instance;
-let payload = {"destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};
+let payload = {"sourceAccountNumber": "8622792723", "destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};
 let token;
 
 beforeEach(async () =>{

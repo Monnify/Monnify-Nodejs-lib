@@ -30,14 +30,22 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Install dependencies (clean)
+      run: npm ci
+
+    - name: Verify installed packages
+      run: npm list
+
     - name: Run tests
   
       env:
         NODE_ENV: sandbox
-        APIKEY: MK_TEST_SJA0T1Q5A0
-        MONNIFY_SECRET_KEY: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
+        BASEURL: https://sandbox.monnify.com
         CONTRACT: 3627340743
+        APIKEY: MK_TEST_SJA0T1Q5A0
+        SECRET: YKLEHB5DK3U1SAEKGWWVK182QVCSZETB
         WALLETACCOUNTNUMBER: 8622792723
-        BASE_URL: https://sandbox.monnify.com
+        TOKENEXPIRATIONTHRESHOLD: 500
+        TOKENFILE: Cache
 
       run: npm test
