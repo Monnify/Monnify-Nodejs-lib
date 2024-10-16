@@ -4,11 +4,15 @@ import { SubAccount } from "../src/subaccount.js";
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode //= 'MFY_SUB_185346850039';
+let subAccountCode //= 'MFY_SUB_142651980641';
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
 let accountNumber = '8569214283'
-let updatedAccountNumber = '6782923573'
+//let updatedAccountNumber = '8569214283, 6782923573'
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');
@@ -42,6 +46,7 @@ describe('SubAccount API Tests', () => {
                 subAccountPayload.email,
                 defaultSplitPercentage
             );
+            subAccountCode = resp["responseBody"][0]["subAccountCode"]
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
@@ -60,7 +65,7 @@ describe('SubAccount API Tests', () => {
                 subAccountCode,
                 updatedPayload.currencyCode,
                 updatedPayload.bankCode,
-                updatedAccountNumber,
+                accountNumber,
                 updatedPayload.email,
                 updatedDefaultSplitPercentage
             );
@@ -74,7 +79,6 @@ describe('SubAccount API Tests', () => {
             const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
-            console.log(resp.responseMessage);
         });
     });
     
