@@ -4,15 +4,10 @@ import { SubAccount } from "../src/subaccount.js";
 let subAccount;
 let token;
 let subAccountPayload;
-let subAccountCode //= 'MFY_SUB_142651980641';
+let subAccountCode
 let defaultSplitPercentage = 20.87
 let updatedDefaultSplitPercentage = 60.0
 let accountNumber = '8569214283'
-//let updatedAccountNumber = '8569214283, 6782923573'
-
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 beforeEach(async () => {
     subAccount = new SubAccount('sandbox');

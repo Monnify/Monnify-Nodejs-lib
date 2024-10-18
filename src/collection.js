@@ -81,8 +81,8 @@ export class ReservedAccount extends BaseRequestAPI {
     async reservedAccountTransactions(authToken, accountReference, { page = 0, size = 10 }) {
         const encodedReference = encodeURI(accountReference);
 
-        const path = `/api/v1/bank-transfer/reserved-accounts/transactions
-        ?accountReference=${encodedReference}&page=${page}&size=${size}`;
+        const path = '/api/v1/bank-transfer/reserved-accounts/transactions?accountReference='
+            + encodedReference + '&page=' + page + '&' + 'size=' + size;
 
         return await this.get(path, authToken);
     }
@@ -143,7 +143,7 @@ export class Transaction extends BaseRequestAPI {
 
         if (arguments.length <= 5) {
             data.paymentMethods = []
-            data.paymentReference = crypto.randomBytes(20).toString('hex')
+            data.paymentReference = paymentReference.length !== 0 ? paymentReference : crypto.randomBytes(20).toString('hex')
             data.currencyCode = 'NGN'
             return await this.post(path, authToken, data);
         }
@@ -165,13 +165,13 @@ export class Transaction extends BaseRequestAPI {
     }
 
     async getTransactionStatusv2(authToken, transactionReference) {
-        const encodedReference = encodeURI(transactionReference);
+        const encodedReference = encodeURIComponent(transactionReference);
         const path = '/api/v2/transactions/' + encodedReference;
         return await this.get(path, authToken);
     }
 
     async getTransactionStatusv1(authToken, paymentReference) {
-        const encodedReference = encodeURI(paymentReference);
+        const encodedReference = encodeURIComponent(paymentReference);
         const path = '/api/v2/merchant/transactions/query?paymentReference=' + encodedReference;
         return await this.get(path, authToken);
     }
