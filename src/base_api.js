@@ -22,32 +22,28 @@ export class BaseRequestAPI{
             "Content-Type":"application/json",
             "Authorization":""
         }
-        if (environment === 'sandbox'){
-            this.environment = 'sandbox'
+        if (environment === 'SANDBOX'){
+            this.environment = 'SANDBOX'
             this.baseUrl = "https://sandbox.monnify.com";
-            this.contract = process.env.CONTRACT;
-            this.apiKey = process.env.APIKEY;
-            this.secretKey = process.env.SECRET;
-            this.sourceAccountNumber = process.env.WALLETACCOUNTNUMBER;
+            this.apiKey = process.env.MONNIFY_APIKEY;
+            this.secretKey = process.env.MONNIFY_SECRET;
             this.isTokenSet = false
             this.expiryTime = 0
-            this.cacheFile = `sandbox_${TOKENFILE}.js`
+            this.cacheFile = `SANDBOX_${TOKENFILE}.js`
             singletonInstance = this
         }
-        else if (environment === 'live'){
-            this.environment = 'live'
-            this.baseUrl = "https://live.monnify.com";
-            this.contract = process.env.CONTRACT;
-            this.apiKey = process.env.APIKEY;
-            this.secretKey = process.env.SECRET;
-            this.sourceAccountNumber = process.env.WALLETACCOUNTNUMBER;
+        else if (environment === 'LIVE'){
+            this.environment = 'LIVE'
+            this.baseUrl = "https://api.monnify.com";
+            this.apiKey = process.env.MONNIFY_APIKEY;
+            this.secretKey = process.env.MONNIFY_SECRET;
             this.isTokenSet = false
             this.expiryTime = 0
-            this.cacheFile = `live_${TOKENFILE}.js`
+            this.cacheFile = `LIVE_${TOKENFILE}.js`
             singletonInstance = this
         }
         else{
-            throw new Error("Unknown environment passed: ",environment,". Specify between sandbox and live");
+            throw new Error("Unknown environment passed: ",environment,". Specify between SANDBOX and LIVE");
         }
     }
 
@@ -148,7 +144,7 @@ export class BaseRequestAPI{
 
     async computeTransactionHash(payload,signature){
         try{
-            const hmac = crypto.createHmac('sha512', this.secret_key);
+            const hmac = crypto.createHmac('sha512', this.secretKey);
             const hash = hmac.update(JSON.stringify(payload));
             const hash_in_hex = hash.digest('hex');
             return signature === hash_in_hex;

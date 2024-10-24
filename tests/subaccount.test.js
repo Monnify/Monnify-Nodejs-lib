@@ -1,5 +1,5 @@
 import assert from "assert/strict";
-import { SubAccount } from "../src/subaccount.js";
+import { SubAccount } from "../src/collections/subaccount.js";
 
 let subAccount;
 let token;
@@ -10,14 +10,16 @@ let updatedDefaultSplitPercentage = 60.0
 let accountNumber = '8569214283'
 
 beforeEach(async () => {
-    subAccount = new SubAccount('sandbox');
+    subAccount = new SubAccount('SANDBOX');
     token = await subAccount.getToken();
 
 
     subAccountPayload = {
-        currencyCode: "NGN",
-        bankCode: "035",
-        email: "tochukwusage4@gmail.com",
+        "currencyCode": "NGN",
+        "bankCode": "057",
+        "accountNumber":"2085886393",
+        "email": "tochukwusage4@gmail.com",
+        "defaultSplitPercentage": defaultSplitPercentage
     };
 });
 
@@ -33,14 +35,8 @@ describe('SubAccount API Tests', () => {
    
     describe('Create SubAccount', () => {
         it('should create a sub-account successfully', async () => {
-            const [rCode, resp] = await subAccount.createSubAccount(
-                token[1],
-                subAccountPayload.currencyCode,
-                subAccountPayload.bankCode,
-                accountNumber,
-                subAccountPayload.email,
-                defaultSplitPercentage
-            );
+            const [rCode, resp] = await subAccount.createSubAccount(token[1],[subAccountPayload]);
+            //console.log(resp)
             subAccountCode = resp["responseBody"][0]["subAccountCode"]
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
@@ -48,22 +44,13 @@ describe('SubAccount API Tests', () => {
 
     });
 
-    
+
     describe('Update SubAccount', () => {
         it('should update a sub-account successfully', async () => {
-            const updatedPayload = {
-                ...subAccountPayload
-            };
+            subAccountPayload.subAccountCode = subAccountCode
+            const updatedPayload = subAccountPayload
 
-            const [rCode, resp] = await subAccount.updateSubAccount(
-                token[1],
-                subAccountCode,
-                updatedPayload.currencyCode,
-                updatedPayload.bankCode,
-                accountNumber,
-                updatedPayload.email,
-                updatedDefaultSplitPercentage
-            );
+            const [rCode, resp] = await subAccount.updateSubAccount(token[1],updatedPayload);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
@@ -71,11 +58,11 @@ describe('SubAccount API Tests', () => {
     
     describe('Delete SubAccount', () => {
         it('should delete a sub-account successfully', async () => {
-            const [rCode, resp] = await subAccount.deleteSubAccount(token[1], subAccountCode);
+            const [rCode, resp] = await subAccount.deleteSubAccount(token[1], {"subAccountCode":subAccountCode});
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
-    
+   
 
 });

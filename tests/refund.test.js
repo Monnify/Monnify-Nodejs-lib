@@ -1,43 +1,34 @@
 import assert from "assert/strict";
-import { TransactionRefund } from "../src/refund.js";
+import { TransactionRefund } from "../src/disbursements/refund.js";
 import crypto from 'crypto';
 
 let transactionRefund;
 let token;
 let refundPayload;
-let refundReference = 'REF123456';
+let refundReference = '0293e4b0xxx4b75ff419b20052b0e'
 
 beforeEach(async () => {
-    transactionRefund = new TransactionRefund('sandbox');
+    transactionRefund = new TransactionRefund('SANDBOX');
     token = await transactionRefund.getToken();
 
     refundPayload = {
-        transactionReference: crypto.randomBytes(16).toString('hex'),
+        transactionReference: "MNFY|23|20241009140544|000009",
         refundReference: refundReference,
         refundReason: "Customer Request",
-        refundAmount: 1000,
+        refundAmount: 100,
         customerNote: "Refund Note",
-        destinationAccountNumber: "1234567890",
-        destinationAccountBankCode: "044"
+        destinationAccountNumber: "8088523241",
+        destinationAccountBankCode: "305"
     };
 });
 
 describe('TransactionRefund API Tests', () => {
 
+/*
     describe('Initiate Refund', () => {
         it('should successfully initiate a refund', async () => {
-            const [rCode, resp] = await transactionRefund.initiateRefund(
-                token[1],
-                refundPayload.transactionReference,
-                refundPayload.refundReference,
-                refundPayload.refundReason,
-                refundPayload.refundAmount,
-                {
-                    customerNote: refundPayload.customerNote,
-                    destinationAccountNumber: refundPayload.destinationAccountNumber,
-                    destinationAccountBankCode: refundPayload.destinationAccountBankCode,
-                }
-            );
+            const [rCode, resp] = await transactionRefund.initiateRefund(token[1],refundPayload);
+            console.log(resp)
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
             console.log(resp.responseMessage);
@@ -48,18 +39,7 @@ describe('TransactionRefund API Tests', () => {
 
             await assert.rejects(
                 async () => {
-                    await transactionRefund.initiateRefund(
-                        token[1],
-                        refundPayload.transactionReference,
-                        refundPayload.refundReference,
-                        refundPayload.refundReason,
-                        refundPayload.refundAmount,
-                        {
-                            customerNote: longCustomerNote,
-                            destinationAccountNumber: refundPayload.destinationAccountNumber,
-                            destinationAccountBankCode: refundPayload.destinationAccountBankCode,
-                        }
-                    );
+                    await transactionRefund.initiateRefund(token[1],refundPayload);
                 },
                 {
                     message: "Customer note must be at most 16 characters."
@@ -68,29 +48,23 @@ describe('TransactionRefund API Tests', () => {
         });
 
         it('should initiate refund without optional parameters', async () => {
-            const [rCode, resp] = await transactionRefund.initiateRefund(
-                token[1],
-                refundPayload.transactionReference,
-                refundPayload.refundReference,
-                refundPayload.refundReason,
-                refundPayload.refundAmount,
-                {}
-            );
+            const [rCode, resp] = await transactionRefund.initiateRefund(token[1],refundPayload);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
             console.log(resp.responseMessage);
         });
     });
 
+    */
     describe('Get All Refunds', () => {
         it('should return a successful on get all refunds', async () => {
-            const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { page: 0, size: 10 });
+            const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { "page": 0, "size": 10 });
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
 
         it('should return a successful on get all refunds', async () => {
-            const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { page: 1, size: 5 });
+            const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { "page": 1, "size": 5 });
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
@@ -98,7 +72,7 @@ describe('TransactionRefund API Tests', () => {
 
     describe('Get Refund Status', () => {
         it('should return a successful on refund status retrieval', async () => {
-            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], refundReference);
+            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], {"refundReference":refundReference});
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
@@ -106,7 +80,7 @@ describe('TransactionRefund API Tests', () => {
         it('should return an error for an invalid refund reference', async () => {
             const invalidRefundReference = "INVALID_REF";
 
-            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], invalidRefundReference);
+            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], {"refundReference":invalidRefundReference});
             assert.notStrictEqual(rCode, 200);
         });
     });

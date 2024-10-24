@@ -1,17 +1,17 @@
 import assert from "assert/strict";
-import { Disbursement } from "../src/disbursement.js";
+import { Disbursement } from "../src/disbursements/disbursement.js";
 import crypto from 'crypto'
 
 
 let instance;
-let payload = {"sourceAccountNumber": "8622792723", "destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};
+let payload = {"sourceAccountNumber": "3934178936", "destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};
 let token;
 
 beforeEach(async () =>{
-    instance = new Disbursement('sandbox')
+    instance = new Disbursement('SANDBOX')
     token = await instance.getToken()
     payload.currency = "NGN"
-    payload.naration = "tester testing"
+    payload.narration = "tester testing"
     payload.reference = crypto.randomBytes(20).toString('hex')
 })
 
@@ -27,12 +27,7 @@ describe('Assert Access Token Request', ()=>{
 describe('Check Init Transfer Method', ()=>{
     it('confirm that single transfer works', async()=>{
         
-        const [rCode,resp] = await instance.initiateSingleTransfer(
-            token[1],
-            payload.amount,
-            payload.naration,
-            payload.destinationBankCode,
-            payload.destinationAccountNumber)
+        const [rCode,resp] = await instance.initiateSingleTransfer(token[1],payload)
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })

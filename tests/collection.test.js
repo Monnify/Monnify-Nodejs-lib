@@ -1,20 +1,20 @@
 import assert from "assert/strict";
-import { Transaction } from "../src/collection.js";
-import { ReservedAccount } from "../src/collection.js";
+import { Transaction } from "../src/collections/transaction.js";
+import { ReservedAccount } from "../src/collections/reservedAccount.js";
 import crypto from 'crypto'
 
 let accountReference
 let transactionReference
 let instance, inst;
-let payload = {"customerName":"Tester","customerEmail":"tester@tester.com","accountName":"tester","amount":2000};
+let payload = {"customerName":"Tester","customerEmail":"tester@tester.com",
+    "accountName":"tester","amount":2000,"contractCode":"7059707855","bvn": "21212121212"};
 let token;
 
 
 beforeEach(async () =>{
-    instance = new Transaction('sandbox')
-    inst = new ReservedAccount('sandbox')
+    instance = new Transaction('SANDBOX')
+    inst = new ReservedAccount('SANDBOX')
     token = await instance.getToken()
-    payload.currencyCode = "NGN"
     payload.paymentMethods = ["CARD", "ACCOUNT_TRANSFER"]
     payload.paymentReference = crypto.randomBytes(20).toString('hex')
     payload.paymentDescription = "Payment Attempt"
@@ -25,7 +25,6 @@ beforeEach(async () =>{
 describe('Assert Access Token Request', ()=>{
     it('confirm that request is successful', async()=>{
         assert.strictEqual(token[0],200);
-        //assert.strictEqual(token[1].responseMessage,'success')
     })
 })
 
@@ -33,13 +32,9 @@ describe('Assert Access Token Request', ()=>{
 describe('Check Init Transaction Method', ()=>{
     it('confirm that transaction initialisation works', async()=>{
         
-        const [rCode,resp] = await instance.initTransaction(
-            token[1],
-            payload.amount,
-            payload.customerName,
-            payload.customerEmail,
-            payload.paymentDescription)
+        const [rCode,resp] = await instance.initTransaction(token[1],payload)
         transactionReference = resp["responseBody"]["transactionReference"]
+        payload.paymentReference = resp["responseBody"]["paymentReference"]
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage,'success')
     })
@@ -48,12 +43,8 @@ describe('Check Init Transaction Method', ()=>{
 
 describe('Check Reserved Account Creation', ()=>{
     it('confirm that reserved account creation works', async()=>{
-        
-        const [rCode,resp] = await inst.createReservedAccount(
-            token[1],
-            payload.customerName,
-            payload.customerEmail,
-            payload.accountName)
+        payload.accountReference = crypto.randomBytes(20).toString('hex')
+        const [rCode,resp] = await inst.createReservedAccount(token[1],payload)
         accountReference = resp["responseBody"]["accountReference"]
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage, 'success')
@@ -62,14 +53,12 @@ describe('Check Reserved Account Creation', ()=>{
 })
 
 
-//describe('Check that linked accounts are added successfully')
-
-
 
 describe('Check Linked Accounts Addition', () => {
     it('confirm that linked accounts are added successfully', async () => {
         const preferredBanks = ["035"];
-        const [rCode, resp] = await inst.addLinkedAccounts(token[1], accountReference, preferredBanks);
+        const [rCode, resp] = await inst.addLinkedAccounts(token[1], {"accountReference":accountReference, 
+            "preferredBanks":preferredBanks,"getAllAvailableBanks":false});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -77,8 +66,7 @@ describe('Check Linked Accounts Addition', () => {
 
 describe('Check Reserved Account Details', () => {
     it('confirm that reserved account details retrieval works', async () => {
-        //const accountReference = 'test-account-ref'; // use a real account reference
-        const [rCode, resp] = await inst.reservedAccountDetails(token[1], accountReference);
+        const [rCode, resp] = await inst.reservedAccountDetails(token[1], {"accountReference":accountReference});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -87,8 +75,7 @@ describe('Check Reserved Account Details', () => {
 
 describe('Check Reserved Account Transactions', () => {
     it('confirm that reserved account transactions retrieval works', async () => {
-        //const accountReference = 'test-account-ref'; // use a real account reference
-        const [rCode, resp] = await inst.reservedAccountTransactions(token[1], accountReference, { page: 0, size: 10 });
+        const [rCode, resp] = await inst.reservedAccountTransactions(token[1], { "page": 0, "size": 10, "accountReference":accountReference });
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -99,16 +86,16 @@ describe('Check Reserved Account KYC Update', () => {
     it('confirm that reserved account KYC info is updated', async () => {
         const bvn = '22347160689';
         const nin = '23456789012';
-        const [rCode, resp] = await inst.updateReservedAccountKycInfo(token[1], accountReference, bvn, nin);
+        const [rCode, resp] = await inst.updateReservedAccountKycInfo(token[1], {"accountReference":accountReference,"bvn":bvn, "nin":nin});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
 });
 
+
 describe('Check Reserved Account Deallocation', () => {
     it('confirm that reserved account deallocation works', async () => {
-        //const accountReference = 'test-account-ref'; // use a real account reference
-        const [rCode, resp] = await inst.deallocateReservedAccount(token[1], accountReference);
+        const [rCode, resp] = await inst.deallocateReservedAccount(token[1], {"accountReference":accountReference});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -117,7 +104,7 @@ describe('Check Reserved Account Deallocation', () => {
 
 describe('Check Get Transaction Status (v2)', () => {
     it('confirm that transaction status retrieval (v2) works', async () => {
-        const [rCode, resp] = await instance.getTransactionStatusv2(token[1], transactionReference);
+        const [rCode, resp] = await instance.getTransactionStatusv2(token[1], {"transactionReference":transactionReference});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -125,8 +112,8 @@ describe('Check Get Transaction Status (v2)', () => {
 
 describe('Check Get Transaction Status (v1)', () => {
     it('confirm that transaction status retrieval (v1) works', async () => {
-        const paymentReference = 'test-payment-ref'; // use a real payment reference
-        const [rCode, resp] = await instance.getTransactionStatusv1(token[1], paymentReference);
+        const paymentReference = '18897cd39f1e14f47aba8ef6f7ec43d197cf312b'
+        const [rCode, resp] = await instance.getTransactionStatusv1(token[1], {"paymentReference":paymentReference});
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -134,9 +121,8 @@ describe('Check Get Transaction Status (v1)', () => {
 
 describe('Check Pay with Bank Transfer', () => {
     it('confirm that payment with bank transfer works', async () => {
-        //const transactionReference = 'test-transaction-ref'; // use a real transaction reference
-        const bankCode = '035'; // example bank code
-        const [rCode, resp] = await instance.payWithBankTransfer(token[1], transactionReference, { bankCode });
+        const bankCode = '035';
+        const [rCode, resp] = await instance.payWithBankTransfer(token[1], {"transactionReference":transactionReference,"bankCode":bankCode });
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
@@ -145,14 +131,29 @@ describe('Check Pay with Bank Transfer', () => {
 describe('Check Card Charge', () => {
     it('confirm that card charge works', async () => {
         const collectionChannel = 'API_NOTIFICATION';
-        const cardDetails = {
-            number: '4111111111111111', // example card number
+        const card = {
+            number: '4111111111111111',
             expiryMonth: '10',
             expiryYear: '2022',
             pin: '1234',
             cvv: '123'
         };
-        const [rCode, resp] = await instance.chargeCard(token[1], transactionReference, collectionChannel, cardDetails);
+        const deviceInformation = {
+        "httpBrowserLanguage":"en-US",
+        "httpBrowserJavaEnabled":false,
+        "httpBrowserJavaScriptEnabled":true,
+        "httpBrowserColorDepth":24,
+       "httpBrowserScreenHeight":1203,
+       "httpBrowserScreenWidth":2138,
+      "httpBrowserTimeDifference":"",
+      "userAgentBrowserValue":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)     Chrome/105.0.0.0 Safari/537.36"
+   }
+        const [rCode, resp] = await instance.chargeCard(token[1], {
+            "transactionReference":transactionReference, 
+            "collectionChannel":collectionChannel,
+            "card":card,
+            "deviceInformation":deviceInformation
+    });
         assert.strictEqual(rCode, 200);
         assert.strictEqual(resp.responseMessage, 'success');
     });
