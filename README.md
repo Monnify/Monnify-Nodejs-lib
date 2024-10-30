@@ -144,29 +144,29 @@ const config = {
 const monnify = new MonnifyAPI(config);
 ```
 With this single instance, you can now access all API modules provided by Monnify:
-
-##### Reserved Accounts via monnify.reservedAccount
-##### Transactions via monnify.transaction
-##### Disbursements via monnify.disbursement
-##### Refunds via monnify.refund
-##### Sub Accounts via monnify.subAccount
-##### Value-Added Services via monnify.verification
-##### Each API module contains methods that map directly to Monnify’s API, allowing you to perform operations such as initiating transfers,
-##### validating bank accounts, and retrieving transaction details, all from a single initialized instance.
-
+```bash
+ Reserved Accounts via monnify.reservedAccount
+ Transactions via monnify.transaction
+ Disbursements via monnify.disbursement
+ Refunds via monnify.refund
+ Sub Accounts via monnify.subAccount
+ Value-Added Services via monnify.verification
+ Each API module contains methods that map directly to Monnify’s API, allowing you to perform operations such as initiating transfers,
+ validating bank accounts, and retrieving transaction details, all from a single initialized instance.
+ ```
 
 ### Reserved Accounts API
 Manage reserved accounts for seamless transaction tracking.
 
 #### Methods:
-
-##### createReservedAccount(authToken, data): Creates a new reserved account.
-##### addLinkedAccounts(authToken, data): Links accounts to a reserved account.
-##### reservedAccountDetails(authToken, data): Retrieves reserved account details.
-##### reservedAccountTransactions(authToken, data): Fetches transactions associated with a reserved account.
-##### deallocateReservedAccount(authToken, data): Deletes a reserved account.
-##### updateReservedAccountKycInfo(authToken, data): Updates the KYC information for a reserved account.
-
+```bash
+ createReservedAccount(authToken, data): Creates a new reserved account.
+ addLinkedAccounts(authToken, data): Links accounts to a reserved account.
+ reservedAccountDetails(authToken, data): Retrieves reserved account details.
+ reservedAccountTransactions(authToken, data): Fetches transactions associated with a reserved account.
+ deallocateReservedAccount(authToken, data): Deletes a reserved account.
+ updateReservedAccountKycInfo(authToken, data): Updates the KYC information for a reserved account.
+ ```
 #### Example Usage:
 ```bash
 let payload = {"customerName":"Tester","customerEmail":"tester@tester.com",
@@ -179,17 +179,17 @@ await monnify.reservedAccount.createReservedAccount(authToken,payload);
 Facilitate various payment methods and track transaction statuses.
 
 #### Methods:
-
-##### initTransaction(authToken, data): Initializes a new transaction.
-##### getTransactionStatusv2(authToken, data): Retrieves transaction status (version 2).
-##### getTransactionStatusv1(authToken, data): Retrieves transaction status (version 1).
-##### payWithUssd(authToken, data): Initiates payment using USSD.
-##### payWithBankTransfer(authToken, data): Initiates payment via bank transfer.
-##### chargeCard(authToken, data): Charges a card.
-##### authorizeOtp(authToken, data): Authorizes a transaction using OTP.
-##### ThreeDsSecureAuthTransaction(authToken, data): Completes 3D Secure transaction authorization.
-##### cardTokenization(authToken, data): Tokenizes a card for future use.
-
+```bash
+ initTransaction(authToken, data): Initializes a new transaction.
+ getTransactionStatusv2(authToken, data): Retrieves transaction status (version 2).
+ getTransactionStatusv1(authToken, data): Retrieves transaction status (version 1).
+ payWithUssd(authToken, data): Initiates payment using USSD.
+ payWithBankTransfer(authToken, data): Initiates payment via bank transfer.
+ chargeCard(authToken, data): Charges a card.
+ authorizeOtp(authToken, data): Authorizes a transaction using OTP.
+ ThreeDsSecureAuthTransaction(authToken, data): Completes 3D Secure transaction authorization.
+ cardTokenization(authToken, data): Tokenizes a card for future use.
+ ```
 #### Example Usage:
 
 ```bash
@@ -207,12 +207,12 @@ await monnify.transaction.initTransaction(authToken, payload);
 Manage subaccounts linked to the main Monnify account.
 
 #### Methods:
-
-##### createSubAccount(authToken, data): Creates a new sub-account.
-##### deleteSubAccount(authToken, data): Deletes an existing sub-account.
-##### getSubAccounts(authToken): Retrieves all sub-accounts.
-#### updateSubAccount(authToken, data): Updates an existing sub-account.
-
+```bash
+ createSubAccount(authToken, data): Creates a new sub-account.
+ deleteSubAccount(authToken, data): Deletes an existing sub-account.
+ getSubAccounts(authToken): Retrieves all sub-accounts.
+ updateSubAccount(authToken, data): Updates an existing sub-account.
+ ```
 #### Example Usage:
 
 ```bash
@@ -234,17 +234,17 @@ await monnify.subAccount.createSubAccount(authToken, [subAccountPayload]);
 Facilitate single and bulk disbursements.
 
 #### Methods:
-
-##### initiateSingleTransfer(authToken, data): Initiates a single disbursement.
-##### initiateBulkTransfer(authToken, data): Initiates a bulk disbursement.
-##### authorizeSingleTransfer(authToken, data): Authorizes a single transfer.
-##### authorizeBulkTransfer(authToken, data): Authorizes a bulk transfer.
-##### resendTransferOTP(authToken, data): Resends the OTP for a transfer.
-##### getSingleTransferStatus(authToken, data): Retrieves status of a single transfer.
-##### getBulkTransferStatus(authToken, data): Retrieves status of a bulk transfer.
-##### getAllSingleTransfers(authToken, data): Retrieves all single transfers.
-##### getAllBulkTransfers(authToken, data): Retrieves all bulk transfers.
-
+```bash
+ initiateSingleTransfer(authToken, data): Initiates a single disbursement.
+ initiateBulkTransfer(authToken, data): Initiates a bulk disbursement.
+ authorizeSingleTransfer(authToken, data): Authorizes a single transfer.
+ authorizeBulkTransfer(authToken, data): Authorizes a bulk transfer.
+ resendTransferOTP(authToken, data): Resends the OTP for a transfer.
+ getSingleTransferStatus(authToken, data): Retrieves status of a single transfer.
+ getBulkTransferStatus(authToken, data): Retrieves status of a bulk transfer.
+ getAllSingleTransfers(authToken, data): Retrieves all single transfers.
+ getAllBulkTransfers(authToken, data): Retrieves all bulk transfers.
+ ```
 #### Example Usage:
 ```bash
 let payload = {"sourceAccountNumber": "3934178936", "destinationBankCode": "057","destinationAccountNumber": "2085086393","amount":2000};
@@ -255,10 +255,11 @@ await monnify.disbursement.initiateSingleTransfer(authToken, payload);
 Handle refunds for transactions.
 
 #### Methods:
-
-##### initiateRefund(authToken, data): Initiates a transaction refund.
-#### getAllRefunds(authToken, data): Retrieves all refunds.
-##### getRefundStatus(authToken, data): Gets the status of a specific refund.
+```bash
+ initiateRefund(authToken, data): Initiates a transaction refund.
+ getAllRefunds(authToken, data): Retrieves all refunds.
+ getRefundStatus(authToken, data): Gets the status of a specific refund.
+ ```bash
 
 #### Example Usage:
 ```bash
@@ -278,11 +279,11 @@ await monnify.refund.initiateRefund(authToken, refundPayload);
 Access additional verification services for enhanced security.
 
 #### Methods:
-
-##### validateBankAccount(authToken, data): Validates a bank account.
-##### verifyBvnInformation(authToken, data): Verifies BVN information.
-##### matchBvnAndAccountName(authToken, data): Matches BVN and account names.
-
+```bash
+ validateBankAccount(authToken, data): Validates a bank account.
+ verifyBvnInformation(authToken, data): Verifies BVN information.
+ matchBvnAndAccountName(authToken, data): Matches BVN and account names.
+ ```
 #### Example Usage:
 ```bash
 const payload = {
