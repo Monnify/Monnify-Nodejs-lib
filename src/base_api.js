@@ -4,6 +4,13 @@ import crypto from 'crypto';
 import promises from 'fs';
 
 
+
+process.env.environment = 'sandbox'
+process.env.MONNIFY_APIKEY = 'MK_TEST_JRQAZRFD2W'
+process.env.MONNIFY_SECRET = 'T2CTRSB758NT2RATE17CV0Y9BSH4KCCB'
+process.env.CONTRACT = '7059707855';
+
+
 const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500
 const TOKENFILE = process.env.TOKENFILE || 'Cache'
 
