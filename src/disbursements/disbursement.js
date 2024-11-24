@@ -1,14 +1,13 @@
-import { 
-    authorizeTransferSchema, 
-    bulkTransferSchema, 
-    getAllTransferSchema, 
-    getStatusSchema, 
+import {
+    authorizeTransferSchema,
+    bulkTransferSchema,
     getAllBulkTransferSchema,
-    resendTransferOTPSchema, 
-    singleTransferSchema 
+    getAllTransferSchema,
+    getStatusSchema,
+    resendTransferOTPSchema,
+    singleTransferSchema
 } from "../../validators/disbursementValidator.js";
 import { BaseRequestAPI } from "../base_api.js";
-import crypto from 'crypto'
 
 export class Disbursement extends BaseRequestAPI{
     constructor(env){
@@ -19,9 +18,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = singleTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -36,9 +35,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = bulkTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -51,9 +50,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = authorizeTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -61,14 +60,14 @@ export class Disbursement extends BaseRequestAPI{
         const path = '/api/v2/disbursements/single/validate-otp';
         return await this.post(path,authToken,result.value);
     }
-    
+
     async authorizeBulkTransfer(authToken, data){
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = authorizeTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -82,14 +81,14 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = resendTransferOTPSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
 
-        
+
         const path = '/api/v2/disbursements/single/resend-otp';
         return await this.post(path,authToken,result.value);
     }
@@ -98,9 +97,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getStatusSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -114,9 +113,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getStatusSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -130,9 +129,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getAllTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -145,9 +144,9 @@ export class Disbursement extends BaseRequestAPI{
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getAllBulkTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };

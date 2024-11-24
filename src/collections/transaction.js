@@ -1,16 +1,15 @@
 
-import { 
-    authorizeOtpSchema, 
-    chargeCardSchema, 
-    getTransactionStatusv1Schema, 
-    getTransactionStatusv2Schema, 
-    initTransactionSchema, 
-    payWithBankTransferSchema, 
-    payWithUSSDSchema, 
-    ThreeDSAuthTransactionSchema 
+import {
+    authorizeOtpSchema,
+    chargeCardSchema,
+    getTransactionStatusv1Schema,
+    getTransactionStatusv2Schema,
+    initTransactionSchema,
+    payWithBankTransferSchema,
+    payWithUSSDSchema,
+    ThreeDSAuthTransactionSchema
 } from "../../validators/transactionValidator.js";
 import { BaseRequestAPI } from "../base_api.js";
-import crypto from 'crypto'
 
 
 
@@ -25,14 +24,14 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = initTransactionSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
 
-        const path = '/api/v1/merchant/transactions/init-transaction'; 
+        const path = '/api/v1/merchant/transactions/init-transaction';
         return await this.post(path, authToken, result.value);
     }
 
@@ -42,9 +41,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getTransactionStatusv2Schema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -60,9 +59,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = getTransactionStatusv1Schema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -76,9 +75,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = payWithUSSDSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -93,9 +92,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = payWithBankTransferSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -108,9 +107,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = chargeCardSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -123,9 +122,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = authorizeOtpSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -140,9 +139,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = ThreeDSAuthTransactionSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -155,9 +154,9 @@ export class Transaction extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = ThreeDSAuthTransactionSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
