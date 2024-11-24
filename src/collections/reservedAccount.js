@@ -1,15 +1,10 @@
-import { BaseRequestAPI } from "../base_api.js";
-import crypto from 'crypto'
- import { 
-    reservedAccountSchema, 
+import {
     addLinkAccountSchema,
-    reservedAccountDetailSchema,
-    updateReservedAccountSplitSchema,
     kycInfoSchema,
-    reservedAccountTransactionSchema
-
-} 
-    from "../../validators/reservedAccountValidator.js";
+    reservedAccountDetailSchema,
+    reservedAccountSchema
+} from "../../validators/reservedAccountValidator.js";
+import { BaseRequestAPI } from "../base_api.js";
 
 
 
@@ -22,9 +17,9 @@ export class ReservedAccount extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = reservedAccountSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         };
@@ -113,9 +108,9 @@ export class ReservedAccount extends BaseRequestAPI {
         if(arguments.length !== 2){
             throw new Error("Method requires exactly two parameters");
         }
-        
+
         const result = kycInfoSchema.validate(data,{allowUnknown:true})
-        
+
         if (result.error){
             throw new Error(result.error);
         }
