@@ -3,8 +3,8 @@ import axios from 'axios';
 import crypto from 'crypto';
 import promises from 'fs';
 
-
-
+import dotenv from 'dotenv'
+dotenv.config({ path: './.env' });
 
 
 const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500

@@ -36,7 +36,6 @@ describe('SubAccount API Tests', () => {
     describe('Create SubAccount', () => {
         it('should create a sub-account successfully', async () => {
             const [rCode, resp] = await subAccount.createSubAccount(token[1],[subAccountPayload]);
-            //console.log(resp)
             subAccountCode = resp["responseBody"][0]["subAccountCode"]
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
