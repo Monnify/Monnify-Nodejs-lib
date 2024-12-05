@@ -43,8 +43,8 @@ describe('Check Init Transaction Method', ()=>{
 
 describe('Check Reserved Account Creation', ()=>{
     it('confirm that reserved account creation works', async()=>{
-        payload.accountReference = crypto.randomBytes(20).toString('hex')
-        const [rCode,resp] = await inst.createReservedAccount(token[1],payload)
+        const testPayload = { ...payload, accountReference: crypto.randomBytes(20).toString('hex') };
+        const [rCode, resp] = await inst.createReservedAccount(token[1], testPayload);
         accountReference = resp["responseBody"]["accountReference"]
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage, 'success')
