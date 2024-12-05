@@ -3,11 +3,14 @@ import { Transaction } from "../src/collections/transaction.js";
 import { ReservedAccount } from "../src/collections/reservedAccount.js";
 import crypto from 'crypto'
 
-let accountReference
-let transactionReference
+let accountReference;
+let transactionReference;
 let instance, inst;
-let payload = {"customerName":"Tester","customerEmail":"tester@tester.com",
-    "accountName":"tester","amount":2000,"contractCode":"7059707855","bvn": "21212121212"};
+let payload = {
+    "customerName": "Tester", "customerEmail": crypto.randomBytes(20).toString('hex') + "tester12@tester.com",
+    "accountName": "tester", "amount": 2000, "contractCode": "7059707855", "bvn": "21212121212"
+};
+let reservedAccountPayload = {}
 let token;
 
 
@@ -31,7 +34,6 @@ describe('Assert Access Token Request', ()=>{
 
 describe('Check Init Transaction Method', ()=>{
     it('confirm that transaction initialisation works', async()=>{
-        
         const [rCode,resp] = await instance.initTransaction(token[1],payload)
         transactionReference = resp["responseBody"]["transactionReference"]
         payload.paymentReference = resp["responseBody"]["paymentReference"]
@@ -42,10 +44,11 @@ describe('Check Init Transaction Method', ()=>{
 
 
 describe('Check Reserved Account Creation', ()=>{
-    it('confirm that reserved account creation works', async()=>{
-        payload.accountReference = crypto.randomBytes(20).toString('hex')
-        const [rCode,resp] = await inst.createReservedAccount(token[1],payload)
-        accountReference = resp["responseBody"]["accountReference"]
+    it('confirm that reserved account creation works', async () => {
+        accountReference = crypto.randomBytes(20).toString('hex');
+        const testPayload = { ...payload, accountReference };
+        const [rCode, resp] = await inst.createReservedAccount(token[1], testPayload);
+        
         assert.strictEqual(rCode,200);
         assert.strictEqual(resp.responseMessage, 'success')
         

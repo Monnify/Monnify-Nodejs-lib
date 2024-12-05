@@ -156,7 +156,7 @@ export class Transaction extends BaseRequestAPI {
             throw new Error("Method requires exactly two parameters");
         }
         
-        const result = ThreeDSAuthTransactionSchema.validate(data,{allowUnknown:true})
+        const result = chargeTokenSchema.validate(data,{allowUnknown:true})
         
         if (result.error){
             throw new Error(result.error);

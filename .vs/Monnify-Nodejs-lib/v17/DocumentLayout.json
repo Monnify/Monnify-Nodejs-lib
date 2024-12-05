@@ -1,0 +1,332 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\PROJECTS\\Monnify-Nodejs-lib\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\subaccount.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\subaccount.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\collection.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\collection.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\reservedAccount.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\collections\\reservedAccount.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\base_api.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\base_api.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\.github\\workflows\\monnifytest.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.github\\workflows\\monnifytest.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\base.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\base.test.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\transaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\collections\\transaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\transactionValidator.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:validators\\transactionValidator.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\disbursements\\refund.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\disbursements\\refund.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\subaccount.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\collections\\subaccount.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\reservedAccountValidator.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:validators\\reservedAccountValidator.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\valueAddedService\\verification.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\valueAddedService\\verification.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJECTS\\Monnify-Nodejs-lib\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 13,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": ".env",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\.env",
+              "RelativeDocumentMoniker": "src\\.env",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\.env",
+              "RelativeToolTip": "src\\.env",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-05T14:04:37.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": ".env",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\.env",
+              "RelativeDocumentMoniker": ".env",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\.env",
+              "RelativeToolTip": ".env",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-05T13:59:35.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "base.test.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\base.test.js",
+              "RelativeDocumentMoniker": "tests\\base.test.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\base.test.js",
+              "RelativeToolTip": "tests\\base.test.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-12-05T13:03:07.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "base_api.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\base_api.js",
+              "RelativeDocumentMoniker": "src\\base_api.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\base_api.js",
+              "RelativeToolTip": "src\\base_api.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T14:27:34.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "monnifytest.yml",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\.github\\workflows\\monnifytest.yml",
+              "RelativeDocumentMoniker": ".github\\workflows\\monnifytest.yml",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\.github\\workflows\\monnifytest.yml",
+              "RelativeToolTip": ".github\\workflows\\monnifytest.yml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAADAAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
+              "WhenOpened": "2024-10-30T10:22:26.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "transaction.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\transaction.js",
+              "RelativeDocumentMoniker": "src\\collections\\transaction.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\transaction.js",
+              "RelativeToolTip": "src\\collections\\transaction.js",
+              "ViewState": "AQIAAJUAAAAAAAAAAAAAAJ4AAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-01T08:05:32.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "reservedAccount.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\reservedAccount.js",
+              "RelativeDocumentMoniker": "src\\collections\\reservedAccount.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\reservedAccount.js",
+              "RelativeToolTip": "src\\collections\\reservedAccount.js",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAQwFwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-16T18:00:17.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "collection.test.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\collection.test.js",
+              "RelativeDocumentMoniker": "tests\\collection.test.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\collection.test.js",
+              "RelativeToolTip": "tests\\collection.test.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-01T11:48:03.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "subaccount.test.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\subaccount.test.js",
+              "RelativeDocumentMoniker": "tests\\subaccount.test.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\tests\\subaccount.test.js",
+              "RelativeToolTip": "tests\\subaccount.test.js",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAACUAAABiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T20:44:41.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "transactionValidator.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\transactionValidator.js",
+              "RelativeDocumentMoniker": "validators\\transactionValidator.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\transactionValidator.js",
+              "RelativeToolTip": "validators\\transactionValidator.js",
+              "ViewState": "AQIAADkAAAAAAAAAAAAAAFgAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-01T08:18:52.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\index.js",
+              "RelativeDocumentMoniker": "index.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\index.js",
+              "RelativeToolTip": "index.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T13:27:15.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "reservedAccountValidator.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\reservedAccountValidator.js",
+              "RelativeDocumentMoniker": "validators\\reservedAccountValidator.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\validators\\reservedAccountValidator.js",
+              "RelativeToolTip": "validators\\reservedAccountValidator.js",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAABUAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T17:27:48.875Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "refund.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\disbursements\\refund.js",
+              "RelativeDocumentMoniker": "src\\disbursements\\refund.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\disbursements\\refund.js",
+              "RelativeToolTip": "src\\disbursements\\refund.js",
+              "ViewState": "AQIAABYAAAAAAAAAAAAQwAQAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T18:11:25.039Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "subaccount.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\subaccount.js",
+              "RelativeDocumentMoniker": "src\\collections\\subaccount.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\collections\\subaccount.js",
+              "RelativeToolTip": "src\\collections\\subaccount.js",
+              "ViewState": "AQIAACgAAAAAAAAAAAAQwDEAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T20:40:16.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "verification.js",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\valueAddedService\\verification.js",
+              "RelativeDocumentMoniker": "src\\valueAddedService\\verification.js",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\src\\valueAddedService\\verification.js",
+              "RelativeToolTip": "src\\valueAddedService\\verification.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-17T18:09:29.317Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "package.json",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\package.json",
+              "RelativeDocumentMoniker": "package.json",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\package.json",
+              "RelativeToolTip": "package.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-16T17:58:11.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\PROJECTS\\Monnify-Nodejs-lib\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\PROJECTS\\Monnify-Nodejs-lib\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AQIAACEAAAAAAAAAAIBJwJsAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-10-30T10:48:55.723Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 195,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
