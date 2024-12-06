@@ -1,14 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\.github",
-    "\\.github\\workflows",
     "\\src",
     "\\src\\collections",
-    "\\src\\disbursements",
-    "\\tests",
-    "\\validators"
+    "\\tests"
   ],
-  "SelectedNode": "\\tests\\collection.test.js",
+  "SelectedNode": "\\src\\base_api.js",
   "PreviewInSolutionExplorer": false
 }
