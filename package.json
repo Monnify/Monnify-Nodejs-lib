@@ -1,6 +1,6 @@
 {
   "name": "monnify-nodejs-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A javascript wrapper for the Monnify API",
   "main": "index.js",
   "type": "module",
