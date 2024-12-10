@@ -1,11 +1,9 @@
-# Monnify-Nodejs-lib (Beta Version)
+# Monnify-Nodejs-lib
 
 This library is a Node.js wrapper for the Monnify API, providing seamless access to Monnify's core functionalities,
 including handling disbursements, reserved accounts, subaccounts, transactions, refunds, and value-added services such as BVN and account validation.
 It abstracts the API complexities, allowing developers to integrate Monnify services into their applications efficiently.
 
-
-## Note: This is a beta version and is currently under review
 
 ---
 
@@ -151,7 +149,7 @@ With this single instance, you can now access all API modules provided by Monnif
  Refunds via monnify.refund
  Sub Accounts via monnify.subAccount
  Value-Added Services via monnify.verification
- Each API module contains methods that map directly to Monnify’s API, allowing you to perform operations such as initiating transfers,
+ Each API module contains methods that map directly to Monnifyâ€™s API, allowing you to perform operations such as initiating transfers,
  validating bank accounts, and retrieving transaction details, all from a single initialized instance.
  ```
 
