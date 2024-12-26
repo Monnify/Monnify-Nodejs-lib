@@ -1,6 +1,6 @@
 {
   "name": "monnify-nodejs-lib",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A javascript wrapper for the Monnify API",
   "main": "index.js",
   "type": "module",
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Monnify/Monnify-Nodejs-lib#readme",
   "dependencies": {
     "axios": "^1.7.4",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "express": "^4.19.2",
     "joi": "^17.13.3",
     "swagger-jsdoc": "^6.2.8",

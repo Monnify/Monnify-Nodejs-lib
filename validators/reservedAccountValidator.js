@@ -6,7 +6,7 @@ import Joi from "joi";
 export const reservedAccountSchema = Joi.object({
     customerName:Joi.string().min(3).required(),
     customerEmail:Joi.string().required(),
-    accountName:Joi.string().alphanum().min(3).required(),
+    accountName:Joi.string().min(3).required(),
     accountReference:Joi.string().required(),
     currencyCode:Joi.string().optional().default("NGN"),
   	contractCode:Joi.string().required(),
