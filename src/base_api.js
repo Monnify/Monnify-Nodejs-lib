@@ -1,159 +1,143 @@
+/*
+ * Monnify API wrapper — Base HTTP client
+ * Provides shared auth, HTTP verbs, and webhook hash verification.
+ */
 
 import axios from 'axios';
 import crypto from 'crypto';
-import promises from 'fs';
 
+const TOKENEXPIRATIONTHRESHOLD = Number(process.env.TOKENEXPIRATIONTHRESHOLD) || 500;
 
-const TOKENEXPIRATIONTHRESHOLD = process.env.TOKENEXPIRATIONTHRESHOLD || 500
-const TOKENFILE = process.env.TOKENFILE || 'Cache'
+// Shared in-memory token store keyed by environment.
+// All module instances that share the same environment reuse the same token,
+// eliminating redundant /auth/login calls without touching the file system.
+const _tokenCache = {
+    SANDBOX: { token: null, expiryTime: 0 },
+    LIVE:    { token: null, expiryTime: 0 }
+};
 
-let singletonInstance
+// Prevent mixing environments in a single runtime.
+let _lockedEnvironment = null;
 
+export class BaseRequestAPI {
 
-export class BaseRequestAPI{
+    constructor(environment) {
+        if (_lockedEnvironment && _lockedEnvironment !== environment) {
+            throw new Error(
+                `Environment conflict: already initialised as "${_lockedEnvironment}". ` +
+                `Cannot create a "${environment}" instance in the same runtime.`
+            );
+        }
+        if (!['SANDBOX', 'LIVE'].includes(environment)) {
+            throw new Error(
+                `Unknown environment "${environment}". Specify "SANDBOX" or "LIVE".`
+            );
+        }
 
-    constructor(environment){
-        if(singletonInstance){
-            if(singletonInstance.environment!==environment){
-                throw new Error('You cannot instantiate multiple environment at one runtime')
+        _lockedEnvironment = environment;
+        this.environment  = environment;
+        this.baseUrl      = environment === 'SANDBOX'
+            ? 'https://sandbox.monnify.com'
+            : 'https://api.monnify.com';
+        this.apiKey    = process.env.MONNIFY_APIKEY;
+        this.secretKey = process.env.MONNIFY_SECRET;
+        this.headers   = { 'Content-Type': 'application/json', Authorization: '' };
+    }
+
+    // ─── Authentication ───────────────────────────────────────────────────────
+
+    async getToken() {
+        const cache = _tokenCache[this.environment];
+        const now   = Math.floor(Date.now() / 1000);
+
+        if (cache.token && cache.expiryTime > now) {
+            return [200, cache.token];
+        }
+
+        const url         = `${this.baseUrl}/api/v1/auth/login`;
+        const credentials = Buffer.from(`${this.apiKey}:${this.secretKey}`).toString('base64');
+
+        try {
+            const response = await axios.post(url, {}, {
+                headers: { ...this.headers, Authorization: `Basic ${credentials}` }
+            });
+            const { accessToken, expiresIn } = response.data.responseBody;
+            if (expiresIn >= TOKENEXPIRATIONTHRESHOLD) {
+                cache.token      = accessToken;
+                cache.expiryTime = now + expiresIn;
             }
-        }
-        this.headers = {
-            "Content-Type":"application/json",
-            "Authorization":""
-        }
-        if (environment === 'SANDBOX'){
-            this.environment = 'SANDBOX'
-            this.baseUrl = "https://sandbox.monnify.com";
-            this.apiKey = process.env.MONNIFY_APIKEY;
-            this.secretKey = process.env.MONNIFY_SECRET;
-            this.isTokenSet = false
-            this.expiryTime = 0
-            this.cacheFile = `SANDBOX_${TOKENFILE}.js`
-            singletonInstance = this
-        }
-        else if (environment === 'LIVE'){
-            this.environment = 'LIVE'
-            this.baseUrl = "https://api.monnify.com";
-            this.apiKey = process.env.MONNIFY_APIKEY;
-            this.secretKey = process.env.MONNIFY_SECRET;
-            this.isTokenSet = false
-            this.expiryTime = 0
-            this.cacheFile = `LIVE_${TOKENFILE}.js`
-            singletonInstance = this
-        }
-        else{
-            throw new Error("Unknown environment passed: ",environment,". Specify between SANDBOX and LIVE");
+            return [response.status, accessToken];
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
         }
     }
 
-    async getToken(cached=true){
+    // ─── HTTP verbs ───────────────────────────────────────────────────────────
 
-        if(this.isTokenSet && (this.expiryTime > Math.floor(Date.now()/1000))){
-            const token = await this.getCachedToken()
-            return [200, token]
-        }
-        const url = this.baseUrl + '/api/v1/auth/login';
-        const data = {};
-        this.headers.Authorization = `Basic ${Buffer.from(this.apiKey + ":" + this.secretKey).toString('base64')}`;
-
-        try{
-            const response = await axios.post(url, data, {'headers':this.headers});
-            if(cached && (response.data.responseBody.expiresIn >= TOKENEXPIRATIONTHRESHOLD)){
-                await this.setToken(response.data.responseBody.accessToken,
-                                    response.data.responseBody.expiresIn+Math.floor(Date.now()/1000)
-                                    )
-            }
-            return [response.status, response.data.responseBody.accessToken];
-        }catch(e){
-            console.log(e)
-            return [e.response.status,e.response.data]
-        }
-    }
-
-    async setToken(tokenObject,timeStamp){
-        try{
-            const handler = promises.writeFileSync(this.cacheFile,tokenObject);
-            this.isTokenSet = true
-            this.expiryTime = timeStamp
-
-        }catch(e){
-            console.log(e)
-        }
-    }
-
-    async getCachedToken(){
-        return promises.readFileSync(this.cacheFile,{ encoding: 'utf8' });
-
-    }
-
-    async get(url_path,authorization){
-
-        const url = this.baseUrl + url_path;
-        this.headers.Authorization = `Bearer ${authorization}`;
-
-        try{
-            const response = await axios.get(url, {'headers':this.headers});
+    async get(urlPath, authorization) {
+        try {
+            const response = await axios.get(this.baseUrl + urlPath, {
+                headers: { ...this.headers, Authorization: `Bearer ${authorization}` }
+            });
             return [response.status, response.data];
-        }catch(e){
-            return [e.response.status,e.response.data]
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
         }
-        
     }
 
-
-    async post(url_path,authorization,data){
-
-        const url = this.baseUrl + url_path;
-        this.headers.Authorization = `Bearer ${authorization}`;
-
-        try{
-            const response = await axios.post(url, data, {'headers':this.headers});
+    async post(urlPath, authorization, data) {
+        try {
+            const response = await axios.post(this.baseUrl + urlPath, data, {
+                headers: { ...this.headers, Authorization: `Bearer ${authorization}` }
+            });
             return [response.status, response.data];
-        }catch(e){
-            return [e.response.status,e.response.data]
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
         }
     }
 
-
-    async put(url_path,authorization,data){
-
-        const url = this.baseUrl + url_path;
-        this.headers.Authorization = `Bearer ${authorization}`;
-        
-        try{
-            const response = await axios.put(url, data, {'headers':this.headers});
+    async put(urlPath, authorization, data) {
+        try {
+            const response = await axios.put(this.baseUrl + urlPath, data, {
+                headers: { ...this.headers, Authorization: `Bearer ${authorization}` }
+            });
             return [response.status, response.data];
-        }catch(e){
-            return [e.response.status,e.response.data]
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
         }
     }
 
-
-    async delete(url_path,authorization){
-        const url = this.baseUrl + url_path;
-        this.headers.Authorization = `Bearer ${authorization}`;
-
-        try{
-            const response = await axios.delete(url, {'headers':this.headers});
+    async patch(urlPath, authorization, data = {}) {
+        try {
+            const response = await axios.patch(this.baseUrl + urlPath, data, {
+                headers: { ...this.headers, Authorization: `Bearer ${authorization}` }
+            });
             return [response.status, response.data];
-        }catch(e){
-            return [e.response.status,e.response.data]
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
         }
     }
 
-    async computeTransactionHash(payload,signature){
-        try{
-            const hmac = crypto.createHmac('sha512', this.secretKey);
-            const hash = hmac.update(JSON.stringify(payload));
-            const hash_in_hex = hash.digest('hex');
-            return signature === hash_in_hex;
-          } catch(err){
-            throw new Error(err.message)
-          }
+    async delete(urlPath, authorization) {
+        try {
+            const response = await axios.delete(this.baseUrl + urlPath, {
+                headers: { ...this.headers, Authorization: `Bearer ${authorization}` }
+            });
+            return [response.status, response.data];
+        } catch (e) {
+            return [e.response?.status ?? 500, e.response?.data ?? { message: e.message }];
+        }
+    }
+
+    // ─── Webhook verification ─────────────────────────────────────────────────
+
+    async computeTransactionHash(payload, signature) {
+        try {
+            const hmac       = crypto.createHmac('sha512', this.secretKey);
+            const hashInHex  = hmac.update(JSON.stringify(payload)).digest('hex');
+            return signature === hashInHex;
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
 }
-
-
-
-

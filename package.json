@@ -1,11 +1,19 @@
 {
   "name": "monnify-nodejs-lib",
-  "version": "1.0.2",
-  "description": "A javascript wrapper for the Monnify API",
+  "version": "2.0.0",
+  "description": "A Node.js wrapper for the Monnify API",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "exports": {
+    ".": "./index.js"
+  },
   "scripts": {
-    "test": "mocha --timeout 15000 tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js "
+    "test": "mocha --timeout 15000 tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js",
+    "test:core": "mocha --timeout 15000 tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js",
+    "test:new": "mocha --timeout 15000 tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js"
   },
   "repository": {
     "type": "git",
@@ -20,13 +28,13 @@
   "dependencies": {
     "axios": "^1.7.4",
     "dotenv": "^16.4.7",
-    "express": "^4.19.2",
-    "joi": "^17.13.3",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "joi": "^17.13.3"
   },
   "devDependencies": {
     "chai": "^4.3.10",
-    "mocha": "^10.7.3"
+    "mocha": "^10.7.3",
+    "express": "^4.19.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

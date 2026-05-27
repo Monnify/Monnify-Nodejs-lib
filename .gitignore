@@ -4,3 +4,13 @@ main.js
 /src/.env
 /testrun.js
 /src/indexer.js
+
+# Token cache files (in-memory cache replaces these, but keep ignored in case of local testing)
+SANDBOX_Cache.js
+LIVE_Cache.js
+
+# Dependencies
+node_modules/
+
+# VS Code artefacts
+.vs/

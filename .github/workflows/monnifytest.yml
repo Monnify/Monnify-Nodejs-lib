@@ -10,42 +10,36 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x, 24.x]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install dependencies (clean)
-      run: npm ci
+      - name: Verify installed packages
+        run: npm list
 
-    - name: Verify installed packages
-      run: npm list
-
-    - name: Run tests
-  
-      env:
-        NODE_ENV: sandbox
-        BASEURL: https://sandbox.monnify.com
-        CONTRACT: 7059707855
-        MONNIFY_APIKEY: MK_TEST_JRQAZRFD2W
-        MONNIFY_SECRET: T2CTRSB758NT2RATE17CV0Y9BSH4KCCB
-        WALLETACCOUNTNUMBER: 3934178936
-        TOKENEXPIRATIONTHRESHOLD: 500
-        TOKENFILE: Cache
-
-      run: npm test
+      - name: Run tests
+        env:
+          NODE_ENV: sandbox
+          BASEURL: https://sandbox.monnify.com
+          CONTRACT: ${{ secrets.MONNIFY_CONTRACT_CODE || '5867418298' }}
+          MONNIFY_APIKEY: ${{ secrets.MONNIFY_APIKEY || 'MK_TEST_GC3B8XG2XX' }}
+          MONNIFY_SECRET: ${{ secrets.MONNIFY_SECRET || 'A663NRZA544DDPEM7KDN7Z8HRV6YXD8S' }}
+          WALLETACCOUNTNUMBER: ${{ secrets.MONNIFY_WALLET_ACCOUNT || '3934178936' }}
+          TOKENEXPIRATIONTHRESHOLD: 500
+          TOKENFILE: Cache
+        run: npm test
