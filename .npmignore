@@ -1,0 +1,15 @@
+# Test files
+tests/
+coverage/
+.c8rc
+
+# CI/CD
+.github/
+
+# Dev/example files
+example.js
+docs/
+SANDBOX_Cache.js
+
+# IDE files
+.vs/
