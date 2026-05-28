@@ -168,3 +168,158 @@ describe('Check Card Charge', () => {
         assert.ok([200, 422].includes(rCode));
     });
 });
+
+
+describe('Check Get All Transactions', () => {
+    it('should return a paginated list of transactions', async () => {
+        const [rCode, resp] = await instance.getAllTransactions(token[1], { page: 0, size: 10 });
+        assert.strictEqual(rCode, 200);
+        assert.strictEqual(resp.responseMessage, 'success');
+    });
+
+    it('should work with default pagination when called with no filters', async () => {
+        const [rCode] = await instance.getAllTransactions(token[1]);
+        assert.strictEqual(rCode, 200);
+    });
+});
+
+
+describe('Check Pay With USSD', () => {
+    it('should call payWithUssd endpoint', async () => {
+        const [rCode] = await instance.payWithUssd(token[1], {
+            transactionReference,
+            bankUssdCode: '*737#'
+        });
+        // 200 = success; 422 = transaction already in card/bank-transfer state
+        assert.ok([200, 422, 400].includes(rCode));
+    });
+
+    it('should throw when bankUssdCode is missing', async () => {
+        await assert.rejects(
+            () => instance.payWithUssd(token[1], { transactionReference }),
+            /bankUssdCode/
+        );
+    });
+});
+
+
+describe('Check Authorize OTP', () => {
+    it('should call authorizeOtp endpoint', async () => {
+        const [rCode] = await instance.authorizeOtp(token[1], {
+            transactionReference: transactionReference || 'MNFY|00|20260101000000|000001',
+            collectionChannel:    'API_NOTIFICATION',
+            tokenId:              'dummyTokenId1',   // alphanum only — no hyphens
+            token:                '123456'
+        });
+        // 400/422 = invalid OTP or transaction not in OTP state, which is expected in sandbox
+        assert.ok([200, 400, 404, 422].includes(rCode));
+    });
+
+    it('should throw when tokenId is missing', async () => {
+        await assert.rejects(
+            () => instance.authorizeOtp(token[1], {
+                transactionReference,
+                collectionChannel: 'API_NOTIFICATION',
+                token: '123456'
+                // tokenId omitted
+            }),
+            /tokenId/
+        );
+    });
+
+    it('should throw when token is not numeric', async () => {
+        await assert.rejects(
+            () => instance.authorizeOtp(token[1], {
+                transactionReference,
+                collectionChannel: 'API_NOTIFICATION',
+                tokenId: 'abc123',
+                token:   'NOTANUMBER'
+            }),
+            /token/
+        );
+    });
+});
+
+
+describe('Check 3DS Secure Auth Transaction', () => {
+    it('should call ThreeDsSecureAuthTransaction endpoint', async () => {
+        const [rCode] = await instance.ThreeDsSecureAuthTransaction(token[1], {
+            transactionReference: transactionReference || 'MNFY|00|20260101000000|000001',
+            collectionChannel:    'API_NOTIFICATION',
+            apiKey:               process.env.MONNIFY_APIKEY || 'MK_TEST_GC3B8XG2XX',
+            card: {
+                number:      '4111111111111111',
+                expiryMonth: '10',
+                expiryYear:  '2025',
+                cvv:         '123'
+            }
+        });
+        // sandbox may return 400/404/422/500 for a non-3DS-state transaction
+        assert.ok([200, 400, 404, 422, 500].includes(rCode));
+    });
+
+    it('should throw when apiKey is missing', async () => {
+        await assert.rejects(
+            () => instance.ThreeDsSecureAuthTransaction(token[1], {
+                transactionReference,
+                collectionChannel: 'API_NOTIFICATION',
+                card: {
+                    number: '4111111111111111', expiryMonth: '10',
+                    expiryYear: '2025', cvv: '123'
+                }
+                // apiKey omitted
+            }),
+            /apiKey/
+        );
+    });
+});
+
+
+describe('Check Card Tokenization', () => {
+    it('should call cardTokenization endpoint', async () => {
+        const [rCode] = await instance.cardTokenization(token[1], {
+            customerName:       'Test User',
+            customerEmail:      'test@test.com',
+            amount:             5000,
+            paymentDescription: 'Recurring payment',
+            paymentReference:   crypto.randomBytes(12).toString('hex'),
+            contractCode:       CONTRACT_CODE,
+            apiKey:             process.env.MONNIFY_APIKEY || 'MK_TEST_GC3B8XG2XX',
+            cardToken:          'INVALID_CARD_TOKEN'
+        });
+        // sandbox may return 400/404/422/500 for an invalid card token
+        assert.ok([200, 400, 404, 422, 500].includes(rCode));
+    });
+
+    it('should throw when cardToken is missing', async () => {
+        await assert.rejects(
+            () => instance.cardTokenization(token[1], {
+                customerName:       'Test User',
+                customerEmail:      'test@test.com',
+                amount:             5000,
+                paymentDescription: 'Recurring payment',
+                paymentReference:   crypto.randomBytes(12).toString('hex'),
+                contractCode:       CONTRACT_CODE,
+                apiKey:             process.env.MONNIFY_APIKEY
+                // cardToken omitted
+            }),
+            /cardToken/
+        );
+    });
+
+    it('should throw when customerEmail is missing', async () => {
+        await assert.rejects(
+            () => instance.cardTokenization(token[1], {
+                cardToken:          'MNFY_SOMETOKEN',
+                customerName:       'Test User',
+                amount:             5000,
+                paymentDescription: 'Recurring payment',
+                paymentReference:   crypto.randomBytes(12).toString('hex'),
+                contractCode:       CONTRACT_CODE,
+                apiKey:             process.env.MONNIFY_APIKEY
+                // customerEmail omitted
+            }),
+            /customerEmail/
+        );
+    });
+});

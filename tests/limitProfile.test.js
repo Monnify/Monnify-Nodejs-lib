@@ -75,4 +75,66 @@ describe("Limit Profile API Tests", () => {
         });
     });
 
+    describe("reserveAccountWithLimit", () => {
+        it("should call reserveAccountWithLimit endpoint", async () => {
+            if (!createdLimitProfileCode) return;
+            const [rCode] = await instance.reserveAccountWithLimit(token[1], {
+                customerName:     "Limit Test User",
+                customerEmail:    `${crypto.randomBytes(6).toString("hex")}@test.com`,
+                accountName:      "Limit Test User",
+                accountReference: crypto.randomBytes(16).toString("hex"),
+                contractCode:     process.env.CONTRACT || "5867418298",
+                limitProfileCode: createdLimitProfileCode,
+                bvn:              "22222222222",
+                currencyCode:     "NGN"
+            });
+            // 200 = success; 403 = feature not enabled; 422 = validation
+            assert.ok([200, 403, 422].includes(rCode));
+        });
+
+        it("should throw when limitProfileCode is missing", async () => {
+            await assert.rejects(
+                () => instance.reserveAccountWithLimit(token[1], {
+                    customerName:     "Test",
+                    customerEmail:    "test@test.com",
+                    accountName:      "Test",
+                    accountReference: "REF001",
+                    contractCode:     "5867418298",
+                    bvn:              "22222222222"
+                    // limitProfileCode omitted
+                }),
+                /limitProfileCode/
+            );
+        });
+    });
+
+    describe("updateReserveAccountLimit", () => {
+        it("should call updateReserveAccountLimit endpoint", async () => {
+            if (!createdLimitProfileCode) return;
+            const [rCode] = await instance.updateReserveAccountLimit(token[1], {
+                accountReference: crypto.randomBytes(16).toString("hex"),
+                limitProfileCode: createdLimitProfileCode
+            });
+            assert.ok([200, 403, 404, 422].includes(rCode));
+        });
+
+        it("should throw when accountReference is missing", async () => {
+            await assert.rejects(
+                () => instance.updateReserveAccountLimit(token[1], {
+                    limitProfileCode: "LP_TEST_001"
+                }),
+                /accountReference/
+            );
+        });
+
+        it("should throw when limitProfileCode is missing", async () => {
+            await assert.rejects(
+                () => instance.updateReserveAccountLimit(token[1], {
+                    accountReference: "REF001"
+                }),
+                /limitProfileCode/
+            );
+        });
+    });
+
 });

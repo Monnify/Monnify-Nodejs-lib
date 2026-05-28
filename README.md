@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/Monnify/Monnify-Nodejs-lib/actions/workflows/monnifytest.yml/badge.svg)](https://github.com/Monnify/Monnify-Nodejs-lib/actions/workflows/monnifytest.yml)
 [![codecov](https://codecov.io/gh/Monnify/Monnify-Nodejs-lib/graph/badge.svg)](https://codecov.io/gh/Monnify/Monnify-Nodejs-lib)
-[![npm version](https://img.shields.io/npm/v/monnify-nodejs-lib)](https://www.npmjs.com/package/monnify-nodejs-lib)
-[![Node.js](https://img.shields.io/node/v/monnify-nodejs-lib)](https://nodejs.org)
+[![npm version](https://img.shields.io/badge/npm-v2.0.0-CB3837?logo=npm)](https://www.npmjs.com/package/monnify-nodejs-lib)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-339933?logo=nodedotjs)](https://nodejs.org)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 
 A Node.js wrapper for the [Monnify API](https://developers.monnify.com), giving you clean, validated access to every Monnify service — collections, disbursements, invoices, direct debit, bills payment, and more — without having to hand-craft HTTP requests yourself.
@@ -439,13 +439,14 @@ const [, token] = await api.getToken();
 import crypto from 'crypto';
 
 const [statusCode, response] = await api.initiateSingleTransfer(token, {
-  sourceAccountNumber:    process.env.WALLETACCOUNTNUMBER,
-  destinationBankCode:    '058',
+  sourceAccountNumber:      process.env.WALLETACCOUNTNUMBER,
+  destinationBankCode:      '058',
   destinationAccountNumber: '2085086393',
-  amount:                 5000,
-  currency:               'NGN',
-  narration:              'Freelancer payment - May 2026',
-  reference:              crypto.randomBytes(16).toString('hex')
+  destinationAccountName:   'John Doe',
+  amount:                   5000,
+  currencyCode:             'NGN',
+  narration:                'Freelancer payment - May 2026',
+  reference:                crypto.randomBytes(16).toString('hex')
 });
 ```
 

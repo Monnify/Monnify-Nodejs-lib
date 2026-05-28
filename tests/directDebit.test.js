@@ -90,6 +90,18 @@ describe("Direct Debit API Tests", () => {
     });
 
     describe("debitMandate", () => {
+        it("should call debitMandate endpoint", async () => {
+            const [rCode] = await instance.debitMandate(token[1], {
+                mandateCode:      "SANDBOX_MANDATE_001",
+                debitAmount:      5000,
+                paymentReference: crypto.randomBytes(12).toString("hex"),
+                narration:        "Test debit payment",
+                customerEmail:    "test@test.com"
+            });
+            // 400/403/404/422 = mandate not approved or not found in sandbox
+            assert.ok([200, 400, 403, 404, 422].includes(rCode));
+        });
+
         it("should throw when required fields are missing", async () => {
             await assert.rejects(
                 () => instance.debitMandate(token[1], { mandateCode: "MANDATE_CODE" }),

@@ -24,38 +24,25 @@ beforeEach(async () => {
 
 describe('TransactionRefund API Tests', () => {
 
-/*
     describe('Initiate Refund', () => {
-        it('should successfully initiate a refund', async () => {
-            const [rCode, resp] = await transactionRefund.initiateRefund(token[1],refundPayload);
-            console.log(resp)
-            assert.strictEqual(rCode, 200);
-            assert.strictEqual(resp.responseMessage, 'success');
-            console.log(resp.responseMessage);
+        it('should call initiateRefund endpoint', async () => {
+            const [rCode] = await transactionRefund.initiateRefund(token[1], refundPayload);
+            // 200 = success; 400/422 = transaction not eligible for refund in this sandbox account
+            assert.ok([200, 400, 422].includes(rCode));
         });
 
-        it('should throw an error if customer note exceeds 16 characters', async () => {
-            const longCustomerNote = "This note is way too long";
-
+        it('should throw when transactionReference is missing', async () => {
             await assert.rejects(
-                async () => {
-                    await transactionRefund.initiateRefund(token[1],refundPayload);
-                },
-                {
-                    message: "Customer note must be at most 16 characters."
-                }
+                () => transactionRefund.initiateRefund(token[1], {
+                    refundReference: crypto.randomBytes(12).toString('hex'),
+                    refundReason:    'Customer Request',
+                    refundAmount:    100
+                }),
+                /transactionReference/
             );
-        });
-
-        it('should initiate refund without optional parameters', async () => {
-            const [rCode, resp] = await transactionRefund.initiateRefund(token[1],refundPayload);
-            assert.strictEqual(rCode, 200);
-            assert.strictEqual(resp.responseMessage, 'success');
-            console.log(resp.responseMessage);
         });
     });
 
-    */
     describe('Get All Refunds', () => {
         it('should return a successful on get all refunds', async () => {
             const [rCode, resp] = await transactionRefund.getAllRefunds(token[1], { "page": 0, "size": 10 });
@@ -68,20 +55,46 @@ describe('TransactionRefund API Tests', () => {
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
+
+        it('should throw when data argument is omitted', async () => {
+            await assert.rejects(
+                () => transactionRefund.getAllRefunds(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when page is not a number', async () => {
+            await assert.rejects(
+                () => transactionRefund.getAllRefunds(token[1], { page: 'not-a-number', size: 10 }),
+                /page/
+            );
+        });
     });
 
     describe('Get Refund Status', () => {
         it('should return a response for refund status retrieval', async () => {
-            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], {"refundReference":refundReference});
+            const [rCode] = await transactionRefund.getRefundStatus(token[1], {"refundReference":refundReference});
             // 200 = found; 422 = reference not found in this sandbox account (expected with hardcoded ref)
             assert.ok([200, 422].includes(rCode));
         });
 
         it('should return an error for an invalid refund reference', async () => {
-            const invalidRefundReference = "INVALID_REF";
-
-            const [rCode, resp] = await transactionRefund.getRefundStatus(token[1], {"refundReference":invalidRefundReference});
+            const [rCode] = await transactionRefund.getRefundStatus(token[1], {"refundReference":"INVALID_REF"});
             assert.notStrictEqual(rCode, 200);
+        });
+
+        it('should throw when data argument is omitted', async () => {
+            await assert.rejects(
+                () => transactionRefund.getRefundStatus(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when refundReference is missing', async () => {
+            await assert.rejects(
+                () => transactionRefund.getRefundStatus(token[1], {}),
+                /refundReference/
+            );
         });
     });
 

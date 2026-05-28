@@ -4,6 +4,7 @@ import {
     kycInfoSchema,
     reservedAccountDetailSchema,
     reservedAccountSchema,
+    reservedAccountTransactionSchema,
     updateBvnSchema,
     updateIncomeSplitConfigSchema,
     updatePaymentSourcesSchema
@@ -62,7 +63,7 @@ export class ReservedAccount extends BaseRequestAPI {
         return await this.put(
             `/api/v1/bank-transfer/reserved-accounts/add-linked-accounts/${ref}`,
             authToken,
-            data
+            result.value
         );
     }
 
@@ -91,7 +92,7 @@ export class ReservedAccount extends BaseRequestAPI {
             throw new Error("Method requires exactly two parameters");
         }
 
-        const result = reservedAccountDetailSchema.validate(data, { allowUnknown: true });
+        const result = reservedAccountTransactionSchema.validate(data, { allowUnknown: true });
         if (result.error) throw new Error(result.error);
 
         const params = new URLSearchParams(
