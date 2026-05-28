@@ -35,10 +35,21 @@ describe('SubAccount API Tests', () => {
    
     describe('Create SubAccount', () => {
         it('should create a sub-account successfully', async () => {
+            // Remove any leftover account from a previous CI run to ensure idempotency
+            const [listCode, listResp] = await subAccount.getSubAccounts(token[1]);
+            if (listCode === 200 && Array.isArray(listResp?.responseBody)) {
+                const existing = listResp.responseBody.find(
+                    a => a.accountNumber === subAccountPayload.accountNumber
+                );
+                if (existing?.subAccountCode) {
+                    await subAccount.deleteSubAccount(token[1], { subAccountCode: existing.subAccountCode });
+                }
+            }
+
             const [rCode, resp] = await subAccount.createSubAccount(token[1],[subAccountPayload]);
-            subAccountCode = resp["responseBody"][0]["subAccountCode"]
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
+            subAccountCode = resp["responseBody"][0]["subAccountCode"];
         });
 
     });
@@ -46,17 +57,19 @@ describe('SubAccount API Tests', () => {
 
     describe('Update SubAccount', () => {
         it('should update a sub-account successfully', async () => {
-            subAccountPayload.subAccountCode = subAccountCode
-            const updatedPayload = subAccountPayload
+            assert.ok(subAccountCode, 'subAccountCode not set — Create SubAccount test must pass first');
+            subAccountPayload.subAccountCode = subAccountCode;
+            const updatedPayload = subAccountPayload;
 
             const [rCode, resp] = await subAccount.updateSubAccount(token[1],updatedPayload);
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
     });
-    
+
     describe('Delete SubAccount', () => {
         it('should delete a sub-account successfully', async () => {
+            assert.ok(subAccountCode, 'subAccountCode not set — Create SubAccount test must pass first');
             const [rCode, resp] = await subAccount.deleteSubAccount(token[1], {"subAccountCode":subAccountCode});
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
