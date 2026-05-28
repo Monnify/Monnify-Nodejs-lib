@@ -4,6 +4,7 @@ import Joi from "joi";
 export const singleTransferSchema = Joi.object({
     narration:                Joi.string().min(3).required(),
     destinationAccountNumber: Joi.string().regex(/^\d+$/).length(10).required(),
+    destinationAccountName:   Joi.string().required(),
     amount:                   Joi.number().min(20).precision(2).required(),
     destinationBankCode:      Joi.string().regex(/^\d+$/).min(3).required(),
     reference:                Joi.string().required(),
@@ -23,6 +24,7 @@ export const bulkTransferSchema = Joi.object({
     transactionList:     Joi.array().items(Joi.object({
         narration:                Joi.string().min(3).required(),
         destinationAccountNumber: Joi.string().regex(/^\d+$/).length(10).required(),
+        destinationAccountName:   Joi.string().required(),
         amount:                   Joi.number().min(20).precision(2).required(),
         destinationBankCode:      Joi.string().regex(/^\d+$/).min(3).required(),
         reference:                Joi.string().required(),

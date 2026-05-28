@@ -120,10 +120,18 @@ describe("Bills Payment API Tests", () => {
          * - amount      (the amount to pay)
          * - reference   (unique merchant reference for this transaction)
          * - validationReference (optional — only required when validateCustomer returns requireValidationRef=true)
-         *
-         * NOTE: vendBill is not called with real data here to avoid live transactions.
-         * Tests confirm validation and endpoint reachability only.
          */
+        it("should call vendBill endpoint", async () => {
+            const [rCode] = await instance.vendBill(token[1], {
+                productCode: firstProductCode || "INVALID_PRODUCT_CODE",
+                customerId:  "08130211113",
+                amount:      300,
+                reference:   crypto.randomBytes(12).toString("hex")
+            });
+            // 400/404/422 = invalid product or customer in sandbox
+            assert.ok([200, 400, 404, 422].includes(rCode));
+        });
+
         it("should throw when required fields are missing", async () => {
             await assert.rejects(
                 () => instance.vendBill(token[1], { productCode: "245" }),
