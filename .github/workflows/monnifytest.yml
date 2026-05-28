@@ -32,7 +32,7 @@ jobs:
       - name: Verify installed packages
         run: npm list
 
-      - name: Run tests
+      - name: Run tests with coverage
         env:
           NODE_ENV: sandbox
           BASEURL: https://sandbox.monnify.com
@@ -42,4 +42,14 @@ jobs:
           WALLETACCOUNTNUMBER: ${{ secrets.MONNIFY_WALLET_ACCOUNT || '3934178936' }}
           TOKENEXPIRATIONTHRESHOLD: 500
           TOKENFILE: Cache
-        run: npm test
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        # Only upload once — no point sending the same report from all 4 Node versions
+        if: matrix.node-version == '22.x'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          fail_ci_if_error: false
