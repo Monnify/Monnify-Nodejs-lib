@@ -35,6 +35,7 @@ jobs:
       - name: Run tests with coverage
         env:
           NODE_ENV: sandbox
+          MONNIFY_ENV: SANDBOX
           BASEURL: https://sandbox.monnify.com
           CONTRACT: ${{ secrets.MONNIFY_CONTRACT_CODE || '5867418298' }}
           MONNIFY_APIKEY: ${{ secrets.MONNIFY_APIKEY || 'MK_TEST_GC3B8XG2XX' }}
