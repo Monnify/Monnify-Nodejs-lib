@@ -44,7 +44,14 @@ jobs:
           WALLETACCOUNTNUMBER: ${{ secrets.MONNIFY_WALLET_ACCOUNT || '3934178936' }}
           TOKENEXPIRATIONTHRESHOLD: 500
           TOKENFILE: Cache
-        run: npm run test:coverage
+        # c8 coverage instrumentation has a known incompatibility with Node 24's V8.
+        # Only run c8 on Node 22 (which also uploads to Codecov); other versions use plain mocha.
+        run: |
+          if [ "${{ matrix.node-version }}" = "22.x" ]; then
+            npm run test:coverage
+          else
+            npm test
+          fi
 
       - name: Upload coverage to Codecov
         # Only upload once — no point sending the same report from all 4 Node versions
