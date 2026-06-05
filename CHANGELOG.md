@@ -1,9 +1,157 @@
 # Changelog
 
-All notable changes to the Monnify Node.js library are documented here.  
+All notable changes to the Monnify Node.js library are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
 ---
+
+# [3.0.0] — 2026-06-05
+
+## Overview
+
+This release modernises the library's configuration model, hardens the SDK against
+misconfiguration, fixes a date-format bug in transaction queries, and raises test
+coverage from ~65% to 94%.
+
+---
+
+## Breaking Changes
+
+### `MONNIFY_ENV` is now required in your environment
+
+The library no longer accepts the environment as a constructor argument or
+`MonnifyAPI` config key. Set it in your `.env` file instead:
+
+```env
+MONNIFY_ENV=SANDBOX   # or LIVE
+MONNIFY_APIKEY=MK_TEST_XXXXXXXXXXXX
+MONNIFY_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+> **Soft migration path** — if `MONNIFY_ENV` is not set but the old constructor
+> argument is still passed, the library falls back to it and emits a
+> `console.warn` deprecation notice. This fallback **will be removed in a future
+> version**.
+
+---
+
+## New Features
+
+### Automatic environment detection
+
+`BaseRequestAPI` and all service classes read `MONNIFY_ENV` from `process.env`
+at construction time. No argument is needed anywhere.
+
+```js
+// Before
+const account = new ReservedAccount("SANDBOX");
+
+// After
+const account = new ReservedAccount();
+```
+
+### API key / environment mismatch guard
+
+The SDK now validates that your API key prefix matches your declared environment
+at startup, catching copy-paste mistakes before any network call is made:
+
+| Scenario                                             | Result                            |
+| ---------------------------------------------------- | --------------------------------- |
+| `MONNIFY_ENV=SANDBOX` + key starting with `MK_PROD_` | Throws with a clear error message |
+| `MONNIFY_ENV=LIVE` + key starting with `MK_TEST_`    | Throws with a clear error message |
+
+### Single-process environment conflict guard
+
+Creating instances targeting different environments (`SANDBOX` and `LIVE`) in the
+same process throws immediately, preventing silent misrouting of requests.
+
+---
+
+## Bug Fixes
+
+### `getAllTransactions` — `from` / `to` date filters
+
+Previously these parameters accepted ISO date strings, which the Monnify API
+silently rejects. They now require **Unix millisecond timestamps**, matching the
+API's actual contract. Passing an ISO string now throws a Joi validation error at
+the SDK boundary — before any network call is made.
+
+```js
+// Before — silently sent to the API and ignored
+await api.getAllTransactions(token, {
+  from: "2025-01-01T00:00:00.000Z",
+  to: "2025-12-31T23:59:59.999Z",
+});
+
+// After — correct usage
+const to = Date.now();
+const from = to - 7 * 24 * 60 * 60 * 1000; // 7 days ago
+
+await api.getAllTransactions(token, { from, to, page: 0, size: 20 });
+```
+
+---
+
+## CI / Quality
+
+- **Branch coverage raised from ~65% to 94.23%** across all 13 service classes.
+- **224 tests** (up from 175), all passing across Node 18, 20, 22, and 24.
+- Upgraded `codecov/codecov-action` v5 to v6, eliminating the
+  _"Node.js 20 actions deprecated"_ runner warning ahead of the June 16 deadline.
+- Matrix jobs now run sequentially (`max-parallel: 1`) to prevent parallel
+  sandbox calls from causing flaky CI failures across Node versions.
+
+---
+
+## Migration Guide
+
+### Environment setup
+
+Add `MONNIFY_ENV` to your `.env` file (or your deployment environment):
+
+```env
+MONNIFY_ENV=SANDBOX
+```
+
+### Constructor calls
+
+Remove the environment argument from every constructor call:
+
+```js
+// Before
+const api = new MonnifyAPI({
+  env: "SANDBOX",
+  MONNIFY_APIKEY: "...",
+  MONNIFY_SECRET: "...",
+});
+const transaction = new Transaction("SANDBOX");
+const reserved = new ReservedAccount("SANDBOX");
+const disbursement = new Disbursement("SANDBOX");
+
+// After
+const api = new MonnifyAPI({ MONNIFY_APIKEY: "...", MONNIFY_SECRET: "..." });
+const transaction = new Transaction();
+const reserved = new ReservedAccount();
+const disbursement = new Disbursement();
+```
+
+### `getAllTransactions` date filters
+
+Replace ISO strings with Unix millisecond timestamps:
+
+```js
+// Before
+await api.getAllTransactions(token, {
+  from: "2025-01-01T00:00:00.000Z",
+  to: "2025-12-31T23:59:59.999Z",
+});
+
+// After
+const to = Date.now();
+const from = to - 30 * 24 * 60 * 60 * 1000; // last 30 days
+
+await api.getAllTransactions(token, { from, to, page: 0, size: 50 });
+```
 
 ## [2.0.0] — 2026-05-27
 
@@ -22,14 +170,14 @@ passing against the live sandbox.
 
 ### New Modules
 
-| Module | Accessor | Methods |
-|--------|----------|---------|
-| Invoice | `monnify.invoice` | `createInvoice`, `viewInvoiceDetails`, `getAllInvoices`, `cancelInvoice` |
-| Settlement | `monnify.settlement` | `getTransactionsBySettlementReference`, `getSettlementInfo` |
+| Module       | Accessor               | Methods                                                                                                                |
+| ------------ | ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Invoice      | `monnify.invoice`      | `createInvoice`, `viewInvoiceDetails`, `getAllInvoices`, `cancelInvoice`                                               |
+| Settlement   | `monnify.settlement`   | `getTransactionsBySettlementReference`, `getSettlementInfo`                                                            |
 | LimitProfile | `monnify.limitProfile` | `createLimitProfile`, `getLimitProfiles`, `updateLimitProfile`, `reserveAccountWithLimit`, `updateReserveAccountLimit` |
-| DirectDebit | `monnify.directDebit` | `createMandate`, `getMandateStatus`, `debitMandate`, `getDebitStatus`, `cancelMandate` |
-| Wallet | `monnify.wallet` | `getWalletBalance` |
-| BillsPayment | `monnify.billsPayment` | `getBillerCategories`, `listBillers`, `getBillerProducts`, `validateCustomer`, `vendBill`, `requeryBillPayment` |
+| DirectDebit  | `monnify.directDebit`  | `createMandate`, `getMandateStatus`, `debitMandate`, `getDebitStatus`, `cancelMandate`                                 |
+| Wallet       | `monnify.wallet`       | `getWalletBalance`                                                                                                     |
+| BillsPayment | `monnify.billsPayment` | `getBillerCategories`, `listBillers`, `getBillerProducts`, `validateCustomer`, `vendBill`, `requeryBillPayment`        |
 
 ---
 
@@ -110,32 +258,32 @@ The mandate creation payload has been corrected to match the specification:
 ```js
 // Before (incorrect)
 createMandate(token, {
-  mandateType: 'EMANDATE',      // does not exist in spec
-  debitType: 'FIXED',           // does not exist in spec
-  frequency: 'MONTHLY',         // does not exist in spec
-  payerName: '...',             // wrong field name
-  beneficiaryAccountNumber: '…' // does not exist in spec
-})
+  mandateType: "EMANDATE", // does not exist in spec
+  debitType: "FIXED", // does not exist in spec
+  frequency: "MONTHLY", // does not exist in spec
+  payerName: "...", // wrong field name
+  beneficiaryAccountNumber: "…", // does not exist in spec
+});
 
 // After (correct)
 createMandate(token, {
-  contractCode: '…',
-  mandateReference: '…',
-  mandateDescription: '…',
-  mandateStartDate: '2025-01-01T00:00:00',
-  mandateEndDate: '2025-12-31T23:59:59',
-  customerName: '…',
-  customerEmailAddress: '…',
-  customerPhoneNumber: '…',
-  customerAddress: '…',
-  customerAccountNumber: '…',
-  customerAccountBankCode: '…',
+  contractCode: "…",
+  mandateReference: "…",
+  mandateDescription: "…",
+  mandateStartDate: "2025-01-01T00:00:00",
+  mandateEndDate: "2025-12-31T23:59:59",
+  customerName: "…",
+  customerEmailAddress: "…",
+  customerPhoneNumber: "…",
+  customerAddress: "…",
+  customerAccountNumber: "…",
+  customerAccountBankCode: "…",
   // optional
   mandateAmount: 50000,
   autoRenew: false,
   customerCancellation: true,
-  redirectUrl: 'https://…'
-})
+  redirectUrl: "https://…",
+});
 ```
 
 ---
@@ -165,8 +313,8 @@ stateless environments (Lambda, Docker, serverless), and removes the `fs` import
 // Before: writes token to disk as SANDBOX_Cache.js
 // After: held in a module-level object for the process lifetime
 const _tokenCache = {
-    SANDBOX: { token: null, expiryTime: 0 },
-    LIVE:    { token: null, expiryTime: 0 }
+  SANDBOX: { token: null, expiryTime: 0 },
+  LIVE: { token: null, expiryTime: 0 },
 };
 ```
 
@@ -197,27 +345,27 @@ mutating the shared `this.headers` object, preventing token bleed between concur
 All module classes are now individually re-exported from `index.js` for tree-shaking:
 
 ```js
-import { BillsPayment, DirectDebit, Wallet } from 'monnify-nodejs-lib';
+import { BillsPayment, DirectDebit, Wallet } from "monnify-nodejs-lib";
 ```
 
 ---
 
 ### Tests
 
-| File | Tests | Notes |
-|------|-------|-------|
-| `collection.test.js` | 12 | Added `getAllTransactions`; fixed expired card year; fixed `paymentReference` persistence across `beforeEach` |
-| `refund.test.js` | 4 | Accepts `[200, 422]` for sandbox |
-| `disbursement.test.js` | 3 | `sourceAccountNumber` reads from env |
-| `subaccount.test.js` | 4 | Unchanged |
-| `verification.test.js` | 7 | Re-added to test script; accepts `500` for VAS sandbox limitations |
-| `wallet.test.js` | 3 | New |
-| `invoice.test.js` | 8 | New |
-| `settlement.test.js` | 4 | New |
-| `billsPayment.test.js` | 12 | New; covers full 6-endpoint lifecycle |
-| `limitProfile.test.js` | 5 | New; accepts `403` for feature-gated sandbox |
-| `directDebit.test.js` | 9 | New; corrected field names; accepts `400/403` for regulatory-gated sandbox |
-| **Total** | **71** | **71/71 passing** |
+| File                   | Tests  | Notes                                                                                                         |
+| ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------- |
+| `collection.test.js`   | 12     | Added `getAllTransactions`; fixed expired card year; fixed `paymentReference` persistence across `beforeEach` |
+| `refund.test.js`       | 4      | Accepts `[200, 422]` for sandbox                                                                              |
+| `disbursement.test.js` | 3      | `sourceAccountNumber` reads from env                                                                          |
+| `subaccount.test.js`   | 4      | Unchanged                                                                                                     |
+| `verification.test.js` | 7      | Re-added to test script; accepts `500` for VAS sandbox limitations                                            |
+| `wallet.test.js`       | 3      | New                                                                                                           |
+| `invoice.test.js`      | 8      | New                                                                                                           |
+| `settlement.test.js`   | 4      | New                                                                                                           |
+| `billsPayment.test.js` | 12     | New; covers full 6-endpoint lifecycle                                                                         |
+| `limitProfile.test.js` | 5      | New; accepts `403` for feature-gated sandbox                                                                  |
+| `directDebit.test.js`  | 9      | New; corrected field names; accepts `400/403` for regulatory-gated sandbox                                    |
+| **Total**              | **71** | **71/71 passing**                                                                                             |
 
 ---
 
