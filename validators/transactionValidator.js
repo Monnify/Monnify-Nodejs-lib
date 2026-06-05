@@ -44,8 +44,8 @@ export const getAllTransactionsSchema = Joi.object({
     customerName:         Joi.string().optional(),
     customerEmail:        Joi.string().optional(),
     paymentStatus:        Joi.string().optional(),
-    from:                 Joi.string().optional(),
-    to:                   Joi.string().optional()
+    from:                 Joi.number().integer().positive().optional(),
+    to:                   Joi.number().integer().positive().optional()
 });
 
 

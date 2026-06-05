@@ -181,6 +181,27 @@ describe('Check Get All Transactions', () => {
         const [rCode] = await instance.getAllTransactions(token[1]);
         assert.strictEqual(rCode, 200);
     });
+
+    it('should accept from/to as Unix millisecond timestamps', async () => {
+        const to   = Date.now();
+        const from = to - 86400000; // 24 hours ago
+        const [rCode] = await instance.getAllTransactions(token[1], { from, to, page: 0, size: 5 });
+        assert.strictEqual(rCode, 200);
+    });
+
+    it('should throw when from is a date string instead of a Unix timestamp', async () => {
+        await assert.rejects(
+            () => instance.getAllTransactions(token[1], { from: '2025-01-01T00:00:00.000Z' }),
+            /from/
+        );
+    });
+
+    it('should throw when to is a date string instead of a Unix timestamp', async () => {
+        await assert.rejects(
+            () => instance.getAllTransactions(token[1], { to: '2025-12-31T23:59:59.999Z' }),
+            /to/
+        );
+    });
 });
 
 
@@ -272,6 +293,13 @@ describe('Check 3DS Secure Auth Transaction', () => {
             /apiKey/
         );
     });
+
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.ThreeDsSecureAuthTransaction(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
 });
 
 
@@ -320,6 +348,13 @@ describe('Check Card Tokenization', () => {
                 // customerEmail omitted
             }),
             /customerEmail/
+        );
+    });
+
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.cardTokenization(token[1]),
+            /Method requires exactly two parameters/
         );
     });
 });

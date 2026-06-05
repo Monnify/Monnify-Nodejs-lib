@@ -37,6 +37,13 @@ describe("Wallet API Tests", () => {
                 /accountNumber/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.getWalletBalance(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
 });

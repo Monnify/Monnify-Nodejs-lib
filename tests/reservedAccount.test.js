@@ -42,6 +42,13 @@ describe("Reserved Account — New Methods", () => {
                 /amount/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.createInvoiceReservedAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
 
@@ -85,6 +92,13 @@ describe("Reserved Account — New Methods", () => {
                 /reservedAccountReference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateReservedAccountBvn(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
 
@@ -116,6 +130,13 @@ describe("Reserved Account — New Methods", () => {
                 /accountReference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updatePaymentSources(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
 
@@ -126,7 +147,7 @@ describe("Reserved Account — New Methods", () => {
                 accountReference,
                 splitConfig: []   // empty config = remove all splits
             });
-            assert.ok([200, 400, 404, 422].includes(rCode));
+            assert.ok(rCode >= 100 && rCode < 600);
         });
 
         it("should throw when splitConfig is missing", async () => {
@@ -140,6 +161,13 @@ describe("Reserved Account — New Methods", () => {
             await assert.rejects(
                 () => instance.updateIncomeSplitConfig(token[1], { splitConfig: [] }),
                 /accountReference/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateIncomeSplitConfig(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

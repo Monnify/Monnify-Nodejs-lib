@@ -231,6 +231,13 @@ describe('Disbursement — getAllBulkTransfers', () => {
         });
         assert.ok([200, 400, 404].includes(rCode));
     });
+
+    it('should throw when called with no arguments', async () => {
+        await assert.rejects(
+            async () => await instance.getAllBulkTransfers(),
+            /Method requires at least one parameter/
+        );
+    });
 });
 
 
@@ -248,6 +255,13 @@ describe('Disbursement — searchDisbursementTransactions', () => {
         await assert.rejects(
             () => instance.searchDisbursementTransactions(token[1], { pageNo: 0 }),
             /sourceAccountNumber/
+        );
+    });
+
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.searchDisbursementTransactions(token[1]),
+            /Method requires exactly two parameters/
         );
     });
 });

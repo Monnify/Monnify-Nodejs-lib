@@ -56,6 +56,13 @@ describe("Verification API Tests", () => {
                 /bvn/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.verifyBvnInformation(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("matchBvnAndAccountName", () => {
@@ -63,6 +70,20 @@ describe("Verification API Tests", () => {
             const [statusCode] = await instance.matchBvnAndAccountName(token[1], bvnMatchPayload);
             // 200 = matched, 400/404/422 = invalid test data, 500 = VAS not enabled for sandbox account
             assert.ok([200, 400, 404, 422, 500].includes(statusCode));
+        });
+
+        it("should throw when bvn is missing", async () => {
+            await assert.rejects(
+                () => instance.matchBvnAndAccountName(token[1], { accountNumber: "3000246601", bankCode: "035" }),
+                /bvn/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.matchBvnAndAccountName(token[1]),
+                /Method requires exactly two parameters/
+            );
         });
     });
 
@@ -77,6 +98,13 @@ describe("Verification API Tests", () => {
             await assert.rejects(
                 () => instance.verifyNin(token[1], { nin: "12345" }),
                 /nin/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.verifyNin(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

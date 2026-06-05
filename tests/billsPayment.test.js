@@ -150,6 +150,13 @@ describe("Bills Payment API Tests", () => {
                 /reference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.vendBill(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("requeryBillPayment", () => {
@@ -168,6 +175,13 @@ describe("Bills Payment API Tests", () => {
             await assert.rejects(
                 () => instance.requeryBillPayment(token[1], {}),
                 /reference/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.requeryBillPayment(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

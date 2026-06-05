@@ -121,6 +121,13 @@ describe("Direct Debit API Tests", () => {
                 /customerEmail/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.debitMandate(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("getDebitStatus", () => {
@@ -129,6 +136,20 @@ describe("Direct Debit API Tests", () => {
                 paymentReference: "SANDBOX_PAY_REF"
             });
             assert.ok([200, 400, 404].includes(rCode));
+        });
+
+        it("should throw when paymentReference is missing", async () => {
+            await assert.rejects(
+                () => instance.getDebitStatus(token[1], {}),
+                /paymentReference/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.getDebitStatus(token[1]),
+                /Method requires exactly two parameters/
+            );
         });
     });
 
@@ -144,6 +165,13 @@ describe("Direct Debit API Tests", () => {
             await assert.rejects(
                 () => instance.cancelMandate(token[1], {}),
                 /mandateCode/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.cancelMandate(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

@@ -218,6 +218,13 @@ const [, token] = await api.getToken();
 | `ThreeDsSecureAuthTransaction(token, data)` | Complete a 3DS card authentication |
 | `cardTokenization(token, data)` | Charge a previously saved card token |
 
+> **`from` / `to` date filters** — pass Unix timestamps in **milliseconds** (not ISO strings).
+> ```js
+> const to   = Date.now();
+> const from = to - 7 * 24 * 60 * 60 * 1000; // 7 days ago
+> const [, resp] = await api.getAllTransactions(token, { from, to, page: 0, size: 20 });
+> ```
+
 ### Example — Basic Payment Flow
 
 ```js

@@ -73,6 +73,13 @@ describe("Limit Profile API Tests", () => {
                 /limitProfileCode/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateLimitProfile(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("reserveAccountWithLimit", () => {
@@ -106,6 +113,13 @@ describe("Limit Profile API Tests", () => {
                 /limitProfileCode/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.reserveAccountWithLimit(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("updateReserveAccountLimit", () => {
@@ -133,6 +147,13 @@ describe("Limit Profile API Tests", () => {
                     accountReference: "REF001"
                 }),
                 /limitProfileCode/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateReserveAccountLimit(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

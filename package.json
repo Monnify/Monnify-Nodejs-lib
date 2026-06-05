@@ -11,8 +11,8 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "MONNIFY_ENV=SANDBOX mocha --timeout 15000 tests/env-validation.test.js tests/index.test.js tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js tests/reservedAccount.test.js",
-    "test:coverage": "MONNIFY_ENV=SANDBOX c8 --reporter=lcov --reporter=text mocha --timeout 15000 tests/env-validation.test.js tests/index.test.js tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js tests/reservedAccount.test.js",
+    "test": "MONNIFY_ENV=SANDBOX mocha --timeout 15000 tests/index.test.js tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js tests/reservedAccount.test.js tests/env-validation.test.js",
+    "test:coverage": "MONNIFY_ENV=SANDBOX c8 --reporter=lcov --reporter=text mocha --timeout 15000 tests/index.test.js tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js tests/reservedAccount.test.js tests/env-validation.test.js",
     "test:core": "MONNIFY_ENV=SANDBOX mocha --timeout 15000 tests/collection.test.js tests/refund.test.js tests/disbursement.test.js tests/subaccount.test.js tests/verification.test.js",
     "test:new": "MONNIFY_ENV=SANDBOX mocha --timeout 15000 tests/wallet.test.js tests/invoice.test.js tests/settlement.test.js tests/billsPayment.test.js tests/limitProfile.test.js tests/directDebit.test.js"
   },

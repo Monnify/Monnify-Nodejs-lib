@@ -87,6 +87,27 @@ describe('BaseRequestAPI — environment validation', () => {
     });
 });
 
+describe('BaseRequestAPI — computeTransactionHash error path', () => {
+    let api;
+
+    before(() => {
+        // Ensure a secret is available before constructing the instance
+        if (!process.env.MONNIFY_SECRET) {
+            process.env.MONNIFY_SECRET = 'TEST_SECRET_FOR_HASH_TEST';
+        }
+        api = new BaseRequestAPI();
+    });
+
+    it('throws when payload cannot be serialised (circular reference)', async () => {
+        const circular = {};
+        circular.self = circular;
+        await assert.rejects(
+            async () => await api.computeTransactionHash(circular, 'any-sig'),
+            /circular|cyclic/i
+        );
+    });
+});
+
 describe('MonnifyAPI — config.env deprecation', () => {
 
     let savedEnv;
