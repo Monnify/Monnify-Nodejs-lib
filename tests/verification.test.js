@@ -35,6 +35,13 @@ describe("Verification API Tests", () => {
             assert.strictEqual(response.responseMessage, "success");
         });
 
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.validateBankAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
         it("should throw when accountNumber is missing", async () => {
             await assert.rejects(
                 () => instance.validateBankAccount(token[1], { bankCode: "035" }),

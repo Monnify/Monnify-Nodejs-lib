@@ -52,6 +52,20 @@ describe('SubAccount API Tests', () => {
             subAccountCode = resp["responseBody"][0]["subAccountCode"];
         });
 
+        it('should throw when called without data argument', async () => {
+            await assert.rejects(
+                async () => await subAccount.createSubAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when required fields are missing', async () => {
+            await assert.rejects(
+                () => subAccount.createSubAccount(token[1], [{}]),
+                /is required/
+            );
+        });
+
     });
 
 

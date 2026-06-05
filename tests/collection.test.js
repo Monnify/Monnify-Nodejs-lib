@@ -358,3 +358,183 @@ describe('Check Card Tokenization', () => {
         );
     });
 });
+
+
+// ── Additional validation coverage ───────────────────────────────────────────
+
+describe('Transaction — initTransaction validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.initTransaction(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when required fields are missing', async () => {
+        await assert.rejects(
+            () => instance.initTransaction(token[1], {}),
+            /customerName|customerEmail|amount/
+        );
+    });
+});
+
+describe('Transaction — getTransactionStatusv2 validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.getTransactionStatusv2(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when transactionReference is missing', async () => {
+        await assert.rejects(
+            () => instance.getTransactionStatusv2(token[1], {}),
+            /transactionReference/
+        );
+    });
+});
+
+describe('Transaction — getTransactionStatusv1 validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.getTransactionStatusv1(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when paymentReference is missing', async () => {
+        await assert.rejects(
+            () => instance.getTransactionStatusv1(token[1], {}),
+            /paymentReference/
+        );
+    });
+});
+
+describe('Transaction — getAllTransactions no-arg guard', () => {
+    it('should throw when called with no arguments at all', async () => {
+        await assert.rejects(
+            async () => await instance.getAllTransactions(),
+            /Method requires at least one parameter/
+        );
+    });
+});
+
+describe('Transaction — payWithUssd without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.payWithUssd(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Transaction — payWithBankTransfer validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.payWithBankTransfer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when transactionReference is missing', async () => {
+        await assert.rejects(
+            () => instance.payWithBankTransfer(token[1], {}),
+            /transactionReference/
+        );
+    });
+});
+
+describe('Transaction — chargeCard validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.chargeCard(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when card is missing', async () => {
+        await assert.rejects(
+            () => instance.chargeCard(token[1], { transactionReference: 'MNFY|REF' }),
+            /card|deviceInformation/
+        );
+    });
+});
+
+describe('Transaction — authorizeOtp without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.authorizeOtp(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('ReservedAccount — argument and validation guards', () => {
+    it('createReservedAccount should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.createReservedAccount(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('createReservedAccount should throw when required fields are missing', async () => {
+        await assert.rejects(
+            () => inst.createReservedAccount(token[1], {}),
+            /customerName|customerEmail|accountReference/
+        );
+    });
+    it('addLinkedAccounts should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.addLinkedAccounts(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('addLinkedAccounts should throw when accountReference is missing', async () => {
+        await assert.rejects(
+            () => inst.addLinkedAccounts(token[1], {}),
+            /accountReference/
+        );
+    });
+    it('reservedAccountDetails should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.reservedAccountDetails(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('reservedAccountDetails should throw when accountReference is missing', async () => {
+        await assert.rejects(
+            () => inst.reservedAccountDetails(token[1], {}),
+            /accountReference/
+        );
+    });
+    it('reservedAccountTransactions should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.reservedAccountTransactions(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('reservedAccountTransactions should throw when accountReference is missing', async () => {
+        await assert.rejects(
+            () => inst.reservedAccountTransactions(token[1], {}),
+            /accountReference/
+        );
+    });
+    it('deallocateReservedAccount should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.deallocateReservedAccount(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('deallocateReservedAccount should throw when accountReference is missing', async () => {
+        await assert.rejects(
+            () => inst.deallocateReservedAccount(token[1], {}),
+            /accountReference/
+        );
+    });
+    it('updateReservedAccountKycInfo should throw without data argument', async () => {
+        await assert.rejects(
+            async () => await inst.updateReservedAccountKycInfo(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('updateReservedAccountKycInfo should throw when accountReference is missing', async () => {
+        await assert.rejects(
+            () => inst.updateReservedAccountKycInfo(token[1], {}),
+            /accountReference/
+        );
+    });
+});

@@ -85,6 +85,17 @@ describe('BaseRequestAPI — environment validation', () => {
             /Environment mismatch/
         );
     });
+
+    it('throws when trying to create a LIVE instance after SANDBOX is locked', () => {
+        // _lockedEnvironment is already SANDBOX (set by root beforeEach hooks).
+        // Switching MONNIFY_ENV to LIVE triggers the environment-conflict guard
+        // before the key-mismatch check, so no API-key change is needed.
+        process.env.MONNIFY_ENV = 'LIVE';
+        assert.throws(
+            () => new BaseRequestAPI(),
+            /Environment conflict/
+        );
+    });
 });
 
 describe('BaseRequestAPI — computeTransactionHash error path', () => {
