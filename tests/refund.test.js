@@ -41,6 +41,13 @@ describe('TransactionRefund API Tests', () => {
                 /transactionReference/
             );
         });
+
+        it('should throw when called without data argument', async () => {
+            await assert.rejects(
+                async () => await transactionRefund.initiateRefund(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe('Get All Refunds', () => {

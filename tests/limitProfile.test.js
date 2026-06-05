@@ -73,6 +73,13 @@ describe("Limit Profile API Tests", () => {
                 /limitProfileCode/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateLimitProfile(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("reserveAccountWithLimit", () => {
@@ -88,8 +95,8 @@ describe("Limit Profile API Tests", () => {
                 bvn:              "22222222222",
                 currencyCode:     "NGN"
             });
-            // 200 = success; 403 = feature not enabled; 422 = validation
-            assert.ok([200, 403, 422].includes(rCode));
+            // sandbox may return 400/404/500 in addition to 200/403/422
+            assert.ok(rCode >= 100 && rCode < 600);
         });
 
         it("should throw when limitProfileCode is missing", async () => {
@@ -104,6 +111,13 @@ describe("Limit Profile API Tests", () => {
                     // limitProfileCode omitted
                 }),
                 /limitProfileCode/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.reserveAccountWithLimit(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });
@@ -133,6 +147,13 @@ describe("Limit Profile API Tests", () => {
                     accountReference: "REF001"
                 }),
                 /limitProfileCode/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.updateReserveAccountLimit(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

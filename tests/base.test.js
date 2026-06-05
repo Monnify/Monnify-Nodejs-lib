@@ -5,7 +5,7 @@ import { BaseRequestAPI } from "../src/base_api.js";
 let instance
 
 beforeEach(async () =>{
-    instance = new BaseRequestAPI('SANDBOX')
+    instance = new BaseRequestAPI()
 })
 
 

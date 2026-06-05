@@ -19,28 +19,35 @@ import { BillsPayment }     from "./src/valueAddedService/billsPayment.js";
 
 
 export class MonnifyAPI extends BaseRequestAPI {
-    constructor(config) {
-        process.env.MONNIFY_APIKEY = config.MONNIFY_APIKEY;
-        process.env.MONNIFY_SECRET = config.MONNIFY_SECRET;
-        super(config.env);
+    constructor(config = {}) {
+        if (config.MONNIFY_APIKEY) process.env.MONNIFY_APIKEY = config.MONNIFY_APIKEY;
+        if (config.MONNIFY_SECRET) process.env.MONNIFY_SECRET = config.MONNIFY_SECRET;
+        if (config.env && !process.env.MONNIFY_ENV) {
+            console.warn(
+                `[monnify] Passing env in the MonnifyAPI config is deprecated and will be removed in a future version. ` +
+                `Add MONNIFY_ENV=${config.env} to your .env file instead.`
+            );
+            process.env.MONNIFY_ENV = config.env;
+        }
+        super();
 
         // ── Collections ──────────────────────────────────────────────────────
-        this.reservedAccount = new ReservedAccount(config.env);
-        this.transaction     = new Transaction(config.env);
-        this.subAccount      = new SubAccount(config.env);
-        this.invoice         = new Invoice(config.env);
-        this.settlement      = new Settlement(config.env);
-        this.limitProfile    = new LimitProfile(config.env);
-        this.directDebit     = new DirectDebit(config.env);
+        this.reservedAccount = new ReservedAccount();
+        this.transaction     = new Transaction();
+        this.subAccount      = new SubAccount();
+        this.invoice         = new Invoice();
+        this.settlement      = new Settlement();
+        this.limitProfile    = new LimitProfile();
+        this.directDebit     = new DirectDebit();
 
         // ── Disbursements ────────────────────────────────────────────────────
-        this.disbursement    = new Disbursement(config.env);
-        this.refund          = new TransactionRefund(config.env);
-        this.wallet          = new Wallet(config.env);
+        this.disbursement    = new Disbursement();
+        this.refund          = new TransactionRefund();
+        this.wallet          = new Wallet();
 
         // ── Value-added services ─────────────────────────────────────────────
-        this.verification    = new Verification(config.env);
-        this.billsPayment    = new BillsPayment(config.env);
+        this.verification    = new Verification();
+        this.billsPayment    = new BillsPayment();
     }
 }
 

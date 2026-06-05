@@ -52,6 +52,20 @@ describe('SubAccount API Tests', () => {
             subAccountCode = resp["responseBody"][0]["subAccountCode"];
         });
 
+        it('should throw when called without data argument', async () => {
+            await assert.rejects(
+                async () => await subAccount.createSubAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when required fields are missing', async () => {
+            await assert.rejects(
+                () => subAccount.createSubAccount(token[1], [{}]),
+                /is required/
+            );
+        });
+
     });
 
 
@@ -65,6 +79,20 @@ describe('SubAccount API Tests', () => {
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
         });
+
+        it('should throw when called without data argument', async () => {
+            await assert.rejects(
+                async () => await subAccount.updateSubAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when required fields are missing', async () => {
+            await assert.rejects(
+                async () => await subAccount.updateSubAccount(token[1], { bankCode: '058' }),
+                /is required/
+            );
+        });
     });
 
     describe('Delete SubAccount', () => {
@@ -73,6 +101,20 @@ describe('SubAccount API Tests', () => {
             const [rCode, resp] = await subAccount.deleteSubAccount(token[1], {"subAccountCode":subAccountCode});
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, 'success');
+        });
+
+        it('should throw when called without data argument', async () => {
+            await assert.rejects(
+                async () => await subAccount.deleteSubAccount(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
+
+        it('should throw when subAccountCode is missing', async () => {
+            await assert.rejects(
+                async () => await subAccount.deleteSubAccount(token[1], {}),
+                /subAccountCode/
+            );
         });
     });
    

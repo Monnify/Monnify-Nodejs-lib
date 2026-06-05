@@ -55,6 +55,13 @@ describe("Invoice API Tests", () => {
                 /invoiceReference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.viewInvoiceDetails(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("getAllInvoices", () => {
@@ -62,6 +69,13 @@ describe("Invoice API Tests", () => {
             const [rCode, resp] = await instance.getAllInvoices(token[1], { page: 0, size: 5 });
             assert.strictEqual(rCode, 200);
             assert.strictEqual(resp.responseMessage, "success");
+        });
+
+        it("should throw when called with no arguments", async () => {
+            await assert.rejects(
+                async () => await instance.getAllInvoices(),
+                /Method requires at least one parameter/
+            );
         });
     });
 
@@ -75,6 +89,13 @@ describe("Invoice API Tests", () => {
             await assert.rejects(
                 () => instance.cancelInvoice(token[1], {}),
                 /invoiceReference/
+            );
+        });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.cancelInvoice(token[1]),
+                /Method requires exactly two parameters/
             );
         });
     });

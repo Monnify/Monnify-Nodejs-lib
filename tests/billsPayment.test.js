@@ -150,6 +150,13 @@ describe("Bills Payment API Tests", () => {
                 /reference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.vendBill(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
     describe("requeryBillPayment", () => {
@@ -170,6 +177,64 @@ describe("Bills Payment API Tests", () => {
                 /reference/
             );
         });
+
+        it("should throw when called without data argument", async () => {
+            await assert.rejects(
+                async () => await instance.requeryBillPayment(token[1]),
+                /Method requires exactly two parameters/
+            );
+        });
     });
 
+});
+
+
+// ── Additional argument-guard and validation coverage ────────────────────────
+
+describe("BillsPayment — getBillerCategories guards", () => {
+    it("should throw when called with no arguments", async () => {
+        await assert.rejects(
+            async () => await instance.getBillerCategories(),
+            /Method requires at least one parameter/
+        );
+    });
+    it("should throw when size is an invalid type", async () => {
+        await assert.rejects(
+            () => instance.getBillerCategories(token[1], { size: "invalid" }),
+            /size/
+        );
+    });
+});
+
+describe("BillsPayment — listBillers guards", () => {
+    it("should throw when called with no arguments", async () => {
+        await assert.rejects(
+            async () => await instance.listBillers(),
+            /Method requires at least one parameter/
+        );
+    });
+    it("should throw when size is an invalid type", async () => {
+        await assert.rejects(
+            () => instance.listBillers(token[1], { size: "invalid" }),
+            /size/
+        );
+    });
+});
+
+describe("BillsPayment — getBillerProducts without-data guard", () => {
+    it("should throw when called without data argument", async () => {
+        await assert.rejects(
+            async () => await instance.getBillerProducts(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe("BillsPayment — validateCustomer without-data guard", () => {
+    it("should throw when called without data argument", async () => {
+        await assert.rejects(
+            async () => await instance.validateCustomer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
 });

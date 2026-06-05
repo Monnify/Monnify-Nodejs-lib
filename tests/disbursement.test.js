@@ -231,6 +231,13 @@ describe('Disbursement — getAllBulkTransfers', () => {
         });
         assert.ok([200, 400, 404].includes(rCode));
     });
+
+    it('should throw when called with no arguments', async () => {
+        await assert.rejects(
+            async () => await instance.getAllBulkTransfers(),
+            /Method requires at least one parameter/
+        );
+    });
 });
 
 
@@ -248,6 +255,133 @@ describe('Disbursement — searchDisbursementTransactions', () => {
         await assert.rejects(
             () => instance.searchDisbursementTransactions(token[1], { pageNo: 0 }),
             /sourceAccountNumber/
+        );
+    });
+
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.searchDisbursementTransactions(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+
+// ── Additional argument-guard coverage ───────────────────────────────────────
+
+describe('Disbursement — initiateSingleTransfer validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.initiateSingleTransfer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when sourceAccountNumber is missing', async () => {
+        await assert.rejects(
+            () => instance.initiateSingleTransfer(token[1], {}),
+            /narration|destinationAccountNumber|amount/
+        );
+    });
+});
+
+describe('Disbursement — initiateBulkTransfer without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.initiateBulkTransfer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — authorizeSingleTransfer without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.authorizeSingleTransfer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — authorizeBulkTransfer without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.authorizeBulkTransfer(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — resendTransferOTP without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.resendTransferOTP(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — resendBulkTransferOTP without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.resendBulkTransferOTP(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — getSingleTransferStatus without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.getSingleTransferStatus(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — getBulkTransferStatus validation', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.getBulkTransferStatus(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+    it('should throw when reference is missing', async () => {
+        await assert.rejects(
+            () => instance.getBulkTransferStatus(token[1], {}),
+            /reference/
+        );
+    });
+});
+
+describe('Disbursement — getBulkTransferTransactions without-data guard', () => {
+    it('should throw when called without data argument', async () => {
+        await assert.rejects(
+            async () => await instance.getBulkTransferTransactions(token[1]),
+            /Method requires exactly two parameters/
+        );
+    });
+});
+
+describe('Disbursement — getAllSingleTransfers guards', () => {
+    it('should throw when called with no arguments', async () => {
+        await assert.rejects(
+            async () => await instance.getAllSingleTransfers(),
+            /Method requires at least one parameter/
+        );
+    });
+    it('should throw when pageNo is an invalid type', async () => {
+        await assert.rejects(
+            () => instance.getAllSingleTransfers(token[1], { pageNo: 'notanumber' }),
+            /pageNo/
+        );
+    });
+});
+
+describe('Disbursement — getAllBulkTransfers result.error guard', () => {
+    it('should throw when pageNo is an invalid type', async () => {
+        await assert.rejects(
+            () => instance.getAllBulkTransfers(token[1], { pageNo: 'notanumber' }),
+            /pageNo/
         );
     });
 });
