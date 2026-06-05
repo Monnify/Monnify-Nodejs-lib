@@ -14,7 +14,6 @@ describe("MonnifyAPI — unified entry point", () => {
         monnify = new MonnifyAPI({
             MONNIFY_APIKEY: process.env.MONNIFY_APIKEY || "MK_TEST_GC3B8XG2XX",
             MONNIFY_SECRET: process.env.MONNIFY_SECRET || "A663NRZA544DDPEM7KDN7Z8HRV6YXD8S",
-            env: "SANDBOX"
         });
     });
 

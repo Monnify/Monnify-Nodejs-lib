@@ -22,21 +22,56 @@ let _lockedEnvironment = null;
 export class BaseRequestAPI {
 
     constructor(environment) {
-        if (_lockedEnvironment && _lockedEnvironment !== environment) {
-            throw new Error(
-                `Environment conflict: already initialised as "${_lockedEnvironment}". ` +
-                `Cannot create a "${environment}" instance in the same runtime.`
+        const envFromProcess = process.env.MONNIFY_ENV?.trim().toUpperCase();
+        const envFromArg     = typeof environment === 'string' ? environment.trim().toUpperCase() : undefined;
+
+        let resolvedEnv;
+        if (envFromProcess) {
+            resolvedEnv = envFromProcess;
+        } else if (envFromArg) {
+            console.warn(
+                `[monnify] Passing the environment to the constructor is deprecated and will be removed in a future version. ` +
+                `Add MONNIFY_ENV=${envFromArg} to your .env file instead.`
             );
-        }
-        if (!['SANDBOX', 'LIVE'].includes(environment)) {
+            resolvedEnv = envFromArg;
+        } else {
             throw new Error(
-                `Unknown environment "${environment}". Specify "SANDBOX" or "LIVE".`
+                `MONNIFY_ENV is not set. Add MONNIFY_ENV=SANDBOX or MONNIFY_ENV=LIVE to your environment variables.`
             );
         }
 
-        _lockedEnvironment = environment;
-        this.environment  = environment;
-        this.baseUrl      = environment === 'SANDBOX'
+        if (!['SANDBOX', 'LIVE'].includes(resolvedEnv)) {
+            throw new Error(
+                `Invalid environment "${resolvedEnv}". Must be "SANDBOX" or "LIVE".`
+            );
+        }
+
+        if (_lockedEnvironment && _lockedEnvironment !== resolvedEnv) {
+            throw new Error(
+                `Environment conflict: already initialised as "${_lockedEnvironment}". ` +
+                `Cannot create a "${resolvedEnv}" instance in the same runtime.`
+            );
+        }
+
+        const apiKey = process.env.MONNIFY_APIKEY;
+        if (apiKey) {
+            if (resolvedEnv === 'SANDBOX' && apiKey.startsWith('MK_PROD_')) {
+                throw new Error(
+                    `Environment mismatch: MONNIFY_ENV is "SANDBOX" but your API key starts with "MK_PROD_". ` +
+                    `Use your sandbox key (starts with "MK_TEST_") or set MONNIFY_ENV=LIVE.`
+                );
+            }
+            if (resolvedEnv === 'LIVE' && apiKey.startsWith('MK_TEST_')) {
+                throw new Error(
+                    `Environment mismatch: MONNIFY_ENV is "LIVE" but your API key starts with "MK_TEST_". ` +
+                    `Use your live key (starts with "MK_PROD_") or set MONNIFY_ENV=SANDBOX.`
+                );
+            }
+        }
+
+        _lockedEnvironment = resolvedEnv;
+        this.environment  = resolvedEnv;
+        this.baseUrl      = resolvedEnv === 'SANDBOX'
             ? 'https://sandbox.monnify.com'
             : 'https://api.monnify.com';
         this.apiKey    = process.env.MONNIFY_APIKEY;

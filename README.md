@@ -56,6 +56,7 @@ You need three things from your Monnify dashboard:
 
 | Variable | Where to find it |
 |---|---|
+| `MONNIFY_ENV` | `SANDBOX` for testing, `LIVE` for production |
 | `MONNIFY_APIKEY` | Dashboard → Settings → API Keys |
 | `MONNIFY_SECRET` | Dashboard → Settings → API Keys |
 | `CONTRACT` | Dashboard → Settings → Contract Code |
@@ -64,11 +65,14 @@ The recommended approach is a `.env` file so credentials never appear in source 
 
 ```bash
 # .env
+MONNIFY_ENV=SANDBOX
 MONNIFY_APIKEY=MK_TEST_XXXXXXXXXX
 MONNIFY_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 CONTRACT=1234567890
 WALLETACCOUNTNUMBER=0123456789   # only needed for disbursement wallet balance
 ```
+
+> The library reads `MONNIFY_ENV` automatically — no need to pass it to any constructor. It will also detect if your API key prefix does not match your declared environment (e.g. a `MK_PROD_` key with `MONNIFY_ENV=SANDBOX`) and throw a clear error.
 
 Then load it at the top of your app:
 
@@ -88,7 +92,7 @@ Every Monnify API call needs a **bearer token**. The library handles token fetch
 ```js
 import { Transaction } from 'monnify-nodejs-lib';
 
-const api = new Transaction('SANDBOX'); // or 'LIVE'
+const api = new Transaction();
 
 const [statusCode, token] = await api.getToken();
 // token is the raw bearer string — pass it to every method call below
@@ -96,7 +100,7 @@ const [statusCode, token] = await api.getToken();
 
 The token is cached in memory and reused until it expires, so calling `getToken()` multiple times is cheap.
 
-> The environment value must be `'SANDBOX'` or `'LIVE'` (uppercase). All instances in the same process must use the same environment.
+> The environment is read from `MONNIFY_ENV` in your environment variables. All instances in the same process must use the same environment.
 
 ---
 
@@ -128,7 +132,6 @@ import { MonnifyAPI } from 'monnify-nodejs-lib';
 const monnify = new MonnifyAPI({
   MONNIFY_APIKEY: process.env.MONNIFY_APIKEY,
   MONNIFY_SECRET: process.env.MONNIFY_SECRET,
-  env: 'SANDBOX'
 });
 
 const [, token] = await monnify.getToken();
@@ -149,7 +152,7 @@ A reserved account is a **dedicated virtual bank account** assigned to a specifi
 ```js
 import { ReservedAccount } from 'monnify-nodejs-lib';
 
-const api = new ReservedAccount('SANDBOX');
+const api = new ReservedAccount();
 const [, token] = await api.getToken();
 ```
 
@@ -196,7 +199,7 @@ Manage the full payment lifecycle — from initialising a checkout to charging a
 ```js
 import { Transaction } from 'monnify-nodejs-lib';
 
-const api = new Transaction('SANDBOX');
+const api = new Transaction();
 const [, token] = await api.getToken();
 ```
 
@@ -302,7 +305,7 @@ Split incoming payments automatically across multiple bank accounts.
 ```js
 import { SubAccount } from 'monnify-nodejs-lib';
 
-const api = new SubAccount('SANDBOX');
+const api = new SubAccount();
 const [, token] = await api.getToken();
 ```
 
@@ -336,7 +339,7 @@ Create payment invoices with an expiry date and track their status.
 ```js
 import { Invoice } from 'monnify-nodejs-lib';
 
-const api = new Invoice('SANDBOX');
+const api = new Invoice();
 const [, token] = await api.getToken();
 ```
 
@@ -377,7 +380,7 @@ Query how funds from transactions have been settled to your bank account.
 ```js
 import { Settlement } from 'monnify-nodejs-lib';
 
-const api = new Settlement('SANDBOX');
+const api = new Settlement();
 const [, token] = await api.getToken();
 ```
 
@@ -411,7 +414,7 @@ Send money out of your Monnify wallet — single transfers, bulk transfers, and 
 ```js
 import { Disbursement } from 'monnify-nodejs-lib';
 
-const api = new Disbursement('SANDBOX');
+const api = new Disbursement();
 const [, token] = await api.getToken();
 ```
 
@@ -459,7 +462,7 @@ Reverse a payment back to the customer's original payment method.
 ```js
 import { TransactionRefund } from 'monnify-nodejs-lib';
 
-const api = new TransactionRefund('SANDBOX');
+const api = new TransactionRefund();
 const [, token] = await api.getToken();
 ```
 
@@ -496,7 +499,7 @@ Check the available balance in your Monnify disbursement wallet.
 ```js
 import { Wallet } from 'monnify-nodejs-lib';
 
-const api = new Wallet('SANDBOX');
+const api = new Wallet();
 const [, token] = await api.getToken();
 ```
 
@@ -526,7 +529,7 @@ Create and manage transaction limit profiles, then attach them to reserved accou
 ```js
 import { LimitProfile } from 'monnify-nodejs-lib';
 
-const api = new LimitProfile('SANDBOX');
+const api = new LimitProfile();
 const [, token] = await api.getToken();
 ```
 
@@ -563,7 +566,7 @@ Set up recurring debit mandates — charge a customer's bank account on a schedu
 ```js
 import { DirectDebit } from 'monnify-nodejs-lib';
 
-const api = new DirectDebit('SANDBOX');
+const api = new DirectDebit();
 const [, token] = await api.getToken();
 ```
 
@@ -631,7 +634,7 @@ getBillerCategories()            → pick a category (e.g. "CABLE_TV")
 ```js
 import { BillsPayment } from 'monnify-nodejs-lib';
 
-const api = new BillsPayment('SANDBOX');
+const api = new BillsPayment();
 const [, token] = await api.getToken();
 ```
 
@@ -701,7 +704,7 @@ Validate bank accounts and verify customer identity documents.
 ```js
 import { Verification } from 'monnify-nodejs-lib';
 
-const api = new Verification('SANDBOX');
+const api = new Verification();
 const [, token] = await api.getToken();
 ```
 
